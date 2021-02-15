@@ -2,11 +2,12 @@
 
 using namespace std;
 
-long func()
+string s = "";
+int func()
 {
-    long attack, health, monsters;
+    long long attack, health, monsters;
     cin >> attack >> health >> monsters;
-    long m_attack[monsters], m_fights[monsters];
+    long long m_attack[monsters], m_fights[monsters];
     for (long i = 0; i < monsters; i++)
     {
         cin >> m_attack[i];
@@ -24,19 +25,21 @@ long func()
             m_fights[i] = a / attack + 1;
         }
     }
-    for (long i = 0; i < monsters - 1; i++)
+    for (long i = 0; i < monsters; i++)
     {
         health -= m_fights[i] * m_attack[i];
     }
-    health -= (m_fights[monsters - 1] - 1) * (m_attack[monsters - 1]);
-    if (health < 0)
+    health += *max_element(m_attack, m_attack + monsters);
+    if (health <= 0)
     {
-        cout << "NO" << endl;
+        // cout << "NO" << endl;
+        s += "NO\n";
         return 0;
     }
     else
     {
-        cout << "YES" << endl;
+        // cout << "YES" << endl;
+        s += "YES\n";
         return 0;
     }
     return 0;
@@ -51,6 +54,6 @@ int main()
     {
         func();
     }
-
+    cout << s;
     return 0;
 }

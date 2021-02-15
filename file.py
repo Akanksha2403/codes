@@ -1,9 +1,17 @@
-file = open("musichandeler.txt")
-counter = 0
-for i in file:
-    counter += 1
-    print(i, end= "")
-    if(counter % 4 == 0):
-        print("Team "+str(counter)+" :-\n")
+
+# def func():
+#     cases = int(input())
+#     str = list()
+#     mydict = dict()
+#     for i in range(cases):
+#         str = input().append()
+#         if str[1:] in dict.keys():
+            
+#         mydict[str[1:]] = str[0:1]
+    
 
 
+# testcases = int(input())
+# while(testcases):
+#     testcases-= 1
+#     func()
