@@ -43,7 +43,7 @@ int func()
         cin >> str;
         str1 = str.substr(1, str.length());
         string str2 = str.substr(0,1);
-        
+
         word[str2].push_back(str1);
         numbering[str1] = i;
     }
@@ -73,4 +73,3 @@ int main()
     // cout << str.substr(0,1);
     return 0;
 }
-    
