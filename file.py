@@ -1,20 +1,21 @@
-m, n = 0,1
+array = []
 
 
-sum = 0
-def cases(mnew=1, nnew=1, memo={}):
-    
-    if((mnew, nnew) in memo):
-        return memo[(mnew, nnew)]
+def howsum(n, arr, num={}):
+    if(n == 0):
+        return []
+    if(n in num):
+        return num[n]
+    elif(n < 0):
+        return None
+    for i in arr:
+        howsum(n - i, arr, num)
+        array.append(i)
 
-    
-    if(mnew == m or nnew == n):
-        memo[(mnew, nnew)] =  1
-    
         
-    else:
-        memo[(mnew, nnew)] = cases(mnew+1, nnew) + cases(mnew, nnew+1)
-    return memo[(mnew, nnew)]
+    num[n] = False
 
 
-print(cases())
+howsum(4000, [20, 20, 30])
+print(array)
+he

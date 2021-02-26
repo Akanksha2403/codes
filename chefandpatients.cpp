@@ -14,12 +14,12 @@ int func()
         arr[i] = num;
         copyarr[i] = num;
     }
-    sort(arr, arr + n);
+    sort(arr, arr + n, greater<int>());
     for (int i = 0; i < n; i++)
     {
         if (index.find(arr[i]) == index.end())
         {
-            index[arr[i]] = i + 1;
+            index[arr[i]] = i+1 ;
         }
     }
 
