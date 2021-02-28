@@ -1,85 +1,128 @@
-// #include <bits/stdc++.h>
-// using namespace std;
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
 
-// int func()
-// {
-//     int n, m;
-//     cin >> n >> m;
-//     string arr[n];
-//     int arr1[m] = {0};
-//     int arr2[n] = {0};
-//     for (int i = 0; i < n; i++)
-//     {
-//         cin >> arr[i];
-//     }
+int func()
+{
+    ll n, m;
+    cin >> n >> m;
+    string arr[n];
+    for (int i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+    }
+    pair<int, int> points[4];
 
-//     for (int i = 0; i < n; i++)
-//     {
-//         for (int j = 0; j < m; j++)
-//         {
-//             arr1[j] += (i + 1) * (i + 1) * (i + 1) * (arr[i][j] - '0');
-//         }
-//     }
+    bool checker = false;
 
-//     for (int i = 0; i < n; i++)
-//     {
-//         for (int j = 0; j < m; j++)
-//         {
-//             arr1[] += (i + 1) * (i + 1) * (i + 1) * (arr[i][j] - '0');
-//         }
-//     }
-//     set<int> s1;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (arr[i][j] == '1')
+            {
+                points[0].first = i;
+                points[0].second = j;
+                checker = true;
+                break;
+            }
+        }
+        if (checker)
+        {
+            break;
+        }
+    }
+    checker = false;
 
-//     for (int i = 0; i < m; i++)
-//     {
-//         s1.insert(arr1[i]);
-//     }
-//     set<int> s2;
-//     for (int i = 0; i < n; i++)
-//     {
-//         s1.insert(arr2[i]);
-//     }
+    for (int j = m - 1; j >= 0; j--)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            if (arr[i][j] == '1')
+            {
+                points[1].first = i;
+                points[1].second = j;
+                checker = true;
+                break;
+            }
+        }
+        if (checker)
+        {
+            break;
+        }
+    }
+    checker = false;
 
-//     if (s1.size()< 3 && s2.size() < 3)
-//     {
-//         cout << "YES\n";
-//     }
-//     else
-//     {
-//         cout << "NO\n";
-//     }
+    for (int i = n - 1; i >= 0; i--)
+    {
+        for (int j = m - 1; j >= 0; j--)
+        {
+            if (arr[i][j] == '1')
+            {
+                points[2].first = i;
+                points[2].second = j;
+                checker = true;
+                break;
+            }
+        }
+        if (checker)
+        {
+            break;
+        }
+    }
+    checker = false;
 
-//     return 0;
-// }
-// int main()
-// {
-//     //write your code from here
-//     int testcases;
-//     cin >> testcases;
-//     while (testcases--)
-//     {
-//         func();
-//     }
-//     return 0;
-// }
+    for (int j = 0; j < m; j++)
+    {
+        for (int i = n - 1; i >= 0; i--)
+        {
+            if (arr[i][j] == '1')
+            {
+                points[3].first = i;
+                points[3].second = j;
+                checker = true;
+                break;
+            }
+        }
+        if (checker)
+        {
+            break;
+        }
+    }
+    checker = false;
 
-#include <stdio.h>
+    if (points[0].first != points[1].first || points[1].second != points[2].second || points[2].first != points[3].first || points[3].second != points[0].second)
+    {
+        cout << "NO\n";
+        return 0;
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (j < points[0].second || j >  points[1].second || i < points[0].first || i > points[3].first)
+            {
+                continue;
+            }
+            if (arr[i][j] == '0')
+            {
+                cout << "NO\n";
+                return 0;
+            }
+        }
+    }
+    cout << "YES\n";
+    return 0;
+}
 int main()
 {
     //write your code from here
-    int T;
-    scanf("%d", &T);
-    for (int i = 1; i <= T; i++)
+    int testcases;
+    cin >> testcases;
+    while (testcases--)
     {
-        int red, blue, green;
-        scanf("%d %d %d", &red, &blue, &green);
-        if (red > 255 || red < 0 || blue > 255 || blue < 0 || green > 255 || green < 0)
-        {
-            printf("INVALID\n");
-            continue;
-        }
-        printf("#%.2x%.2x%.2x", red, blue, green);
-        printf("\n");
+        func();
     }
     return 0;
 }

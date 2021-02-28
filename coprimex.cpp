@@ -10,10 +10,11 @@ void inputarr(ll arr[], ll n, ll m = 0)
 }
 int func()
 {
-    ll n;
-    cin >> n;
-    ll arr[n];
-    
+
+    int num, num1;
+    cin >> num >> num1;
+    cout << 1299827 << endl;
+
     return 0;
 }
 int main()

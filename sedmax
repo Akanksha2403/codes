@@ -1,0 +1,20 @@
+# 1 "/home/prabhavagrawal7/Documents/sedmax.py"
+# 1 "/usr/bin//"
+# 1 "<built-in>"
+# 1 "<command-line>"
+# 31 "<command-line>"
+# 1 "/usr/include/stdc-predef.h" 1 3 4
+# 32 "<command-line>" 2
+# 1 "/home/prabhavagrawal7/Documents/sedmax.py"
+sets = set()
+def sedmax(arr, len):
+    if(len == 1):
+        return None
+    sets.add(max(arr)-min(arr))
+    sedmax(arr[1:], len-1
+    sedmax(arr[:len-1], len-1)
+
+
+arr=[5, 1, 4]
+sedmax(arr, 3)
+print(len(sets)-1)

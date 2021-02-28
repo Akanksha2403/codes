@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int primesieve[1000001];
+int primesieve[2000001];
 
 
 int sieve(){
