@@ -1,0 +1,1 @@
+{"name":"Local: samedifferences","url":"/home/prabhav7/Documents/samedifferences.cpp","tests":[{"id":1620230072957,"input":"4\n6\n-3 -1 -5 -2 0 0\n3\n1 2 3\n4\n1 3 3 4\n6\n-5 0 -3 -2 -1 0","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhav7/Documents/samedifferences.cpp","group":"local","local":true}

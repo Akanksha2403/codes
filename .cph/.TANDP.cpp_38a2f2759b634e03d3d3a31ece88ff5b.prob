@@ -1,0 +1,1 @@
+{"name":"Local: TANDP","url":"/home/prabhav7/Documents/TANDP.cpp","tests":[{"id":1619357114977,"input":"3\n3 3\n2 3\n3 1\n3 3\n2 3\n3 2\n5 4\n1 2\n4 2","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhav7/Documents/TANDP.cpp","group":"local","local":true}

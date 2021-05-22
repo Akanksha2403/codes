@@ -1,0 +1,1 @@
+{"name":"Local: PSGRADE","url":"/home/prabhav7/Documents/PSGRADE.cpp","tests":[{"id":1618762743865,"input":"5\n1 1 1 300 2 2 2\n3 2 2 6 2 2 2\n2 3 2 6 2 2 2\n2 2 3 6 2 2 2\n100 100 100 300 100 100 100","output":"NO\nNO\nNO\nNO\nYES"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhav7/Documents/PSGRADE.cpp","group":"local","local":true}

@@ -1,0 +1,1 @@
+{"name":"Local: sparsearrays","url":"/home/prabhav7/Documents/sparsearrays.cpp","tests":[{"id":1619271676017,"input":"4\naba\nbaba\naba\nxzxb\n3\naba\nxzxb\nab","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhav7/Documents/sparsearrays.cpp","group":"local","local":true}

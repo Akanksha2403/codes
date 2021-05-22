@@ -1,0 +1,1 @@
+{"name":"Local: OROFAND","url":"/home/prabhav7/Documents/OROFAND.cpp","tests":[{"id":1618766665281,"input":"2\n3 2\n1 2 3\n1 4\n3 0\n4 1\n1 2 3 4\n4 0","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhav7/Documents/OROFAND.cpp","group":"local","local":true}
