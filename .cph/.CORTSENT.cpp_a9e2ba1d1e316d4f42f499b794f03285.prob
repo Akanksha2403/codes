@@ -1,0 +1,1 @@
+{"name":"Local: CORTSENT","url":"/home/prabhav7/Documents/CORTSENT.cpp","tests":[{"id":1622380273343,"input":"3\n1 aN\n2 ab NO\n3 A N D","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhav7/Documents/CORTSENT.cpp","group":"local","local":true}

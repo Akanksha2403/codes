@@ -1,1 +1,2 @@
-print("ABCD+*F/+DE*+".lower())
+import pyautogui
+print(pyautogui.position())

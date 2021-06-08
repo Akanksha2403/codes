@@ -1,81 +1,3 @@
-// /* C++ implementation to convert
-// infix expression to postfix*/
- 
-// #include<bits/stdc++.h>
-// using namespace std;
- 
-// //Function to return precedence of operators
-// int prec(char c) {
-//     if(c == '^')
-//         return 3;
-//     else if(c == '*' || c == '/')
-//         return 2;
-//     else if(c == '+' || c == '-')
-//         return 1;
-//     else
-//         return -1;
-// }
- 
-// // The main function to convert infix expression
-// //to postfix expression
-// void infixToPostfix(string s) {
- 
-//     stack<char> st; //For stack operations, we are using C++ built in stack
-//     string result;
- 
-//     for(int i = 0; i < s.length(); i++) {
-//         char c = s[i];
- 
-//         // If the scanned character is
-//         // an operand, add it to output string.
-//         if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
-//             result += c;
- 
-//         // If the scanned character is an
-//         // ‘(‘, push it to the stack.
-//         else if(c == '(')
-//             st.push('(');
- 
-//         // If the scanned character is an ‘)’,
-//         // pop and to output string from the stack
-//         // until an ‘(‘ is encountered.
-//         else if(c == ')') {
-//             while(!st.empty() && st.top() != '(')
-//             {
-//                 char temp = st.top();
-//                 st.pop();
-//                 result += temp;
-//             }
-//             st.pop();
-//         }
- 
-//         //If an operator is scanned
-//         else {
-//             while(!st.empty() && prec(s[i]) <= prec(st.top())) {
-//                 char temp = st.top();
-//                 st.pop();
-//                 result += temp;
-//             }
-//             st.push(c);
-//         }
-//     }
- 
-//     // Pop all the remaining elements from the stack
-//     while(!st.empty()) {
-//         char temp = st.top();
-//         st.pop();
-//         result += temp;
-//     }
- 
-//     cout << result << endl;
-// }
- 
-// //Driver program to test above functions
-// int main() {
-//     string exp = "a+b*(c+d)/f+d*e";
-//     infixToPostfix(exp);
-//     return 0;
-// }
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
@@ -101,26 +23,29 @@ using namespace std;
     stringinput(str);
 #define new_int_1(t) \
     ll t;            \
-    scanf("%lld", &t);
+    cin >> t;
 #define new_int_2(a, b) \
     ll a, b;            \
-    scanf("%lld %lld", &a, &b);
+    cin >> a >> b;
 #define new_int_3(a, b, c) \
     ll a, b, c;            \
-    scanf("%lld %lld %lld", &a, &b, &c);
+    cin >> a >> b >> c;
 #define new_int_4(a, b, c, d) \
     ll a, b, c, d;            \
-    scanf("%lld %lld %lld %lld ", &a, &b, &c, &d);
+    cin >> a >> b >> c >> d;
 #define new_int_5(a, b, c, d, e) \
     ll a, b, c, d, e;            \
-    scanf("%lld %lld %lld %lld ", &a, &b, &c, &d, &e);
+    cin >> a >> b >> c >> d >> e;
 #define new_int_6(a, b, c, d, e, f) \
     ll a, b, c, d, e, f;            \
-    scanf("%lld %lld %lld %lld %lld %lld", &a, &b, &c, &d, &e, &f);
+    cin >> a >> b >> c >> d >> e;
 typedef vector<string> vs;
 typedef vector<vector<ll>> vvi;
 typedef vector<ll> vi;
 typedef vector<pair<ll, ll>> vii;
+typedef vector<set<ll>> vsi;
+typedef vector<set<pair<ll, ll>>> vspii;
+typedef vector<vector<pair<ll, ll>>> vvpii;
 typedef pair<ll, ll> pii;
 typedef pair<ll, pair<ll, ll>> pipii;
 typedef pair<ll, string> pis;
@@ -134,25 +59,11 @@ typedef set<pair<ll, ll>> spii;
 typedef set<pair<string, ll>> spsi;
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
-char s[100005];
 void stringinput(string &str)
 {
-    scanf("%s", s);
-    str = s;
+    cin >> str;
 }
-vector<ll> randvec(ll n, ll start = 0, ll end = 100)
-{
-    vector<ll> arr(n);
-    for (ll i = 0; i < n; i++)
-    {
-        arr[i] = rand() % end;
-        if (arr[i] < start)
-        {
-            arr[i] = arr[i] + start;
-        }
-    }
-    return arr;
-}
+
 ll input()
 {
     new_int_1(n);
@@ -167,25 +78,38 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-si inputset(ll n)
-{
-    si myset;
-    for (ll i = 0; i < n; i++)
-    {
-        myset.insert(input());
-    }
-    return myset;
-}
 ll func()
 {
-
     return 0;
 }
+ll gcd(ll a, ll b)
+{
+    if (b == 0)
+    {
+        return a;
+    }
+    return gcd(b, a % b);
+}
 
+//sieve starts here
+//(sieve modified to provide smallest factors of a number)
+const ll n = 1000000;
+
+vi prime(n + 1, 0);
+void SieveOfEratosthenes()
+{
+    for (int p = 2; p * p <= n; p++)
+    {
+        if (prime[p] == false)
+        {
+            for (int i = p * p; i <= n; i += p)
+                if (!prime[i])
+                    prime[i] = i / p;
+        }
+    }
+}
+// sieve ends here
 int main()
 {
-    string s = "Hello";
-    string s1 = "HI";
-    cout << (s!=s1);
-
+    cout << gcd(12, 20) << endl;
 }

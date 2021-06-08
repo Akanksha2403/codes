@@ -110,29 +110,17 @@ ll func()
             sum += 1;
         }
     }
-    if (sum % 2 == 0)
+    if (sum == 1)
     {
-        ll half = sum / 2;
-        if (half % 2 == 1)
-        {
-            cout << "BOB" << endl;
-        }
-        else
-        {
-            cout << "DRAW" << endl;
-        }
+        cout << "BOB" << endl;
+    }
+    else if (sum % 2 == 0)
+    {
+        cout << "BOB" << endl;
     }
     else
     {
-        ll half = sum / 2;
-        if (half % 2 == 0)
-        {
-            cout << "BOB" << endl;
-        }
-        else
-        {
-            cout << "ALICE" << endl;
-        }
+        cout << "ALICE" << endl;
     }
     return 0;
 }

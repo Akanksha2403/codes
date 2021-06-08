@@ -23,22 +23,22 @@ using namespace std;
     stringinput(str);
 #define new_int_1(t) \
     ll t;            \
-    scanf("%lld", &t);
+    cin >> t;
 #define new_int_2(a, b) \
     ll a, b;            \
-    scanf("%lld %lld", &a, &b);
+    cin >> a >> b;
 #define new_int_3(a, b, c) \
     ll a, b, c;            \
-    scanf("%lld %lld %lld", &a, &b, &c);
+    cin >> a >> b >> c;
 #define new_int_4(a, b, c, d) \
     ll a, b, c, d;            \
-    scanf("%lld %lld %lld %lld ", &a, &b, &c, &d);
+    cin >> a >> b >> c >> d;
 #define new_int_5(a, b, c, d, e) \
     ll a, b, c, d, e;            \
-    scanf("%lld %lld %lld %lld ", &a, &b, &c, &d, &e);
+    cin >> a >> b >> c >> d >> e;
 #define new_int_6(a, b, c, d, e, f) \
     ll a, b, c, d, e, f;            \
-    scanf("%lld %lld %lld %lld %lld %lld", &a, &b, &c, &d, &e, &f);
+    cin >> a >> b >> c >> d >> e;
 typedef vector<string> vs;
 typedef vector<vector<ll>> vvi;
 typedef vector<ll> vi;
@@ -59,25 +59,11 @@ typedef set<pair<ll, ll>> spii;
 typedef set<pair<string, ll>> spsi;
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
-char s[100005];
 void stringinput(string &str)
 {
-    scanf("%s", s);
-    str = s;
+    cin >> str;
 }
-vector<ll> randvec(ll n, ll start = 0, ll end = 100)
-{
-    vector<ll> arr(n);
-    for (ll i = 0; i < n; i++)
-    {
-        arr[i] = rand() % end;
-        if (arr[i] < start)
-        {
-            arr[i] = arr[i] + start;
-        }
-    }
-    return arr;
-}
+
 ll input()
 {
     new_int_1(n);
@@ -92,17 +78,17 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-si inputset(ll n)
-{
-    si myset;
-    for (ll i = 0; i < n; i++)
-    {
-        myset.insert(input());
-    }
-    return myset;
-}
 ll func()
 {
-
     return 0;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    new_int_1(t);
+    rep(i, 0, t)
+    {
+        func();
+    }
 }
