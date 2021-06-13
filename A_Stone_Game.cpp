@@ -81,6 +81,14 @@ vi inputvec(ll n, ll start = 0)
 }
 ll func()
 {
+    ll1(n);
+    vi vec = inputvec(n);
+    ll maxi = max_element(all(vec)) - vec.begin();
+    ll mini = min_element(all(vec)) - vec.begin();
+    auto deletionfromleft = max(maxi + 1, mini + 1);
+    auto deletionfromright = max(n - maxi, n - mini);
+    auto bothsidedeletion = n - max(maxi, mini) + min(mini, maxi) + 1;
+    cout << min(deletionfromleft, min(deletionfromright, bothsidedeletion)) << endl;
     return 0;
 }
 int main()

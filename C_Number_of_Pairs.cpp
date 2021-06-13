@@ -81,6 +81,20 @@ vi inputvec(ll n, ll start = 0)
 }
 ll func()
 {
+    ll3(n, l, r);
+    vi vec = inputvec(n);
+    sort(all(vec));
+
+    ll ans = 0;
+    for (auto i = vec.begin(); i != vec.end(); i++)
+    {
+        ll newl = l - *i;
+        ll newr = r - *i;
+        ll lowerindex = lower_bound(next(i), vec.end(), newl) - vec.begin();
+        ll higherindex = upper_bound(next(i), vec.end(), newr) - vec.begin();
+        ans += higherindex - lowerindex;
+    }
+    cout << ans << endl;
     return 0;
 }
 int main()

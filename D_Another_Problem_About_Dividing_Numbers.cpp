@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
@@ -15,6 +16,10 @@ using namespace std;
 #define drep(i, k, n) for (ll i = k; i >= n; i--)
 #define fi first
 #define se second
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);                    \
+    cout.tie(NULL);
 #define pb push_back
 #define mp make_pair
 #define all(a) a.begin(), a.end()
@@ -79,12 +84,73 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
+const ll limit = 10000006;
+vi prime;
+vi sieve(limit + 1, 0);
+void SieveOfEratosthenes()
+{
+
+    for (int p = 2; p * p <= limit; p++)
+    {
+        if (sieve[p] == false)
+        {
+            for (int i = p * p; i <= limit; i += p)
+                if (!sieve[i])
+                    sieve[i] = i / p;
+        }
+    }
+    for (ll i = 2; i * i < mod; i++)
+    {
+        if (sieve[i] == 0)
+        {
+            prime.push_back(i);
+        }
+    }
+}
+// sieve ends here
+ll nooffactors(ll n)
+{
+    ll ans = 0;
+    for (auto i : prime)
+    {
+
+    }
+}
+
 ll func()
 {
+    ll3(a, b, c);
+    if (a < b)
+        swap(a, b);
+    if (c == 1)
+    {
+        if (max(a, b) % min(a, b) == 0 && max(a, b) > min(a, b))
+        {
+            printf("YES\n");
+        }
+        else
+        {
+            printf("NO\n");
+        }
+        return 0;
+    }
+    // else if(gcd(a, b) == 1)
+    else
+    {
+        if (nooffactors(a) + nooffactors(b) >= c)
+        {
+            printf("YES\n");
+        }
+        else
+        {
+            printf("NO\n");
+        }
+    }
     return 0;
 }
 int main()
 {
+    SieveOfEratosthenes();
     ios_base::sync_with_stdio(false);
     ll1(t);
     rep(i, 0, t)

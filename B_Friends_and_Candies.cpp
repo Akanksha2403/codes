@@ -81,6 +81,28 @@ vi inputvec(ll n, ll start = 0)
 }
 ll func()
 {
+    ll1(n);
+    vi vec = inputvec(n);
+    ll avg = 0;
+    for (ll i = 0; i < n; i++)
+    {
+        avg += vec[i];
+    }
+    if (avg % n != 0)
+    {
+        cout << -1 << endl;
+        return 0;
+    }
+    avg = avg/n;
+    ll req = 0;
+    for (ll i = 0; i < n; i++)
+    {
+        if (vec[i] > avg)
+        {
+            req++;
+        }
+    }
+    cout << req << endl;
     return 0;
 }
 int main()

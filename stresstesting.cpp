@@ -13,6 +13,8 @@ using namespace std;
 #define rep(i, k, n) for (ll i = k; i < n; i++)
 #define rept(i, k, n) for (auto i = k; i != n; ++i)
 #define drep(i, k, n) for (ll i = k; i >= n; i--)
+#define fi first
+#define se second
 #define pb push_back
 #define mp make_pair
 #define all(a) a.begin(), a.end()
@@ -21,23 +23,23 @@ using namespace std;
 #define new_string(str) \
     string str;         \
     stringinput(str);
-#define new_int_1(t) \
-    ll t;            \
+#define ll1(t) \
+    ll t;      \
     cin >> t;
-#define new_int_2(a, b) \
-    ll a, b;            \
+#define ll2(a, b) \
+    ll a, b;      \
     cin >> a >> b;
-#define new_int_3(a, b, c) \
-    ll a, b, c;            \
+#define ll3(a, b, c) \
+    ll a, b, c;      \
     cin >> a >> b >> c;
-#define new_int_4(a, b, c, d) \
-    ll a, b, c, d;            \
+#define ll4(a, b, c, d) \
+    ll a, b, c, d;      \
     cin >> a >> b >> c >> d;
-#define new_int_5(a, b, c, d, e) \
-    ll a, b, c, d, e;            \
+#define ll5(a, b, c, d, e) \
+    ll a, b, c, d, e;      \
     cin >> a >> b >> c >> d >> e;
-#define new_int_6(a, b, c, d, e, f) \
-    ll a, b, c, d, e, f;            \
+#define ll6(a, b, c, d, e, f) \
+    ll a, b, c, d, e, f;      \
     cin >> a >> b >> c >> d >> e;
 typedef vector<string> vs;
 typedef vector<vector<ll>> vvi;
@@ -63,22 +65,9 @@ void stringinput(string &str)
 {
     cin >> str;
 }
-vector<ll> randvec(ll n, ll start = 0, ll end = 100)
-{
-    vector<ll> arr(n);
-    for (ll i = 0; i < n; i++)
-    {
-        arr[i] = rand() % end;
-        if (arr[i] < start)
-        {
-            arr[i] = arr[i] + start;
-        }
-    }
-    return arr;
-}
 ll input()
 {
-    new_int_1(n);
+    ll1(n);
     return n;
 }
 vi inputvec(ll n, ll start = 0)
@@ -90,56 +79,18 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-
-ll power(ll x, ll y)
+int factors1(int n)
 {
-    ll res = 1;
-    while (y)
-    {
-        if (y % 2 == 1)
-            res = (res * x) % mod;
-
-        y = y >> 1;
-        x = (x * x) % mod;
-    }
-    return res % mod;
-}
-
-vector<ll> randvec(ll n, ll start = 0, ll end = 100)
-{
-    vector<ll> arr(n);
-    for (ll i = 0; i < n; i++)
-    {
-        arr[i] = rand() % end;
-        if (arr[i] < start)
-        {
-            arr[i] = arr[i] + start;
-        }
-    }
-    return arr;
-}
-
-ll gcd(ll a, ll b)
-{
-    if (b == 0)
-    {
-        return a;
-    }
-    return gcd(b, a % b);
-}
-/* TO FIND NO OF PRIME FACTORS OF A NUMBER
- ll nooffactors(ll n)
-{
-    ll ans = 0; // Print the number of 2s that divide n
+    int ans = 0; // Print the number of 2s that divide n
     while (n % 2 == 0)
     {
         ans++;
         n = n / 2;
     }
- 
+
     // n must be odd at this point. So we can skip
     // one element (Note i = i +2)
-    for (ll i = 3; i*i <= n; i = i + 2)
+    for (int i = 3; i <= sqrt(n); i = i + 2)
     {
         // While i divides n, print i and divide n
         while (n % i == 0)
@@ -148,47 +99,109 @@ ll gcd(ll a, ll b)
             n = n / i;
         }
     }
- 
+
     // This condition is to handle the case when n
     // is a prime number greater than 2
     if (n > 2)
         ans++;
     return ans;
-} 
-*/
+}
 
-/* //sieve starts here
+//sieve starts here
 //(sieve modified to provide smallest factors of a number)
 
-const ll range = 1000006;
-//vi factors(range + 1, 0);
-vi prime(range + 1, 0);
+const ll limit = 1000006;
+
+vi prime(limit + 1, 0);
 void SieveOfEratosthenes()
 {
-    for (int p = 2; p * p <= range; p++)
+    for (int p = 2; p * p <= limit; p++)
     {
         if (prime[p] == false)
         {
-            for (int i = p * p; i <= range; i += p)
+            for (int i = p * p; i <= limit; i += p)
                 if (!prime[i])
                     prime[i] = i / p;
         }
     }
-    /* 
-    for(ll i = 2; i <= range; i++)
-    {
-        factors[i] = factors[prime[factors]]+1;
-    }
-    */
 }
-// sieve ends here */
+// sieve ends here
+mii factors;
+ll nooffactors(ll n)
+{
+
+    if (n > limit - 10)
+    {
+        for (ll i = 2; i <= sqrt(n); i++)
+        {
+            if (n % i == 0)
+            {
+                return 1 + nooffactors(n / i);
+            }
+        }
+        return 1;
+    }
+    else if (factors.find(n) != factors.end())
+    {
+        return factors[n];
+    }
+    else
+    {
+        if (prime[n] == 0)
+        {
+            return factors[n] = 1;
+        }
+        else
+        {
+            return factors[n] = 1 + nooffactors(prime[n]);
+        }
+    }
+}
+ll gfg(ll n)
+{
+    ll ans = 0; // Print the number of 2s that divide n
+    while (n % 2 == 0)
+    {
+        ans++;
+        n = n / 2;
+    }
+
+    // n must be odd at this point. So we can skip
+    // one element (Note i = i +2)
+    for (ll i = 3; i * i <= n; i = i + 2)
+    {
+        // While i divides n, print i and divide n
+        while (n % i == 0)
+        {
+            ans++;
+            n = n / i;
+        }
+    }
+
+    // This condition is to handle the case when n
+    // is a prime number greater than 2
+    if (n > 2)
+        ans++;
+    return ans;
+}
+ll func(ll i, ll j)
+{
+    while (i != j)
+    {
+        i++;
+        if (gfg(i) != nooffactors(i))
+        {
+            cout << i << endl;
+            db(gfg(i));
+            db(nooffactors(i));
+            break;
+        }
+    }
+    cout << i << endl;
+    return i;
+}
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    new_int_1(t);
-    rep(i, 0, t)
-    {
-        0;
-    }
+    cout << nooffactors(1) << endl;
 }

@@ -70,17 +70,32 @@ ll input()
     ll1(n);
     return n;
 }
-vi inputvec(ll n, ll start = 0)
-{
-    vi vec(n);
-    for (ll i = start; i < n; i++)
-    {
-        *(vec.begin() + i) = input();
-    }
-    return vec;
-}
+
 ll func()
 {
+    ll1(n);
+    vi vec(n + 2);
+    for (ll i = 1; i <= n; i++)
+    {
+        vec[i] = input();
+    }
+
+    ll ugli = 0;
+    for (ll i = 1; i <= n; i++)
+    {
+        if (vec[i] > vec[i - 1] && vec[i] > vec[i + 1])
+        {
+            ugli += vec[i] - max(vec[i - 1], vec[i + 1]);
+            vec[i] = max(vec[i - 1], vec[i + 1]);
+        }
+    }
+    ll height = 0;
+    for (ll i = 0; i < n + 2; i++)
+    {
+        ugli += abs(height - vec[i]);
+        height = vec[i];
+    }
+    cout << ugli << endl;
     return 0;
 }
 int main()

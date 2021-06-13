@@ -22,7 +22,7 @@ using namespace std;
 #define clr(s) memset(s, 0, sizeof(s))
 #define new_string(str) \
     string str;         \
-    stringinput(str);
+    cin >> str;
 #define ll1(t) \
     ll t;      \
     cin >> t;
@@ -61,26 +61,94 @@ typedef set<pair<ll, ll>> spii;
 typedef set<pair<string, ll>> spsi;
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
-void stringinput(string &str)
+
+string input()
 {
-    cin >> str;
+    new_string(str);
+    return str;
 }
-ll input()
+vs inputvec(ll n, ll start = 0)
 {
-    ll1(n);
-    return n;
-}
-vi inputvec(ll n, ll start = 0)
-{
-    vi vec(n);
+    vs vec(n);
     for (ll i = start; i < n; i++)
     {
-        *(vec.begin() + i) = input();
+        vec[i] = input();
     }
     return vec;
 }
 ll func()
 {
+    ll2(n, m);
+    vs vec = inputvec(n);
+    char odd = '.';
+    char even = '.';
+    vs vec1 = vec;
+    bool flag = false;
+    bool flag1 = false;
+    for (ll i = 0; i < n; i++)
+    {
+        for (ll j = 0; j < m; j++)
+        {
+            if (vec[i][j] == '.')
+            {
+                if ((i + j) % 2 == 0)
+                {
+                    vec[i][j] = 'R';
+                }
+                else
+                {
+                    vec[i][j] = 'W';
+                }
+                if ((i + j) % 2 == 0)
+                {
+                    vec1[i][j] = 'W';
+                }
+                else
+                {
+                    vec1[i][j] = 'R';
+                }
+            }
+            else
+            {
+                if ((i + j) % 2 == 0)
+                {
+                    vec[i][j] != 'R' ? flag = true : true;
+                }
+                else
+                {
+                    vec[i][j] != 'W' ? flag = true : true;
+                }
+                if ((i + j) % 2 == 0)
+                {
+                    vec1[i][j] != 'W' ? flag1 = true : true;
+                }
+                else
+                {
+                    vec1[i][j] != 'R' ? flag1 = true : true;
+                }
+            }
+        }
+    }
+
+    if (!flag)
+    {
+        cout << "YES" << endl;
+        for (ll i = 0; i < n; i++)
+        {
+            cout << vec[i] << endl;
+        }
+        return 0;
+    }
+    if (!flag1)
+    {
+        cout << "YES" << endl;
+        for (ll i = 0; i < n; i++)
+        {
+            cout << vec1[i] << endl;
+        }
+        return 0;
+    }
+    cout << "NO" << endl;
     return 0;
 }
 int main()

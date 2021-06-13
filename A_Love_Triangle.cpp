@@ -79,16 +79,50 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-ll func()
+class Graph
 {
-    return 0;
-}
+public:
+    map<ll, ll> adj;
+    void addedge(ll a, ll b)
+    {
+        this->adj[a] = b;
+    }
+    ll stacked(ll s, ll &count)
+    {
+        if (count == 3)
+        {
+            return s;
+        }
+        else
+        {
+            count++;
+            return stacked(adj[s], count);
+        }
+    }
+    void ans()
+    {
+        ll1(n);
+        vi vec = inputvec(n + 1, 1);
+        rep(i, 1, n + 1)
+        {
+            addedge(i, vec[i]);
+        }
+        unordered_set<ll> visited;
+        rep(i, 1, n + 1)
+        {
+            ll count = 0;
+            if (stacked(i, count) == i)
+            {
+                cout << "YES" << endl;
+                return;
+            }
+        }
+        cout << "NO" << endl;
+    }
+};
 int main()
 {
     ios_base::sync_with_stdio(false);
-    ll1(t);
-    rep(i, 0, t)
-    {
-        func();
-    }
+    Graph g;
+    g.ans();
 }
