@@ -17,14 +17,14 @@ using namespace std;
 #define new_int_1(t) \
     ll t;            \
     cin >> t;
-#define new_int_2(a, b) \
-    ll a, b;            \
+#define ll2(a, b) \
+    ll a, b;      \
     cin >> a >> b;
-#define new_int_3(a, b, c) \
-    ll a, b, c;            \
+#define ll3(a, b, c) \
+    ll a, b, c;      \
     cin >> a >> b >> c;
-#define new_int_4(a, b, c, d) \
-    ll a, b, c, d;            \
+#define ll4(a, b, c, d) \
+    ll a, b, c, d;      \
     cin >> a >> b >> c >> d;
 #define V vector
 #define P pair
@@ -61,7 +61,7 @@ typedef set<pii> spii;
 typedef set<psi> spsi;
 ll input()
 {
-    new_int_1(n);
+    ll1(n);
     return n;
 }
 vi inputvec(ll n, ll start = 0)
@@ -80,9 +80,15 @@ ll func()
 }
 int main()
 {
+<<<<<<< HEAD
     FAST;
     new_int_1(t);
     while (t--)
+=======
+    ios_base::sync_with_stdio(false);
+    ll1(t);
+    rep(i, 0, t)
+>>>>>>> e32f673b2093ded28ba9277b59a2d78ca0d4cd85
     {
         func();
     }
