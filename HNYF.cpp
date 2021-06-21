@@ -1,63 +1,64 @@
-#include <bits/stdc++.h>
+// // #include<iostream>
+// // #include<string>
+// // #include<cmath>
+// // using namespace std;
 
+// // int func(){
+// //     long long c_len, sum = 0;
+// //     cin >> c_len;
+// //     string str;
+// //     // cin >> arr_len;
+// //     cin >> str;
+// //     for (long long i = 0; i < c_len; i++)
+// //     {
+// //         if(str[i] == '0'){
+// //             continue;
+// //         }
+// //         sum += pow(2, c_len-i-1);
+// //     }
+// //     cout << sum << endl;
+    
+// //     return 0;
+// // }
+// // int main(){
+// //     //write your code from here
+// //     int testcases;
+// //     cin >> testcases;
+// //     while (testcases > 0)
+// //     {
+// //         func();
+// //         testcases -=1;
+
+// //     }
+    
+
+// //     return 0;
+// // }
+// #include <iostream>
+// using namespace std;
+// int fact(int num){
+//     if(num == 0){
+//     return 1;    
+//     }
+//     return fact(num-1)*num;
+// }
+// int main(){
+//     int num;
+//     cin >> num;
+//     cout << fact(num);
+//     return 0;
+// }
+#include<iostream>
 using namespace std;
-
-// vector <int> triplet;
-
-int sieve(bool primesieve[])
-{
-	int n, counter = 0;
-	cin >> n;
-	int start = clock();
-	vector<int> prime;
-	for (auto i = 2; i <= n; i++)
-	{
-		if (primesieve[i] == 0)
-			continue;
-		prime.push_back(i);
-	}
-	int prime_size = prime.size();
-
-	for (int i = 1; i < prime_size; i++)
-	{
-		if (primesieve[(prime[i] + 2)] && prime[i] + 2 <= n)
-		{
-			counter += 1;
-		}
-	}
-	cout << counter << endl;
-	return 0;
-}
-
 int main()
 {
-	//write your code from here
-	int test_case;
-	bool primesieve[1000000];
-	cin >> test_case;
-	//primesieve<start>
-
-	for (int i = 0; i <= 1000000; i++)
-	{
-		primesieve[i] = true;
-	}
-
-	for (int i = 2; i * i <= 1000000; i++)
-	{
-		if (primesieve[i] == true)
-		{
-			for (int j = i * i; j <= 1000000; j += i)
-			{
-				primesieve[j] = false;
-			}
-		}
-	}
-	//prime sieve<end>
-	while (test_case)
-	{
-		sieve(primesieve);
-		test_case = test_case - 1;
-	}
-
-	return 0;
+    int N; 
+    int Factorial=1;
+    cin >> N;
+    for ( int a =1; a <= N; a++)
+    {
+        Factorial= Factorial*a;
+    }
+    cout << Factorial << endl;
+return 0;
 }

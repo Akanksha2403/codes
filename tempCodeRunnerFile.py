@@ -1,3 +1,9 @@
+import time
+import pyautogui
+a = 97
 
-    arr[1] = i.strip()
-    arr[2] = i.strip()
+time.sleep(5)
+for i in range(1000):
+    pyautogui.leftClick()
+    # pyautogui.hotkey('ctrl', 'v')
+    # pyautogui.press('enter')

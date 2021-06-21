@@ -1,26 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
-#define ll long long
-#define debug(x)                \
-    for (auto element : x)      \
-        cout << element << " "; \
-    cout << endl
-#define debugp(x)          \
-    for (auto element : x) \
-    cout << element.first << " " << element.second << endl
+#define ll unsigned long long int
+#define print(x) for (auto element : x) cout << element << " ";cout << endl
 #define db(x) cout << #x << " = " << x << "\n"
-#define rep(i, k, n) for (ll i = k; i < n; i++)
-#define rept(i, k, n) for (auto i = k; i != n; ++i)
-#define drep(i, k, n) for (ll i = k; i >= n; i--)
+#define range(i, n) for (ll i = 0; i < n; i++)
+#define loop(i, a, b) for (ll i = a; i < b; i++)
+#define loopr(i, a, b) for (ll i = a; i >= b; i--)
+#define loops(i, a, b, step) for (ll i = a; i < b; i += step)
+#define looprs(i, a, b, step) for (ll i = a; i >= b; i -= step)
 #define pb push_back
 #define mp make_pair
 #define all(a) a.begin(), a.end()
 #define ld long double
-#define clr(s) memset(s, 0, sizeof(s))
-#define new_string(str) \
-    string str;         \
-    stringinput(str);
+#define new_string(str) string str; cin >> str;
 #define new_int_1(t) \
     ll t;            \
     cin >> t;
@@ -33,37 +26,39 @@ using namespace std;
 #define new_int_4(a, b, c, d) \
     ll a, b, c, d;            \
     cin >> a >> b >> c >> d;
-#define new_int_5(a, b, c, d, e) \
-    ll a, b, c, d, e;            \
-    cin >> a >> b >> c >> d >> e;
-#define new_int_6(a, b, c, d, e, f) \
-    ll a, b, c, d, e, f;            \
-    cin >> a >> b >> c >> d >> e;
+#define V vector
+#define P pair
+#define MS multiset
+#define UM unordered_map
+#define US unordered_set
+#define MM multimap
+#define mp make_pair
+#define pb push_back
+#define pf push_front
+#define F first
+#define S second
+#define FAST ios_base::sync_with_stdio(false);
+#define all(a) a.begin(), a.end()
+const ll mod = 1000000007;
+const ll mod2 = 998244353;
+const double pi = acos(-1);
 typedef vector<string> vs;
 typedef vector<vector<ll>> vvi;
 typedef vector<ll> vi;
-typedef vector<pair<ll, ll>> vii;
-typedef vector<set<ll>> vsi;
-typedef vector<set<pair<ll, ll>>> vspii;
-typedef vector<vector<pair<ll, ll>>> vvpii;
-typedef pair<ll, ll> pii;
-typedef pair<ll, pair<ll, ll>> pipii;
+typedef vector<pii> vpii;
+typedef P<ll, ll> pii;
+typedef pair<ll, pii> pipii;
 typedef pair<ll, string> pis;
 typedef pair<string, string> pss;
+typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
 typedef map<string, ll> msi;
 typedef map<char, ll> mci;
 typedef map<string, string> mss;
 typedef set<ll> si;
-typedef set<pair<ll, ll>> spii;
-typedef set<pair<string, ll>> spsi;
-const ll mod = 1000000007;
-const ll mod2 = 998244353;
-void stringinput(string &str)
-{
-    cin >> str;
-}
-
+typedef vector<si> vsi;
+typedef set<pii> spii;
+typedef set<psi> spsi;
 ll input()
 {
     new_int_1(n);
@@ -74,20 +69,20 @@ vi inputvec(ll n, ll start = 0)
     vi vec(n);
     for (ll i = start; i < n; i++)
     {
-        *(vec.begin() + i) = input();
+        vec[i] = input();
     }
     return vec;
 }
 ll func()
 {
+
     return 0;
 }
-
 int main()
 {
-    ios_base::sync_with_stdio(false);
+    FAST;
     new_int_1(t);
-    rep(i, 0, t)
+    while (t--)
     {
         func();
     }

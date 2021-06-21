@@ -121,12 +121,67 @@ vector<ll> randvec(ll n, ll start = 0, ll end = 100)
 
 ll gcd(ll a, ll b)
 {
-    if(b == 0)
+    if (b == 0)
     {
         return a;
     }
-    return gcd(b, a%b);
+    return gcd(b, a % b);
 }
+/* TO FIND NO OF PRIME FACTORS OF A NUMBER
+ ll nooffactors(ll n)
+{
+    ll ans = 0; // Print the number of 2s that divide n
+    while (n % 2 == 0)
+    {
+        ans++;
+        n = n / 2;
+    }
+ 
+    // n must be odd at this point. So we can skip
+    // one element (Note i = i +2)
+    for (ll i = 3; i*i <= n; i = i + 2)
+    {
+        // While i divides n, print i and divide n
+        while (n % i == 0)
+        {
+            ans++;
+            n = n / i;
+        }
+    }
+ 
+    // This condition is to handle the case when n
+    // is a prime number greater than 2
+    if (n > 2)
+        ans++;
+    return ans;
+} 
+*/
+
+/* //sieve starts here
+//(sieve modified to provide smallest factors of a number)
+
+const ll range = 1000006;
+//vi factors(range + 1, 0);
+vi prime(range + 1, 0);
+void SieveOfEratosthenes()
+{
+    for (int p = 2; p * p <= range; p++)
+    {
+        if (prime[p] == false)
+        {
+            for (int i = p * p; i <= range; i += p)
+                if (!prime[i])
+                    prime[i] = i / p;
+        }
+    }
+    /* 
+    for(ll i = 2; i <= range; i++)
+    {
+        factors[i] = factors[prime[factors]]+1;
+    }
+    */
+}
+// sieve ends here */
 
 int main()
 {
