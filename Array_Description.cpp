@@ -1,22 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
-#define ll long long
+#define ll long long int
 #define ld long double
-#define V vector
-#define P pair
-#define S string
-#define MS multiset
-#define UM unordered_map
-#define US unordered_set
-#define MM multimap
-#define mp make_pair
-#define pb push_back
-#define pf push_front
-#define fi first
-#define se second
-#define FAST ios_base::sync_with_stdio(false);
-#define all(a) a.begin(), a.end()
 #define print(x)                \
     for (auto element : x)      \
         cout << element << " "; \
@@ -45,6 +31,19 @@ using namespace std;
 #define new_int_4(a, b, c, d) \
     ll a, b, c, d;            \
     cin >> a >> b >> c >> d;
+#define V vector
+#define P pair
+#define MS multiset
+#define UM unordered_map
+#define US unordered_set
+#define MM multimap
+#define mp make_pair
+#define pb push_back
+#define pf push_front
+#define F first
+#define S second
+#define FAST ios_base::sync_with_stdio(false);
+#define all(a) a.begin(), a.end()
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
 const double pi = acos(-1);
@@ -82,25 +81,40 @@ ll func()
 }
 int main()
 {
-    // FAST;
-    new_int_1(n);
-    while (true)
-    {
-        ll dp[n + 1][n * 2 + 1] = {};
-        dp[0][0] = 1;
-        new_int_2(x, y); //debug at x, y
+    FAST;
+    new_int_2(n, k);
+    vi vec = inputvec(n + 1, 1);
+    ll dp[n + 1][k + 1] = {};
 
-        loop(i, 1, n + 1)
+    if (vec[1] == 0)
+    {
+        for (ll i = 1; i < k + 1; i++)
         {
-            loop(j, 0, n * 2 + 1)
-            {
-                if (i == x && j == y)
-                    cout << "DEBUGGING STARTED\n";
-                if (j >= i)
-                    dp[i][j] += dp[i - 1][j - i];
-                dp[i][j] += dp[i - 1][j];
-            }
+            dp[1][i] = 1;
         }
-        cout << dp[n][n * 2] << endl;
     }
+    else
+    {
+        dp[1][vec[1]] = 1;
+    }
+
+    for (ll i = 2; i < n + 1; i++)
+    {
+        for (ll j = 1; j < k + 1; j++)
+        {
+            if (!(vec[i] == j || vec[i] == 0))
+                continue;
+
+            dp[i][j] += (j - 1 > 0) ? dp[i - 1][j - 1] : 0;
+            dp[i][j] += dp[i - 1][j];
+            dp[i][j] += (j + 1 <= k) ? dp[i - 1][j + 1] : 0;
+            dp[i][j] %= mod;
+        }
+    }
+    ll sum = 0;
+    for (ll i = 1; i <= k; i++)
+    {
+        sum += dp[n][i];
+    }
+    cout << sum%mod;
 }

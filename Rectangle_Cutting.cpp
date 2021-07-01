@@ -1,22 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
-#define ll long long
-#define ld long double
-#define V vector
-#define P pair
-#define S string
-#define MS multiset
-#define UM unordered_map
-#define US unordered_set
-#define MM multimap
-#define mp make_pair
-#define pb push_back
-#define pf push_front
-#define fi first
-#define se second
-#define FAST ios_base::sync_with_stdio(false);
-#define all(a) a.begin(), a.end()
+#define ll int
+#define ld long long double
 #define print(x)                \
     for (auto element : x)      \
         cout << element << " "; \
@@ -45,6 +31,19 @@ using namespace std;
 #define new_int_4(a, b, c, d) \
     ll a, b, c, d;            \
     cin >> a >> b >> c >> d;
+#define V vector
+#define P pair
+#define MS multiset
+#define UM unordered_map
+#define US unordered_set
+#define MM multimap
+#define mp make_pair
+#define pb push_back
+#define pf push_front
+#define F first
+#define S second
+#define FAST ios_base::sync_with_stdio(false);
+#define all(a) a.begin(), a.end()
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
 const double pi = acos(-1);
@@ -82,25 +81,36 @@ ll func()
 }
 int main()
 {
-    // FAST;
-    new_int_1(n);
-    while (true)
+    FAST;
+    new_int_2(a, b);
+    ll dp[a + 1][b + 1] = {};
+    loop(i, 0, a+1)
     {
-        ll dp[n + 1][n * 2 + 1] = {};
-        dp[0][0] = 1;
-        new_int_2(x, y); //debug at x, y
-
-        loop(i, 1, n + 1)
+        loop(j, 0, b+1)
         {
-            loop(j, 0, n * 2 + 1)
+            dp[i][j] = INT_MAX;
+        }
+    }
+    for (ll i = 0; i <= min(a, b); i++)
+    {
+        dp[i][i] = 0;
+    }
+
+    loop(i, 1, a + 1)
+    {
+        loop(j, 1, b + 1)
+        {
+            if (i == j)
+                continue;
+            loop(k, 1, i)
             {
-                if (i == x && j == y)
-                    cout << "DEBUGGING STARTED\n";
-                if (j >= i)
-                    dp[i][j] += dp[i - 1][j - i];
-                dp[i][j] += dp[i - 1][j];
+                dp[i][j] = min(dp[i][j], 1 + dp[k][j] + dp[i - k][j]);
+            }
+            loop(k, 1, j)
+            {
+                dp[i][j] = min(dp[i][j], 1 + dp[i][k] + dp[i][j - k]);
             }
         }
-        cout << dp[n][n * 2] << endl;
     }
+    cout << dp[a][b];
 }

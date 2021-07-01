@@ -1,22 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
-#define ll long long
-#define ld long double
-#define V vector
-#define P pair
-#define S string
-#define MS multiset
-#define UM unordered_map
-#define US unordered_set
-#define MM multimap
-#define mp make_pair
-#define pb push_back
-#define pf push_front
-#define fi first
-#define se second
-#define FAST ios_base::sync_with_stdio(false);
-#define all(a) a.begin(), a.end()
+#define ll long long int
+#define ld long long double
 #define print(x)                \
     for (auto element : x)      \
         cout << element << " "; \
@@ -45,6 +31,18 @@ using namespace std;
 #define new_int_4(a, b, c, d) \
     ll a, b, c, d;            \
     cin >> a >> b >> c >> d;
+#define P pair
+#define MS multiset
+#define UM unordered_map
+#define US unordered_set
+#define MM multimap
+#define mp make_pair
+#define pb push_back
+#define pf push_front
+#define F first
+#define S second
+#define FAST ios_base::sync_with_stdio(false);
+#define all(a) a.begin(), a.end()
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
 const double pi = acos(-1);
@@ -75,32 +73,39 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
+ll ord(char a) { return a - 'a' + 1; }
 ll func()
 {
+    new_int_2(n, q);
+    new_string(str);
+    vi prefix(n, 0), suffix(n, 0);
+    prefix[0] = ord(str[0]);
+    suffix[n - 1] = str[n - 1] - 'a' + 1;
+    for (ll i = 1; i < n; i++)
+    {
+        prefix[i] = prefix[i - 1] + ord(str[i]);
+    }
 
+    for (ll i = n-2; i >= 0; i--)
+    {
+        suffix[i] = suffix[i+1] + ord(str[i]);
+    }
+    ll total = prefix[n-1];
+    for (ll i = 0; i < q; i++)
+    {
+        new_int_2(first, last);
+        first--; last--;
+        ll ans = prefix[last] + suffix[first] - total;
+        cout << ans << endl;
+    }
+    
     return 0;
 }
 int main()
 {
-    // FAST;
-    new_int_1(n);
-    while (true)
+    FAST;
+    
     {
-        ll dp[n + 1][n * 2 + 1] = {};
-        dp[0][0] = 1;
-        new_int_2(x, y); //debug at x, y
-
-        loop(i, 1, n + 1)
-        {
-            loop(j, 0, n * 2 + 1)
-            {
-                if (i == x && j == y)
-                    cout << "DEBUGGING STARTED\n";
-                if (j >= i)
-                    dp[i][j] += dp[i - 1][j - i];
-                dp[i][j] += dp[i - 1][j];
-            }
-        }
-        cout << dp[n][n * 2] << endl;
+        func();
     }
 }

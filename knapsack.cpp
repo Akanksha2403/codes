@@ -1,22 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
-#define ll long long
-#define ld long double
-#define V vector
-#define P pair
-#define S string
-#define MS multiset
-#define UM unordered_map
-#define US unordered_set
-#define MM multimap
-#define mp make_pair
-#define pb push_back
-#define pf push_front
-#define fi first
-#define se second
-#define FAST ios_base::sync_with_stdio(false);
-#define all(a) a.begin(), a.end()
+#define ll long long int
+#define ld long long double
 #define print(x)                \
     for (auto element : x)      \
         cout << element << " "; \
@@ -45,6 +31,19 @@ using namespace std;
 #define new_int_4(a, b, c, d) \
     ll a, b, c, d;            \
     cin >> a >> b >> c >> d;
+#define V vector
+#define P pair
+#define MS multiset
+#define UM unordered_map
+#define US unordered_set
+#define MM multimap
+#define mp make_pair
+#define pb push_back
+#define pf push_front
+#define F first
+#define S second
+#define FAST ios_base::sync_with_stdio(false);
+#define all(a) a.begin(), a.end()
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
 const double pi = acos(-1);
@@ -75,32 +74,22 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-ll func()
-{
-
-    return 0;
-}
 int main()
 {
-    // FAST;
-    new_int_1(n);
-    while (true)
-    {
-        ll dp[n + 1][n * 2 + 1] = {};
-        dp[0][0] = 1;
-        new_int_2(x, y); //debug at x, y
+    new_int_2(n, w);
+    vi value = inputvec(n + 1, 1);
+    vi weight = inputvec(n + 1, 1);
+    V<vi> dp(n + 1, vi(w + 1, 0));
 
-        loop(i, 1, n + 1)
+    for (ll N = 1; N <= n; N++)
+    {
+        cout << "";
+        for (ll W = 0; W <= w; W++)
         {
-            loop(j, 0, n * 2 + 1)
-            {
-                if (i == x && j == y)
-                    cout << "DEBUGGING STARTED\n";
-                if (j >= i)
-                    dp[i][j] += dp[i - 1][j - i];
-                dp[i][j] += dp[i - 1][j];
-            }
+            ll ans1 = dp[N - 1][W];
+            ll ans2 = (W - weight[N] >= 0 ? value[N] + dp[N - 1][W - weight[N]] : 0);
+            dp[N][W] = max(ans1, ans2);
         }
-        cout << dp[n][n * 2] << endl;
     }
+    cout << dp[n][w];
 }

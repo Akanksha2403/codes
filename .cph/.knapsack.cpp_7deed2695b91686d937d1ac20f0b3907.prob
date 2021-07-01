@@ -1,0 +1,1 @@
+{"name":"Local: knapsack","url":"/home/prabhavagrawal7/Documents/knapsack.cpp","tests":[{"id":1624617183480,"input":"4 7\n1 4 2 7\n1 3 4 5","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhavagrawal7/Documents/knapsack.cpp","group":"local","local":true}

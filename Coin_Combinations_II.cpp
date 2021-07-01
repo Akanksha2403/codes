@@ -63,7 +63,7 @@ void stringinput(string &str)
 {
     cin >> str;
 }
- 
+
 ll input()
 {
     new_int_1(n);
@@ -78,47 +78,30 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-// map<ll, map<ll, ll>> dp;
-int dp[1000002][102];
+vector<vector<int>> dp(1000001, vector<int>(102, -1));
 ll func(vi &vec, ll k, ll n)
 {
-    // ll n = vec.size();
-    // if (dp[n].find(k) != dp[n].end())
-    if(dp[k][n] != -1)
+    if (dp[k][n] != -1)
     {
-        return dp[n][k];
+        return dp[k][n];
     }
     if (k == 0)
     {
-        return 1;
+        return dp[k][n] = 1;
     }
-    if (n == 1)
-    {
-        if (k % vec[0] == 0)
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-    ll ans1 = 0;
+    ll ans1 = 0, ans2 = 0;
     if (vec[n - 1] <= k)
-    {
         ans1 = func(vec, k - vec[n - 1], n);
-    }
-    n = n-1;
-    ll ans2 = func(vec, k, n);
-    ll ans = ans1+ans2;
-    return dp[n][k] = ans%mod;
+    if (n - 1 != 0)
+        ans2 = func(vec, k, n - 1);
+    ll ans = ans1 + ans2;
+    return dp[k][n] = ans % mod;
 }
- 
+
 int main()
 {
     ios_base::sync_with_stdio(false);
     new_int_2(n, k);
-    memset(dp, -1, sizeof(dp));
     vi vec = inputvec(n);
     sort(all(vec));
     ll ans = func(vec, k, vec.size());
