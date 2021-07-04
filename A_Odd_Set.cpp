@@ -1,8 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
-#define ll long long int
+#define ll long long
 #define ld long double
+#define V vector
+#define P pair
+#define S string
+#define MS multiset
+#define UM unordered_map
+#define US unordered_set
+#define MM multimap
+#define mp make_pair
+#define pb push_back
+#define pf push_front
+#define fi first
+#define se second
+#define FAST ios_base::sync_with_stdio(false);
+#define all(a) a.begin(), a.end()
 #define print(x)                \
     for (auto element : x)      \
         cout << element << " "; \
@@ -31,19 +45,6 @@ using namespace std;
 #define new_int_4(a, b, c, d) \
     ll a, b, c, d;            \
     cin >> a >> b >> c >> d;
-#define V vector
-#define P pair
-#define MS multiset
-#define UM unordered_map
-#define US unordered_set
-#define MM multimap
-#define mp make_pair
-#define pb push_back
-#define pf push_front
-#define F first
-#define S second
-#define FAST ios_base::sync_with_stdio(false);
-#define all(a) a.begin(), a.end()
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
 const double pi = acos(-1);
@@ -74,57 +75,33 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-bool between(ld a, ld b, ld c)
-{
-    if (a >= b && b >= c)
-        return 1;
-    if (a <= b && b <= c)
-        return 1;
-    return 0;
-}
 ll func()
 {
     new_int_1(n);
-    V<pair<ld, ld>> answers;
-    for (ll i = 0; i < n; i++)
+    vi vec = inputvec(n * 2);
+    ll odd = 0;
+    ll even = 0;
+    for (ll i = 0; i < 2 * n; i++)
     {
-        ll t;
-        ld l, r;
-        cin >> t >> l >> r;
-        if (t == 2)
-            r = r - 0.1;
-        else if (t == 3)
-            l = l + 0.1;
-        else if (t == 4)
-            r = r - 0.1, l = l + 0.1;
-        answers.push_back(mp(l, r));
+        vec[i] % 2 == 0 ? even++ : odd++;
     }
-    ll ans = 0;
-    for (ll i = 0; i < answers.size(); i++)
+    if (even == odd)
     {
-        for (ll j = i + 1; j < answers.size(); j++)
-        {
-
-            ld l1 = answers[i].first;
-            ld r1 = answers[i].second;
-            ld l2 = answers[j].first;
-            ld r2 = answers[j].second;
-            if (between(l1, l2, r1))
-                ans++;
-            else if (between(l1, r2, r1))
-                ans++;
-            else if (between(l2, l1, r2))
-                ans++;
-            else if (between(l2, r1, r2))
-                ans++;
-        }
+        cout << "YES" << endl;
+    }
+    else
+    {
+        cout << "NO" << endl;
     }
 
-    cout << ans << endl;
     return 0;
 }
 int main()
 {
-    FAST;
-    func();
+    // FAST;
+    new_int_1(n);
+    while (n--)
+    {
+        func();
+    }
 }

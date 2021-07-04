@@ -15,18 +15,17 @@ using namespace std;
 #define pf push_front
 #define fi first
 #define se second
-#define FAST ios_base::sync_with_stdio(false);
+#define FAST ios_base::sync_with_stdio(false), cin.tie(NULL);
+
 #define all(a) a.begin(), a.end()
 #define print(x)                \
     for (auto element : x)      \
         cout << element << " "; \
     cout << endl
 #define db(x) cout << #x << " = " << x << "\n"
-#define range(i, n) for (ll i = 0; i < n; i++)
-#define loop(i, a, b) for (ll i = a; i < b; i++)
-#define loopr(i, a, b) for (ll i = a; i >= b; i--)
-#define loops(i, a, b, step) for (ll i = a; i < b; i += step)
-#define looprs(i, a, b, step) for (ll i = a; i >= b; i -= step)
+#define brange(i, start, end, step) for (ll i = start; i < end; i = i + step)
+#define ranges(i, start, end) for (ll i = start; i < end; i = i + 1)
+#define range(i, end) for (ll i = 0; i < end; i = i + 1)
 #define pb push_back
 #define mp make_pair
 #define all(a) a.begin(), a.end()
@@ -83,24 +82,9 @@ ll func()
 int main()
 {
     // FAST;
-    new_int_1(n);
-    while (true)
+    new_int_1(t);
+    range(i, t)
     {
-        ll dp[n + 1][n * 2 + 1] = {};
-        dp[0][0] = 1;
-        new_int_2(x, y); //debug at x, y
-
-        loop(i, 1, n + 1)
-        {
-            loop(j, 0, n * 2 + 1)
-            {
-                if (i == x && j == y)
-                    cout << "DEBUGGING STARTED\n";
-                if (j >= i)
-                    dp[i][j] += dp[i - 1][j - i];
-                dp[i][j] += dp[i - 1][j];
-            }
-        }
-        cout << dp[n][n * 2] << endl;
+        func();
     }
 }

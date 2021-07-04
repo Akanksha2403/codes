@@ -1,18 +1,31 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
-#define ll long long int
-#define ld long long double
+#define ll long long
+#define ld long double
+#define V vector
+#define P pair
+#define S string
+#define MS multiset
+#define UM unordered_map
+#define US unordered_set
+#define MM multimap
+#define mp make_pair
+#define pb push_back
+#define pf push_front
+#define fi first
+#define se second
+#define FAST ios_base::sync_with_stdio(false), cin.tie(NULL);
+
+#define all(a) a.begin(), a.end()
 #define print(x)                \
     for (auto element : x)      \
         cout << element << " "; \
     cout << endl
 #define db(x) cout << #x << " = " << x << "\n"
-#define range(i, n) for (ll i = 0; i < n; i++)
-#define loop(i, a, b) for (ll i = a; i < b; i++)
-#define loopr(i, a, b) for (ll i = a; i >= b; i--)
-#define loops(i, a, b, step) for (ll i = a; i < b; i += step)
-#define looprs(i, a, b, step) for (ll i = a; i >= b; i -= step)
+#define brange(i, start, end, step) for (ll i = start; i < end; i = i + step)
+#define ranges(i, start, end) for (ll i = start; i < end; i = i + 1)
+#define range(i, end) for (ll i = 0; i < end; i = i + 1)
 #define pb push_back
 #define mp make_pair
 #define all(a) a.begin(), a.end()
@@ -31,19 +44,6 @@ using namespace std;
 #define new_int_4(a, b, c, d) \
     ll a, b, c, d;            \
     cin >> a >> b >> c >> d;
-#define V vector
-#define P pair
-#define MS multiset
-#define UM unordered_map
-#define US unordered_set
-#define MM multimap
-#define mp make_pair
-#define pb push_back
-#define pf push_front
-#define F first
-#define S second
-#define FAST ios_base::sync_with_stdio(false);
-#define all(a) a.begin(), a.end()
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
 const double pi = acos(-1);
@@ -74,42 +74,35 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
+
 ll func()
 {
-
+    new_int_3(n, a, b);
+    // ll n = mod, a = mod2, b = 2;
+    if (a == 1 && (n - 1) % b == 0)
+    {
+        cout << "Yes" << endl;
+        return 0;
+    }
+    ll num = 1, pow = 1;
+    while (num >= 0)
+    {
+        if (num % b == 0)
+        {
+            cout << "Yes" << endl;
+            return 0;
+        }
+        num = n - pow * a;
+    }
+    cout << "No" << endl;
     return 0;
 }
 int main()
 {
     FAST;
-    new_string(s1);
-    new_string(s2);
-
-    ll n1 = s1.size(), n2 = s2.size();
-    s1 = " " + s1;
-    s2 = " " + s2;
-
-    ll dp[n1 + 1][n2 + 1] = {};
-    loop(i, 1, n1 + 1)
+    new_int_1(t);
+    range(i, t)
     {
-        dp[i][0] = i;
+        func();
     }
-    loop(i, 1, n2 + 1)
-    {
-        dp[0][i] = i;
-    }
-
-    //finding largest substring
-    loop(i, 1, n1 + 1)
-    {
-        loop(j, 1, n2 + 1)
-        {
-            dp[i][j] = 1 + dp[i - 1][j];
-            dp[i][j] = min(1 + dp[i - 1][j - 1], dp[i][j]);
-            dp[i][j] = min(1 + dp[i][j - 1], dp[i][j]);
-            if (s1[i] == s2[j])
-                dp[i][j] = min(dp[i][j], dp[i - 1][j - 1]);
-        }
-    }
-    cout << dp[n1][n2];
 }
