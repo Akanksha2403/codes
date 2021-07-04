@@ -1,1 +1,0 @@
-{"name":"Local: sumof2050","url":"/home/prabhav7/Documents/sumof2050.cpp","tests":[{"id":1619189590794,"input":"6\n205\n2050\n4100\n20500\n22550\n25308639900","output":""},{"id":1619189762428,"input":"1\n18450","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhav7/Documents/sumof2050.cpp","group":"local","local":true}

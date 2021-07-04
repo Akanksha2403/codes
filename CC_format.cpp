@@ -23,12 +23,15 @@ using namespace std;
         cout << element << " "; \
     cout << endl
 #define db(x) cout << #x << " = " << x << "\n"
-#define brange(i, start, end, step) for (ll i = start; i < end; i = i + step)
-#define ranges(i, start, end) for (ll i = start; i < end; i = i + 1)
-#define range(i, end) for (ll i = 0; i < end; i = i + 1)
+#define range(i, n) for (ll i = 0; i < n; i++)
+#define ranges(i, s, n) for (ll i = s; i < n; i++)
+#define sranges(i, start, stop, step) for (ll i = start; i < stop; i = i + step)
 #define pb push_back
 #define mp make_pair
 #define all(a) a.begin(), a.end()
+#define testcase(t) \
+    new_int_1(t);   \
+    range(i, t)
 #define new_string(str) \
     string str;         \
     cin >> str;
@@ -46,18 +49,14 @@ using namespace std;
     cin >> a >> b >> c >> d;
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
-const double pi = acos(-1);
+const ld pi = acos(-1);
 typedef vector<string> vs;
-typedef vector<vector<ll>> vvi;
 typedef vector<ll> vi;
 typedef pair<ll, ll> pii;
 typedef pair<ll, string> pis;
 typedef pair<string, string> pss;
 typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
-typedef map<string, ll> msi;
-typedef map<char, ll> mci;
-typedef map<string, string> mss;
 typedef set<ll> si;
 
 ll input()
@@ -76,14 +75,13 @@ vi inputvec(ll n, ll start = 0)
 }
 ll func()
 {
-
+    
     return 0;
 }
 int main()
 {
     // FAST;
-    new_int_1(t);
-    range(i, t)
+    testcase(t)
     {
         func();
     }

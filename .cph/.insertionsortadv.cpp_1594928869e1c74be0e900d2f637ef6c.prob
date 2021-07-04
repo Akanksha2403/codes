@@ -1,1 +1,0 @@
-{"name":"Local: insertionsortadv","url":"/home/prabhav7/Documents/insertionsortadv.cpp","tests":[{"id":1618844507676,"input":"2  \n5  \n1 1 1 2 2  \n5  \n2 1 3 1 2","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhav7/Documents/insertionsortadv.cpp","group":"local","local":true}

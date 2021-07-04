@@ -1,1 +1,0 @@
-{"name":"Local: donotbedistracted","url":"/home/prabhav7/Documents/donotbedistracted.cpp","tests":[{"id":1620226031574,"input":"5\n3\nABA\n11\nDDBBCCCBBEZ\n7\nFFGZZZY\n1\nZ\n2\nAB","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhav7/Documents/donotbedistracted.cpp","group":"local","local":true}

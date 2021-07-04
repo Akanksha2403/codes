@@ -1,1 +1,0 @@
-{"name":"Local: a-Good_String","url":"/home/prabhav7/Documents/a-Good_String.cpp","tests":[{"id":1622497609087,"input":"6\n8\nbbdcaaaa\n8\nasdfghjk\n8\nceaaaabb\n8\nbbaaddcc\n1\nz\n2\nac","output":"0\n7\n4\n5\n1\n1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhav7/Documents/a-Good_String.cpp","group":"local","local":true}

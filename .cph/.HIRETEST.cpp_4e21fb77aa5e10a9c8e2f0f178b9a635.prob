@@ -1,1 +1,0 @@
-{"name":"Local: HIRETEST","url":"/home/prabhav7/Documents/HIRETEST.cpp","tests":[{"id":1619356012448,"input":"3\n4 5\n3 2\nFUFFP\nPFPFU\nUPFFU\nPPPFP\n3 4\n1 3\nPUPP\nUUUU\nUFUU\n1 3\n2 2\nPPP","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhav7/Documents/HIRETEST.cpp","group":"local","local":true}

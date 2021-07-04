@@ -74,17 +74,23 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-
 ll func()
 {
     new_int_3(n, a, b);
-    // ll n = mod, a = mod2, b = 2;
-    if (a == 1 && (n - 1) % b == 0)
-    {
-        cout << "Yes" << endl;
-        return 0;
-    }
-    ll num = 1, pow = 1;
+    if (a == 1)
+        if ((n - 1) % b == 0)
+        {
+            cout << "Yes" << endl;
+            return 0;
+        }
+        else
+        {
+            cout << "No" << endl;
+            return 0;
+        }
+
+    ll i = 0;
+    ll num = n - pow(a, i);
     while (num >= 0)
     {
         if (num % b == 0)
@@ -92,7 +98,8 @@ ll func()
             cout << "Yes" << endl;
             return 0;
         }
-        num = n - pow * a;
+        i++;
+        num = n - pow(a, i);
     }
     cout << "No" << endl;
     return 0;

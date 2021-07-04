@@ -1,1 +1,0 @@
-{"name":"Local: longestcommonsubstring","url":"/home/prabhavagrawal7/Documents/longestcommonsubstring.cpp","tests":[{"id":1624648352964,"input":"dfjlABCABCDE\nalksjdfklABCDEasdjklsj","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhavagrawal7/Documents/longestcommonsubstring.cpp","group":"local","local":true}
