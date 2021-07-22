@@ -1,7 +1,10 @@
 {
     "files.associations": {
-        "deque": "cpp",
-        "string": "cpp",
-        "vector": "cpp"
-    }
+        "random": "cpp",
+        "iostream": "cpp",
+        "initializer_list": "cpp",
+        "valarray": "cpp",
+        "map": "cpp"
+    },
+    "editor.mouseWheelZoom": true
 }

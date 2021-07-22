@@ -73,22 +73,58 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-ll func()
+ll ldriver(string &given, string &required, ll pos, ll posreq)
 {
-
+    if (posreq == required.size())
+    {
+        return 1;
+    }
+    if (pos < 0 || pos > given.size())
+    {
+        return 0;
+    }
+    if (given[pos] == required[posreq])
+    {
+        return ldriver(given, required, pos - 1, posreq + 1);
+    }
     return 0;
 }
-signed main()
+ll rdriver(string &given, string &required, ll pos, ll posreq)
 {
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    if (posreq == required.size())
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        return 1;
     }
-
+    if (pos < 0 || pos > given.size())
+    {
+        return 0;
+    }
+    if (given[pos] == required[posreq])
+    {
+        return max(rdriver(given, required, pos + 1, posreq + 1), ldriver(given, required, pos - 1, posreq + 1));
+    }
+    return 0;
+}
+ll func()
+{
+    new_string(given);
+    new_string(required);
+    for (ll i = 0; i < given.size(); i++)
+    {
+        if (rdriver(given, required, i, 0))
+        {
+            cout << "YES" << endl;
+            return 0;
+        }
+    }
+    cout << "NO" << endl;
+    return 0;
+}
+int main()
+{
+    // FAST;
+    testcase(t)
+    {
+        func();
+    }
 }

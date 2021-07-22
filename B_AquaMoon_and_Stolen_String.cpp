@@ -75,20 +75,65 @@ vi inputvec(ll n, ll start = 0)
 }
 ll func()
 {
-
-    return 0;
-}
-signed main()
-{
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    new_int_2(n, m);
+    vs ss;
+    range(i, n)
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        new_string(s);
+        ss.push_back(s);
+    }
+    V<vi> markers(n, vi(m, 0));
+
+    vs cs;
+    range(i, n - 1)
+    {
+        new_string(s);
+        cs.push_back(s);
     }
 
+    for (ll i = 0; i < m; i++)
+    {
+        ll sum = 0;
+        for (ll j = 0; j < n; j++)
+        {
+            sum += ss[j][i];
+        }
+        for (ll j = 0; j < n - 1; j++)
+        {
+            sum -= cs[j][i];
+        }
+        for (ll j = 0; j < n; j++)
+        {
+            if (sum == ss[j][i])
+            {
+                markers[j][i] = 1;
+            }
+        }
+    }
+    ll maxsum = 0;
+    ll maxsumindex = 0;
+    range(i, n)
+    {
+        ll sum = 0;
+        range(j, m)
+        {
+            sum += markers[i][j];
+        }
+        if(sum > maxsum)
+        {
+            maxsum = sum;
+            maxsumindex = i;
+        }
+    }
+    cout << ss[maxsumindex] << endl;
+    cout.flush();
+    return 0;
+}
+int main()
+{
+    // FAST;
+    testcase(t)
+    {
+        func();
+    }
 }

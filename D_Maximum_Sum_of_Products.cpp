@@ -73,22 +73,37 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-ll func()
-{
+vi a;
+vi b;
+map<ll, map<ll, ll>> dp;
 
-    return 0;
-}
-signed main()
+ll func(ll start, ll end)
 {
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    if (dp[start].find(end) != dp[start].end())
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        return dp[start][end];
+    }
+    if (start + 1 == end)
+    {
+        return a[start] * b[start];
     }
 
+    ll ans1 = a[start] * b[start] + func(start + 1, end);
+    ll ans2 = a[end - 1] * b[end - 1] + func(start, end - 1);
+    ll ans3 = 0;
+
+    for (ll i = 0; start + i < end; i++)
+    {
+        ans3 += a[end - i - 1] * b[start + i];
+    }
+
+    return dp[start][end] = max(ans1, ans2);
+}
+int main()
+{
+    // FAST;
+    new_int_1(n);
+    a = inputvec(n);
+    b = inputvec(n);
+    cout << func(0, a.size());
 }

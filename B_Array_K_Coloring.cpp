@@ -75,20 +75,75 @@ vi inputvec(ll n, ll start = 0)
 }
 ll func()
 {
-
-    return 0;
-}
-signed main()
-{
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    new_int_2(n, k);
+    vi vec = inputvec(n);
+    mii freq;
+    range(i, n)
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        if (freq.find(vec[i]) != freq.end())
+        {
+            freq[vec[i]] += 1;
+        }
+        else
+        {
+            freq[vec[i]] = 1;
+        }
+    }
+    bool flag = false;
+    for (auto i : freq)
+    {
+        if (i.first <= k)
+        {
+            flag = true;
+        }
+
+        if (i.second > k)
+        {
+            cout << "NO" << endl;
+            return 0;
+        }
+    }
+    if (!flag)
+    {
+        cout << "NO" << endl;
+        return 0;
     }
 
+    for (auto &i : freq)
+    {
+        i.second = 0;
+    }
+    vi ansvec;
+    for (auto &i : vec)
+    {
+        if(freq[i] == 0)
+        {
+            if(i <= k)
+            {
+                ansvec.push_back(i);
+                freq[i]++;
+                continue;
+            }
+            freq[i]++;
+        }
+        
+        if(freq[i] == i)
+        {
+            freq[i]++;
+        }
+
+        ansvec.push_back(freq[i]);
+        freq[i]++;
+    }
+    cout << "YES" << endl;
+    print(ansvec);
+    return 1;
+}
+int main()
+{
+    // FAST;
+
+    {
+        func();
+    }
 }

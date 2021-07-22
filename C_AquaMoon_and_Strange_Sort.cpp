@@ -73,22 +73,65 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
+void flipped(bool &flip)
+{
+    flip ? flip = 0 : flip = 1;
+}
 ll func()
 {
-
-    return 0;
-}
-signed main()
-{
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    new_int_1(n);
+    // V<pii> st;
+    map<ll, pair<ll, ll>> st; //odd-even
+    range(i, n)
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        new_int_1(a);
+        if (st.find(a) == st.end())
+        {
+            if (i % 2 == 0)
+                st[a] = mp(0, 1);
+            else
+                st[a] = mp(1, 0);
+        }
+        else
+        {
+            if (i % 2 == 0)
+                st[a].second++;
+            else
+                st[a].first++;
+        }
     }
-
+    bool flip = true;
+    for (auto i : st)
+    {
+        while (!(i.second.first == 0 && i.second.second == 0))
+        {
+            if (flip == true)
+            {
+                i.second.second--;
+                if (i.second.second < 0)
+                {
+                    return 0;
+                }
+                flipped(flip);
+            }
+            else
+            {
+                i.second.first--;
+                if (i.second.first < 0)
+                {
+                    return 0;
+                }
+                flipped(flip);
+            }
+        }
+    }
+    return 1;
+}
+int main()
+{
+    // FAST;
+    testcase(t)
+    {
+        func() ? cout << "YES" << endl : cout << "NO" << endl;
+    }
 }

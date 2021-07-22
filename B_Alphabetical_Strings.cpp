@@ -73,22 +73,30 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-ll func()
-{
 
-    return 0;
-}
-signed main()
+int main()
 {
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    // FAST;
+    testcase(t)
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        new_string(s);
+        ll id = s.find('a');
+        string dec = s.substr(0, id);
+        string inc = s.substr(id, s.length());
+         set<char>(begin(s), end(s));
+        if ((ll)s.length() != 0)
+        {
+            cout << "NO" << endl;
+            continue;
+        }
+        string dec1 = dec;
+        sort(dec.begin(), dec.end(), greater<ll>());
+        string inc1 = inc;
+        sort(inc.begin(), inc.end());
+        if (dec == dec1 && inc == inc1)
+        {
+            cout << "YES" << endl;
+            continue;
+        }
     }
-
 }

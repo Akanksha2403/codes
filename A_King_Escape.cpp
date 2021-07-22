@@ -73,22 +73,36 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
+
 ll func()
 {
+    new_int_1(n);
+    new_int_2(ax, ay);
+    new_int_2(bx, by);
+    new_int_2(cx, cy);
 
-    return 0;
+    bx = bx - ax;
+    cx = cx - ax;
+    by = by - ay;
+    cy = cy - ay;
+
+    if (bx * cx > 0 && by * cy > 0)
+        return 1;
+    else
+        return 0;
 }
-signed main()
+int main()
 {
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    // FAST;
+    // testcase(t)
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        if (func())
+        {
+            cout << "YES" << endl;
+        }
+        else
+        {
+            cout << "NO" << endl;
+        }
     }
-
 }

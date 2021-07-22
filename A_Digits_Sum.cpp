@@ -75,20 +75,21 @@ vi inputvec(ll n, ll start = 0)
 }
 ll func()
 {
-
-    return 0;
-}
-signed main()
-{
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    new_int_1(n);
+    if (n % 10 == 9)
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        return n / 10 + 1;
     }
-
+    else
+    {
+        return n / 10;
+    }
+}
+int main()
+{
+    // FAST;
+    testcase(t)
+    {
+        cout << func() << endl;
+    }
 }

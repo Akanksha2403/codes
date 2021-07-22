@@ -73,22 +73,27 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-ll func()
-{
 
-    return 0;
-}
-signed main()
+int main()
 {
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    // FAST;
+    new_int_1(n);
+    unordered_set<ll> dp;
+    for (ll i = 0; n >= 1234567 * i; i++)
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
-    }
+        ll n1 = n - 1234567 * i;
+        for (ll j = 0; n1 >= 123456 * j; j++)
+        {
+            ll n2 = n1 - 123456 * j;
 
+            ll n3 = n2 % 1234;
+            if (n3 == 0)
+            {
+                cout << "YES" << endl;
+                return 0;
+            }
+        }
+    }
+    cout << "NO" << endl;
+    return 0;
 }

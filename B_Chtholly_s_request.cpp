@@ -47,7 +47,7 @@ using namespace std;
 #define new_int_4(a, b, c, d) \
     ll a, b, c, d;            \
     cin >> a >> b >> c >> d;
-const ll mod = 1000000007;
+const ll mod = 100000000003;
 const ll mod2 = 998244353;
 const ld pi = acos(-1);
 typedef vector<string> vs;
@@ -73,22 +73,33 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
+ll makepalindrome(ll n)
+{
+    ll cp = n;
+    while(cp)
+    {
+        n = n *10 + cp%10;
+        cp = cp/10;
+    }   
+    return n;
+}
 ll func()
 {
-
+    new_int_2(n, p);
+    ll sum = 0;
+    for (ll i = 1; i <= n; i++)
+    {
+        sum += makepalindrome(i);  
+        sum = sum % p;
+    }
+    cout << sum%p << endl;
     return 0;
 }
-signed main()
+int main()
 {
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    // FAST;
+    // testcase(t)
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        func();
     }
-
 }

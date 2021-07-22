@@ -73,22 +73,71 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
+ll driver(string &str, ll pos, ll g1, ll g2)
+{
+    if (pos > 10)
+    {
+        return 10;
+    }
+    //check for g1 win
+    ll chances_left_g1 = pos % 2 == 0 ? 5 - pos / 2 : 5 - (pos / 2 + 1);
+    ll chances_left_g2 = pos % 2 == 0 ? chances_left_g1 : chances_left_g1 + 1;
+    if (g1 + chances_left_g1 < g2)
+    {
+        return pos;
+    }
+    else if (g2 + chances_left_g2 < g1)
+    {
+        return pos;
+    }
+
+    //check for g2 win
+
+    if (str[pos] == '0')
+    {
+        return driver(str, pos + 1, g1, g2);
+    }
+    else
+    {
+        if (pos % 2 == 0)
+            return driver(str, pos + 1, g1 + 1, g2);
+        else
+            return driver(str, pos + 1, g1, g2 + 1);
+    }
+    return 0;
+}
 ll func()
 {
+    new_string(str);
+    auto str1 = str;
+    auto str2 = str;
+
+    for (ll i = 0; i < str.length(); i += 2)
+    {
+        if (str[i] == '?')
+        {
+            str1[i] = '1';
+            str2[i] = '0';
+        }
+    }
+
+    for (ll i = 1; i < str.length(); i += 2)
+    {
+        if (str[i] == '?')
+        {
+            str1[i] = '0';
+            str2[i] = '1';
+        }
+    }
+    cout << min(driver(str1, 0, 0, 0), driver(str2, 0, 0, 0)) << endl;
 
     return 0;
 }
-signed main()
+int main()
 {
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    // FAST;
+    testcase(t)
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        func();
     }
-
 }

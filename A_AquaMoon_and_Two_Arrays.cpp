@@ -75,20 +75,54 @@ vi inputvec(ll n, ll start = 0)
 }
 ll func()
 {
+    new_int_1(n);
+    vi vec1 = inputvec(n);
+    vi vec2 = inputvec(n);
+    ll sum = 0;
+    range(i, n)
+    {
+        sum += vec1[i];
+    }
+    range(i, n)
+    {
+        sum -= vec2[i];
+    }
+
+    if (sum != 0)
+    {
+        cout << -1 << endl;
+        return 0;
+    }
+
+    V<pii> operations;
+    while(vec1 != vec2)
+    {
+        ll i = 0, j = 0;
+        while(!(vec1[i] > vec2[i]))
+        {
+            i++;
+        }
+        while(!(vec1[j] < vec2[j]))
+        {
+            j++;
+        }
+        vec1[i]--, vec1[j]++;
+        operations.push_back(mp(i, j));
+    }
+    cout << operations.size() << endl;
+    for(auto &i : operations)
+    {
+        cout << i.first+1 << " " << i.second+1 << endl;
+    }
+    
 
     return 0;
 }
-signed main()
+int main()
 {
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    // FAST;
+    testcase(t)
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        func();
     }
-
 }

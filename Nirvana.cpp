@@ -73,22 +73,27 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-ll func()
+ll digit(ll n)
 {
-
-    return 0;
-}
-signed main()
-{
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    ll mul = 1;
+    while (n)
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        mul = mul * (n%10);
+        n = n / 10;
     }
-
+    return mul;
+}
+ll func(ll n)
+{
+    if(n == 0) return 0;
+    return max(func(n-1), digit(n));
+}
+int main()
+{
+    // FAST;
+    // testcase(t)
+    {
+        new_int_1(n);
+        cout << func(n);
+    }
 }

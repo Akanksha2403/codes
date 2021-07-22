@@ -75,20 +75,33 @@ vi inputvec(ll n, ll start = 0)
 }
 ll func()
 {
+    new_int_3(n, a, b);
+    new_string(s);
+    ll one = 0;
+    ll zero = 0;
+    range(i, s.length())
+    {
+        if (s[i] == '1')
+        {
+            one++;
+        }
+        else
+        {
+            zero++;
+        }
+    }  
+    if(one > zero)
+    {
+        
+    }
 
     return 0;
 }
-signed main()
+int main()
 {
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    // FAST;
+    testcase(t)
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        func();
     }
-
 }

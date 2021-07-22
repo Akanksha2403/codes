@@ -25,7 +25,7 @@ using namespace std;
 #define db(x) cout << #x << " = " << x << "\n"
 #define range(i, n) for (ll i = 0; i < n; i++)
 #define ranges(i, s, n) for (ll i = s; i < n; i++)
-#define sranges(i, start, stop, step) for (ll i = start; i < stop; i = i + step)
+#define sranges(i, start, stop, step) for (ll i = start; i != stop; i = i + step)
 #define pb push_back
 #define mp make_pair
 #define all(a) a.begin(), a.end()
@@ -73,22 +73,22 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
+
 ll func()
 {
-
+    new_int_4(n, l, r, s);
+    ll dis = r-l+1;
+    vi midans;
+    ll a = (2*((ld)s)/((ld)n) - (n-1))/2;
+    sranges(i, a, )
+    
     return 0;
 }
-signed main()
+int main()
 {
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    // FAST;
+    testcase(t)
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        func();
     }
-
 }

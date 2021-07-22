@@ -73,22 +73,48 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-ll func()
-{
 
-    return 0;
-}
-signed main()
+int main()
 {
-    ll N = 100000;
-    int n, m;
-    cin >> n >> m;
-    vi adjm[N];
-    range(i, m)
+    // FAST;
+    new_int_3(n, l, r);
+    ll n3, n31, n32;
+    ll all = r - l + 1;
+    //finding n3
     {
-        new_int_2(x, y);
-        adjm[x].push_back(y);
-        adjm[y].push_back(x);
+        if (l % 3 == 0)
+        {
+            n3 = (r / 3 - l / 3) + 1;
+        }
+        else
+        {
+            n3 = (r / 3 - l / 3);
+        }
     }
+    //finding n31
+    {
+        ll newl = l, newr = r;
+        while (newl % 3 != 1)
+        {
+            newl++;
+        }
+        while (newr % 3 != 1)
+        {
+            newr--;
+        }
+        n31 = (newr - newl) / 3 + 1;
+    }
+    n32 = all - n3 - n31;
 
+    map<ll, map<ll, ll>> dp;
+    dp[1][2] = n32;
+    dp[1][3] = n3;
+
+    for (ll i = 2; i <= n; i++)
+    {
+        dp[i][1] = (dp[i - 1][3] * n31 + dp[i - 1][2] * n32) % mod;
+        dp[i][2] = (dp[i - 1][3] * n32 + dp[i - 1][1] * n31) % mod;
+        dp[i][3] = (dp[i - 1][3] * n3 + dp[i - 1][1] * n32 + dp[i - 1][2] * n31) % mod;
+    }
+    cout << dp[n][3] % mod << endl;
 }
