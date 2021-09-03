@@ -1,6 +1,0 @@
-{
-    "editor.fontFamily": "monolisa, 'Courier New', monospace",
-    "editor.autoClosingOvertype": "always",
-    "editor.mouseWheelZoom": true,
-    "code-runner.runInTerminal": true
-}

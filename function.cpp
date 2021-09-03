@@ -91,6 +91,7 @@ vi inputvec(ll n, ll start = 0)
     return vec;
 }
 
+// Functions below
 ll power(ll x, ll y)
 {
     ll res = 1;
@@ -119,6 +120,42 @@ vector<ll> randvec(ll n, ll start = 0, ll end = 100)
     return arr;
 }
 
+/* binarytoint inttobinary
+
+vi inttobinary(ll n)
+{
+    vi binary(63);
+    for (ll i = 0; i < 64 && n != 0; i++)
+    {
+        if (n % 2 == 0)
+        {
+            binary[i] = 0;
+        }
+        else
+        {
+            binary[i] = 1;
+        }
+        n = n / 2;
+    }
+    return binary;
+}
+int binarytoint(vi &num)
+{
+    int dec_value = 0;
+    ll base = 1;
+
+    for (ll i = 0; i < num.size(); i++)
+    {
+        if (num[i] == 1)
+        {
+            dec_value += base;
+        }
+        base = base * 2;
+    }
+    return dec_value;
+}
+ */
+
 ll gcd(ll a, ll b)
 {
     if (b == 0)
@@ -127,6 +164,7 @@ ll gcd(ll a, ll b)
     }
     return gcd(b, a % b);
 }
+
 /* TO FIND NO OF PRIME FACTORS OF A NUMBER
  ll nooffactors(ll n)
 {
@@ -157,9 +195,7 @@ ll gcd(ll a, ll b)
 } 
 */
 
-/* //sieve starts here
-//(sieve modified to provide smallest factors of a number)
-
+/* sieve starts here |sieve modified to provide smallest factors of a number|
 const ll range = 1000006;
 //vi factors(range + 1, 0);
 vi prime(range + 1, 0);
@@ -174,10 +210,40 @@ void SieveOfEratosthenes()
                     prime[i] = i / p;
         }
     }
-    /* 
-    for(ll i = 2; i <= range; i++)
+}
+*/
+
+ll ncr(ll n, ll r)
+{
+    if (r > n)
+        return 0;
+    ll m = mod; //mod can be changed according to the question
+    ll inv[r + 1] = {0};
+    inv[0] = 1;
+    if (r + 1 >= 2)
+        inv[1] = 1;
+
+    // Getting the modular inversion
+    // for all the numbers
+    // from 2 to r with respect to m
+    // here m = 1000000007
+    for (ll i = 2; i <= r; i++)
     {
-        factors[i] = factors[prime[factors]]+1;
+        inv[i] = m - (m / i) * inv[m % i] % m;
+    }
+
+    ll ans = 1;
+
+    // for 1/(r!) part
+    for (ll i = 2; i <= r; i++)
+    {
+        ans = ((ans % m) * (inv[i] % m)) % m;
+    }
+
+    // for (n)*(n-1)*(n-2)*...*(n-r+1) part
+    for (ll i = n; i >= (n - r + 1); i--)
+    {
+        ans = ((ans % m) * (i % m)) % m;
     }
     */
 // }
@@ -192,6 +258,8 @@ vector<ll> notobinary(ll n)
     }
     return vec;
 }
+
+
 int main()
 {
     ios_base::sync_with_stdio(false);
