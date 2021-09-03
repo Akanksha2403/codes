@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
-#define ll long long
+#define ll int
 #define ld long double
 #define V vector
 #define P pair
@@ -59,18 +59,6 @@ typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
 
-vi debugvec;
-void substrvec(vi vec, ll start = 0, ll end = -1)
-{
-    if (end == -1)
-        end = vec.size();
-    vi newvec(end - start);
-    for (ll i = start; i < end; i++)
-    {
-        newvec[i] = vec[i];
-    }
-    debugvec = newvec;
-}
 ll input()
 {
     new_int_1(n);
@@ -86,43 +74,72 @@ vi inputvec(ll n, ll start = 0)
     return vec;
 }
 
-map<ll, map<ll, ll>> dp;
-
-ll func(vi &vec, ll start, ll div, ll zor)
+vi bitdp(100005, -1);
+ll bitmask(ll n)
 {
-    if (zor % div != 0)
-        return 0;
-    
-    if(dp[start].find(zor) != dp[start].end())
+    if (bitdp[n] != -1)
+        return bitdp[n];
+    ll count = 0;
+    ll cp = n;
+    while (cp)
     {
-        return dp[start][zor];
+        cp = cp & cp - 1;
+        count++;
     }
-    
-    ll ans = 1;
-    for (ll i = start + 1; i < vec.size(); i++)
+    return bitdp[n] = count;
+}
+
+ll sfunc(ll n, vi &ass)
+{
+    ll ans = INT_MAX;
+    for (ll i = 0; i < ass.size(); i++)
     {
-        zor = zor ^ vec[i - 1];
-        if (zor % (div * 2) == 0)
+        ll start = ass[i];
+        for (ll j = i + 1; j < ass.size(); j++)
         {
-            ans += func(vec, i, div * 2, zor);
+            ll end = n - ass[j];
+            if (end < start)
+            {
+                break;
+            }
+            ans = min(ans, bitmask(start|end));
         }
     }
-    return dp[start][zor] = ans;
+    return ans;
+}
+
+ll func()
+{
+    new_int_2(n, k);
+    vi vec = inputvec(n + 1, 1);
+    vi pref(n + 1, 0);
+    for (ll i = 1; i <= n; i++)
+    {
+        pref[i] = (pref[i - 1] + vec[i])%k;
+    }
+    ll ans = INT_MAX;
+    map<ll, vi> occ;
+    for (ll i = 0; i <= n; i++)
+    {
+        occ[pref[i]].push_back(i);
+    }
+    for (auto &ass : occ)
+    {
+        if (ass.second.size() < 2)
+            continue;
+        ans = min(ans, sfunc(n, ass.second));
+    }
+    if(ans != INT_MAX)
+    cout << ans << endl;
+    else 
+    cout << -1 << endl;
+    return 0;
 }
 int main()
 {
     // FAST;
     testcase(t)
     {
-        new_int_1(n);
-        vi vec = inputvec(n);
-        ll zor = 0;
-        range(i, n)
-        {
-            zor = zor ^ vec[i]; 
-        }
-        ll ans = func(vec, 0, 1, zor);
-        cout << ans << endl;
-        dp.clear();
+        func();
     }
 }

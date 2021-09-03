@@ -58,7 +58,7 @@ typedef pair<string, string> pss;
 typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
-
+const ll high = 10000000000000001;
 vi debugvec;
 void substrvec(vi vec, ll start = 0, ll end = -1)
 {
@@ -104,14 +104,18 @@ ll func(vi &vec, ll start, ll div, ll zor)
         zor = zor ^ vec[i - 1];
         if (zor % (div * 2) == 0)
         {
-            ans += func(vec, i, div * 2, zor);
+            ans = (ans + func(vec, i, div * 2, zor))%mod;
+        }
+        else if(div*2 > high)
+        {
+            break;
         }
     }
-    return dp[start][zor] = ans;
+    return dp[start][zor] = ans%mod;
 }
 int main()
 {
-    // FAST;
+    FAST;
     testcase(t)
     {
         new_int_1(n);
@@ -119,10 +123,10 @@ int main()
         ll zor = 0;
         range(i, n)
         {
-            zor = zor ^ vec[i]; 
+            zor = zor ^ vec[i];
         }
         ll ans = func(vec, 0, 1, zor);
         cout << ans << endl;
-        dp.clear();
+        dp.clear(); 
     }
 }

@@ -59,18 +59,6 @@ typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
 
-vi debugvec;
-void substrvec(vi vec, ll start = 0, ll end = -1)
-{
-    if (end == -1)
-        end = vec.size();
-    vi newvec(end - start);
-    for (ll i = start; i < end; i++)
-    {
-        newvec[i] = vec[i];
-    }
-    debugvec = newvec;
-}
 ll input()
 {
     new_int_1(n);
@@ -86,43 +74,40 @@ vi inputvec(ll n, ll start = 0)
     return vec;
 }
 
-map<ll, map<ll, ll>> dp;
-
-ll func(vi &vec, ll start, ll div, ll zor)
+ll gcd(ll a, ll b)
 {
-    if (zor % div != 0)
+    if (b == 1)
+        return 1;
+    if (b == 0)
+    {
+        return a;
+    }
+    return gcd(b, a % b);
+}
+
+ll func(ll a, ll b)
+{
+    // in operation 0
+    if (gcd(a, b) != 1)
+    {
         return 0;
-    
-    if(dp[start].find(zor) != dp[start].end())
-    {
-        return dp[start][zor];
     }
-    
-    ll ans = 1;
-    for (ll i = start + 1; i < vec.size(); i++)
+    // in operation 1
+    else if ((gcd(a + 1, b) != 1) || (gcd(a, b + 1) != 1))
     {
-        zor = zor ^ vec[i - 1];
-        if (zor % (div * 2) == 0)
-        {
-            ans += func(vec, i, div * 2, zor);
-        }
+        return 1;
     }
-    return dp[start][zor] = ans;
+    else 
+    {
+        return 2;
+    }
 }
 int main()
 {
     // FAST;
     testcase(t)
     {
-        new_int_1(n);
-        vi vec = inputvec(n);
-        ll zor = 0;
-        range(i, n)
-        {
-            zor = zor ^ vec[i]; 
-        }
-        ll ans = func(vec, 0, 1, zor);
-        cout << ans << endl;
-        dp.clear();
+        new_int_2(a, b);
+        cout << func(a, b) << endl;
     }
 }

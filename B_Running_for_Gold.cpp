@@ -59,18 +59,6 @@ typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
 
-vi debugvec;
-void substrvec(vi vec, ll start = 0, ll end = -1)
-{
-    if (end == -1)
-        end = vec.size();
-    vi newvec(end - start);
-    for (ll i = start; i < end; i++)
-    {
-        newvec[i] = vec[i];
-    }
-    debugvec = newvec;
-}
 ll input()
 {
     new_int_1(n);
@@ -85,44 +73,47 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-
-map<ll, map<ll, ll>> dp;
-
-ll func(vi &vec, ll start, ll div, ll zor)
+ll func()
 {
-    if (zor % div != 0)
-        return 0;
-    
-    if(dp[start].find(zor) != dp[start].end())
+    new_int_1(n);
+    vi con;
+    V<vi> pans(n);
+    range(i, n)
     {
-        return dp[start][zor];
+        vi vec = inputvec(5);
+        sort(all(vec));
+        pans[i] = vec;
     }
-    
-    ll ans = 1;
-    for (ll i = start + 1; i < vec.size(); i++)
+    // race 1 with all candidates
+    vector<vector<pii>> ranks;
+    V<V<pii>> ans(5);
+    range(i, 5)
     {
-        zor = zor ^ vec[i - 1];
-        if (zor % (div * 2) == 0)
+        V<pii> vec(n);
+        range(j, n)
         {
-            ans += func(vec, i, div * 2, zor);
+            vec[i] = mp(pans[j][i], j);
         }
+        ans[i] = vec;
     }
-    return dp[start][zor] = ans;
+    range(i, 5)
+    {
+        sort(all(ans[i]));
+    }
+    map<ll, ll> race_freq;
+
+    range(i, 5)
+    {
+        race_freq[ans[i][0].second]++;
+    }
+
+    return 0;
 }
 int main()
 {
     // FAST;
     testcase(t)
     {
-        new_int_1(n);
-        vi vec = inputvec(n);
-        ll zor = 0;
-        range(i, n)
-        {
-            zor = zor ^ vec[i]; 
-        }
-        ll ans = func(vec, 0, 1, zor);
-        cout << ans << endl;
-        dp.clear();
+        cout << func() << endl;
     }
 }

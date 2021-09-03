@@ -59,18 +59,6 @@ typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
 
-vi debugvec;
-void substrvec(vi vec, ll start = 0, ll end = -1)
-{
-    if (end == -1)
-        end = vec.size();
-    vi newvec(end - start);
-    for (ll i = start; i < end; i++)
-    {
-        newvec[i] = vec[i];
-    }
-    debugvec = newvec;
-}
 ll input()
 {
     new_int_1(n);
@@ -85,44 +73,61 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-
-map<ll, map<ll, ll>> dp;
-
-ll func(vi &vec, ll start, ll div, ll zor)
+ll func()
 {
-    if (zor % div != 0)
-        return 0;
-    
-    if(dp[start].find(zor) != dp[start].end())
+    new_int_1(n);
+    vi vec = inputvec(n);
+    vi pref(n);
+    ll maxi = INT_MIN;
+    for (ll i = n - 1; i >= 0; i--)
     {
-        return dp[start][zor];
-    }
-    
-    ll ans = 1;
-    for (ll i = start + 1; i < vec.size(); i++)
-    {
-        zor = zor ^ vec[i - 1];
-        if (zor % (div * 2) == 0)
+        if (maxi <= vec[i])
         {
-            ans += func(vec, i, div * 2, zor);
+            maxi = vec[i];
+            pref[i] = maxi;
+        }
+        else
+        {
+            pref[i] = pref[i + 1];
         }
     }
-    return dp[start][zor] = ans;
+    if (pref[0] != vec[0])
+    {
+        cout << -1 << endl;
+        return 0;
+    }
+
+    if (pref[0] == pref[1])
+    {
+        ll i = 0;
+        while (i < n && pref[i] == pref[0])
+        {
+            i++;
+        }
+        if (i == n)
+        {
+            cout << 1 << endl;
+        }
+        else
+        {
+            si freq(all(pref));
+            cout << freq.size() << endl;
+        }
+        return 0;
+    }
+    else
+    {
+        si freq(all(pref));
+        cout << freq.size()-1 << endl;
+    }
+
+    return 0;
 }
 int main()
 {
     // FAST;
     testcase(t)
     {
-        new_int_1(n);
-        vi vec = inputvec(n);
-        ll zor = 0;
-        range(i, n)
-        {
-            zor = zor ^ vec[i]; 
-        }
-        ll ans = func(vec, 0, 1, zor);
-        cout << ans << endl;
-        dp.clear();
+        func();
     }
 }

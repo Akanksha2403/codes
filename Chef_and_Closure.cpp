@@ -59,18 +59,6 @@ typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
 
-vi debugvec;
-void substrvec(vi vec, ll start = 0, ll end = -1)
-{
-    if (end == -1)
-        end = vec.size();
-    vi newvec(end - start);
-    for (ll i = start; i < end; i++)
-    {
-        newvec[i] = vec[i];
-    }
-    debugvec = newvec;
-}
 ll input()
 {
     new_int_1(n);
@@ -86,43 +74,70 @@ vi inputvec(ll n, ll start = 0)
     return vec;
 }
 
-map<ll, map<ll, ll>> dp;
-
-ll func(vi &vec, ll start, ll div, ll zor)
+ll func()
 {
-    if (zor % div != 0)
-        return 0;
-    
-    if(dp[start].find(zor) != dp[start].end())
+    new_int_1(n);
+    vi vec = inputvec(n);
+    bool one = false;
+    bool doubleotherval = false;
+    bool minusone = false;
+    bool zero = false;
+    bool otherval = false;
+    mii freq;
+    for (auto i : vec)
+        freq[i]++;
+    for (auto i : vec)
     {
-        return dp[start][zor];
-    }
-    
-    ll ans = 1;
-    for (ll i = start + 1; i < vec.size(); i++)
-    {
-        zor = zor ^ vec[i - 1];
-        if (zor % (div * 2) == 0)
+        if (i == 1)
         {
-            ans += func(vec, i, div * 2, zor);
+            one = true;
+        }
+        if (i == 0)
+        {
+            zero = true;
+        }
+        if (i == -1)
+        {
+            minusone = true;
+        }
+        if (!(i == 0 || i == 1 || i == -1))
+        {
+            if (otherval)
+            {
+                doubleotherval = true;
+                return 0;
+            }
+            else
+            {
+                otherval = true;
+            }
         }
     }
-    return dp[start][zor] = ans;
+    vi newvec;
+
+    for (auto i : freq)
+    {
+        newvec.push_back(i.first);
+    }
+
+    if (freq[-1] > 1)
+    {
+        if (freq[1] == 0)
+            return 0;
+    }
+
+    if (freq[-1] != 0 && otherval)
+    {
+        return 0;
+    }
+
+    return 1;
 }
 int main()
 {
     // FAST;
     testcase(t)
     {
-        new_int_1(n);
-        vi vec = inputvec(n);
-        ll zor = 0;
-        range(i, n)
-        {
-            zor = zor ^ vec[i]; 
-        }
-        ll ans = func(vec, 0, 1, zor);
-        cout << ans << endl;
-        dp.clear();
+        cout << func() << endl;
     }
 }

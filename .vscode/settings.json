@@ -4,7 +4,10 @@
         "iostream": "cpp",
         "initializer_list": "cpp",
         "valarray": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "sstream": "cpp",
+        "regex": "cpp"
     },
-    "editor.mouseWheelZoom": true
+    "editor.mouseWheelZoom": true,
+    "editor.fontFamily": "'Monolisa', 'monospace', monospace, 'Droid Sans Fallback'"
 }

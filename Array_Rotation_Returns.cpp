@@ -59,18 +59,6 @@ typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
 
-vi debugvec;
-void substrvec(vi vec, ll start = 0, ll end = -1)
-{
-    if (end == -1)
-        end = vec.size();
-    vi newvec(end - start);
-    for (ll i = start; i < end; i++)
-    {
-        newvec[i] = vec[i];
-    }
-    debugvec = newvec;
-}
 ll input()
 {
     new_int_1(n);
@@ -85,44 +73,85 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-
-map<ll, map<ll, ll>> dp;
-
-ll func(vi &vec, ll start, ll div, ll zor)
+ll func()
 {
-    if (zor % div != 0)
-        return 0;
-    
-    if(dp[start].find(zor) != dp[start].end())
+    new_int_1(n);
+    vi A = inputvec(n);
+    vi B = inputvec(n);
+    vi index;
+    ll min = INT_MAX;
+    for (ll i = 0; i < n; i++)
     {
-        return dp[start][zor];
-    }
-    
-    ll ans = 1;
-    for (ll i = start + 1; i < vec.size(); i++)
-    {
-        zor = zor ^ vec[i - 1];
-        if (zor % (div * 2) == 0)
+        ll c = (A[0] + B[i]) % n;
+        if (c <= min)
         {
-            ans += func(vec, i, div * 2, zor);
+            min = c;
+            index.push_back(i);
         }
     }
-    return dp[start][zor] = ans;
+
+    ll ind1 = -1;
+    ll ind2 = -1;
+
+    if (index.size() > 1)
+    {
+        ind1 = index[index.size() - 1];
+        ind2 = index[index.size() - 2];
+    }
+    else
+    {
+        ind1 = index[index.size() - 1];
+    }
+
+    //only 1 found
+    if (ind2 == -1)
+    {
+        vi ans;
+        
+        for (ll i = ind1, j = 0; j < n; i++, j++)
+        {
+            ll k = i % n;
+            ans.push_back((A[j] + B[k]) % n);
+        }
+        print(ans);
+    }
+
+
+    //if both are found
+    else
+    {
+        vi ans1;
+        vi ans2;
+        
+        for (ll i = ind1, j = 0; j < n; i++, j++)
+        {
+            ll k = i % n;
+            ans1.push_back((A[j] + B[k]) % n);
+        }
+
+        for (ll i = ind2, j = 0; j < n; i++, j++)
+        {
+            ll k = i % n;
+            ans2.push_back((A[j] + B[k]) % n);
+        }
+
+        if (ans1 < ans2)
+        {
+            print(ans1);
+        }
+        else
+        {
+            print(ans2);
+        }
+    }
+
+    return 0;
 }
 int main()
 {
     // FAST;
     testcase(t)
     {
-        new_int_1(n);
-        vi vec = inputvec(n);
-        ll zor = 0;
-        range(i, n)
-        {
-            zor = zor ^ vec[i]; 
-        }
-        ll ans = func(vec, 0, 1, zor);
-        cout << ans << endl;
-        dp.clear();
+        func();
     }
 }

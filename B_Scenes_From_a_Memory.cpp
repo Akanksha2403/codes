@@ -59,18 +59,6 @@ typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
 
-vi debugvec;
-void substrvec(vi vec, ll start = 0, ll end = -1)
-{
-    if (end == -1)
-        end = vec.size();
-    vi newvec(end - start);
-    for (ll i = start; i < end; i++)
-    {
-        newvec[i] = vec[i];
-    }
-    debugvec = newvec;
-}
 ll input()
 {
     new_int_1(n);
@@ -86,43 +74,76 @@ vi inputvec(ll n, ll start = 0)
     return vec;
 }
 
-map<ll, map<ll, ll>> dp;
-
-ll func(vi &vec, ll start, ll div, ll zor)
+// sieve starts here |sieve modified to provide smallest factors of a number|
+const ll range = 1000006;
+//vi factors(range + 1, 0);
+vector<string> composites;
+void SieveOfEratosthenes()
 {
-    if (zor % div != 0)
-        return 0;
-    
-    if(dp[start].find(zor) != dp[start].end())
+    composites.push_back("1");
+    vi prime(range + 1, 0);
+    for (int p = 2; p * p <= range; p++)
     {
-        return dp[start][zor];
-    }
-    
-    ll ans = 1;
-    for (ll i = start + 1; i < vec.size(); i++)
-    {
-        zor = zor ^ vec[i - 1];
-        if (zor % (div * 2) == 0)
+        if (prime[p] == false)
         {
-            ans += func(vec, i, div * 2, zor);
+            for (int i = p * p; i <= range; i += p)
+                if (!prime[i])
+                    prime[i] = i / p;
         }
     }
-    return dp[start][zor] = ans;
+    for (ll i = 0; i < range-5; i++)
+    {
+        if (prime[i] != 0)
+        {
+            composites.push_back(to_string(i));
+        }
+    }
+}
+
+ll checker(string &str, string &com)
+{
+    ll i = 0, j = 0;
+    for (; i < com.size() && j < str.size();)
+    {
+        if (str[j] == com[i])
+        {
+            i++, j++;
+        }
+        else
+        {
+            j++;
+        }
+    }
+    if (i == com.size())
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+ll func()
+{
+    new_int_1(n);
+    new_string(str);
+    for (ll i = 0; i < composites.size(); i++)
+    {
+        if (checker(str, composites[i]))
+        {
+            cout << composites[i].size() << endl
+                 << composites[i] << endl;
+            break;
+        }
+    }
+    return 0;
 }
 int main()
 {
     // FAST;
+    SieveOfEratosthenes();
     testcase(t)
     {
-        new_int_1(n);
-        vi vec = inputvec(n);
-        ll zor = 0;
-        range(i, n)
-        {
-            zor = zor ^ vec[i]; 
-        }
-        ll ans = func(vec, 0, 1, zor);
-        cout << ans << endl;
-        dp.clear();
+        func();
     }
 }

@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
-#define ll long long
+#define ll int
 #define ld long double
 #define V vector
 #define P pair
@@ -59,18 +59,6 @@ typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
 
-vi debugvec;
-void substrvec(vi vec, ll start = 0, ll end = -1)
-{
-    if (end == -1)
-        end = vec.size();
-    vi newvec(end - start);
-    for (ll i = start; i < end; i++)
-    {
-        newvec[i] = vec[i];
-    }
-    debugvec = newvec;
-}
 ll input()
 {
     new_int_1(n);
@@ -85,44 +73,50 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-
-map<ll, map<ll, ll>> dp;
-
-ll func(vi &vec, ll start, ll div, ll zor)
+void copyvec(set<vector<int>> &normalvec, vector<vector<int>> &copyvec)
 {
-    if (zor % div != 0)
-        return 0;
-    
-    if(dp[start].find(zor) != dp[start].end())
+    copyvec = vector<vector<int>>(normalvec.size());
+    ll j = 0;
+    for (auto &i : normalvec)
     {
-        return dp[start][zor];
+        copyvec[j] = i;
+        j++;
     }
-    
-    ll ans = 1;
-    for (ll i = start + 1; i < vec.size(); i++)
-    {
-        zor = zor ^ vec[i - 1];
-        if (zor % (div * 2) == 0)
-        {
-            ans += func(vec, i, div * 2, zor);
-        }
-    }
-    return dp[start][zor] = ans;
+    return;
 }
+vi joiner(vi v1, ll x, vi v2)
+{
+    vi c(v1.size() + v2.size() + 1);
+    range(i, v1.size())
+    {
+        c[i] = v1[i];
+    }
+    c[v1.size()] = x;
+    range(i, v2.size())
+    {
+        c[i + v1.size() + 1] = v2[i];
+    }
+    return c;
+}
+
 int main()
 {
     // FAST;
+    ll h = 2;
+    vi vec = {1};
+    while (vec.size() < 10002)
+    {
+        vec = joiner(vec, h, vec);
+        h++;
+    }
     testcase(t)
     {
         new_int_1(n);
-        vi vec = inputvec(n);
-        ll zor = 0;
-        range(i, n)
+        for (ll i = 0; i < n; i++)
         {
-            zor = zor ^ vec[i]; 
+            cout << vec[i] << " ";
         }
-        ll ans = func(vec, 0, 1, zor);
-        cout << ans << endl;
-        dp.clear();
+        cout << endl;
     }
+    
 }

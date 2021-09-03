@@ -59,18 +59,6 @@ typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
 
-vi debugvec;
-void substrvec(vi vec, ll start = 0, ll end = -1)
-{
-    if (end == -1)
-        end = vec.size();
-    vi newvec(end - start);
-    for (ll i = start; i < end; i++)
-    {
-        newvec[i] = vec[i];
-    }
-    debugvec = newvec;
-}
 ll input()
 {
     new_int_1(n);
@@ -85,44 +73,34 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-
-map<ll, map<ll, ll>> dp;
-
-ll func(vi &vec, ll start, ll div, ll zor)
+ll func()
 {
-    if (zor % div != 0)
+    new_int_1(n);
+    vi vec = inputvec(n);
+    if (vec.size() == 2 || vec.size() == 1)
+    {
         return 0;
-    
-    if(dp[start].find(zor) != dp[start].end())
-    {
-        return dp[start][zor];
     }
-    
-    ll ans = 1;
-    for (ll i = start + 1; i < vec.size(); i++)
+    mii freq;
+    for (auto i : vec)
     {
-        zor = zor ^ vec[i - 1];
-        if (zor % (div * 2) == 0)
-        {
-            ans += func(vec, i, div * 2, zor);
-        }
+        freq[i]++;
     }
-    return dp[start][zor] = ans;
+    ll maxi = INT_MIN;
+    for (auto i : freq)
+    {
+        maxi = max(maxi, i.second);
+    }
+    ll ans = vec.size() - maxi;
+
+    ans = min(ans, n - 2);
+    return ans;
 }
 int main()
 {
     // FAST;
     testcase(t)
     {
-        new_int_1(n);
-        vi vec = inputvec(n);
-        ll zor = 0;
-        range(i, n)
-        {
-            zor = zor ^ vec[i]; 
-        }
-        ll ans = func(vec, 0, 1, zor);
-        cout << ans << endl;
-        dp.clear();
+        cout << func() << endl;
     }
 }

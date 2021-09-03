@@ -59,18 +59,6 @@ typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
 
-vi debugvec;
-void substrvec(vi vec, ll start = 0, ll end = -1)
-{
-    if (end == -1)
-        end = vec.size();
-    vi newvec(end - start);
-    for (ll i = start; i < end; i++)
-    {
-        newvec[i] = vec[i];
-    }
-    debugvec = newvec;
-}
 ll input()
 {
     new_int_1(n);
@@ -85,44 +73,56 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-
-map<ll, map<ll, ll>> dp;
-
-ll func(vi &vec, ll start, ll div, ll zor)
+ll summ(vi &vec)
 {
-    if (zor % div != 0)
-        return 0;
-    
-    if(dp[start].find(zor) != dp[start].end())
+    return accumulate(vec.begin(), vec.end(), 0LL);
+}
+ll func()
+{
+    new_int_1(col);
+    vi fc = inputvec(col);
+    vi sc = inputvec(col);
+    //preprocessing
+    vi pfc(col, 0);
+    pfc[col - 1] = fc[col - 1];
+    for (ll i = col - 2; i >= 0; i--)
     {
-        return dp[start][zor];
+        pfc[i] = pfc[i + 1] + fc[i];
     }
-    
-    ll ans = 1;
-    for (ll i = start + 1; i < vec.size(); i++)
+
+    vi psc(col, 0);
+    psc[col - 1] = sc[col - 1];
+    for (ll i = col - 2; i >= 0; i--)
     {
-        zor = zor ^ vec[i - 1];
-        if (zor % (div * 2) == 0)
+        psc[i] = psc[i + 1] + sc[i];
+    }
+
+    bool flag = false;
+    ll sum = 0;
+    for (ll i = 0; i < col; i++)
+    {
+
+        if (!flag)
         {
-            ans += func(vec, i, div * 2, zor);
+            sum += fc[i];
+        }
+        if (pfc[i] <= psc[i])
+            flag = true;
+        if (i == col - 1)
+            flag = true;
+        if (flag)
+        {
+            sum += sc[i];
         }
     }
-    return dp[start][zor] = ans;
+    cout << pfc[0] + psc[0] - sum << endl;
+    return 0;
 }
 int main()
 {
     // FAST;
     testcase(t)
     {
-        new_int_1(n);
-        vi vec = inputvec(n);
-        ll zor = 0;
-        range(i, n)
-        {
-            zor = zor ^ vec[i]; 
-        }
-        ll ans = func(vec, 0, 1, zor);
-        cout << ans << endl;
-        dp.clear();
+        func();
     }
 }
