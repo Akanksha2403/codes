@@ -69,39 +69,26 @@ vi inputvec(ll n, ll start = 0)
     vi vec(n);
     for (ll i = start; i < n; i++)
     {
-        vec[i] = input();
+    vec[i] = input();
     }
     return vec;
 }
-class Solution
+ll func()
 {
-public:
-    int majorityElement(vector<int> &nums)
-    {
-        map<int, int> freq;
-        int n = nums.size();
+    new_int_1(n);
+    vi vec = inputvec(n);
+    ll sum = accumulate(vec.begin(), vec.end(), ((ld)0));
+    ll ans = sum % n;
+    ans = ans * (n - ans);
+    cout << ans << endl;
 
-        // iteration process
-        for(auto element : nums)
-        {
-            freq[element]++;
-        }
-
-        // map me check karna
-        for (auto i : freq)
-        {
-            if (i.second > n / 2)
-            {
-                return i.first;
-            }
-        }
-    }
-};
+    return 0;
+}
 int main()
 {
-    FAST;
-
-    Solution s;
-    vector<int> a = {1, 1, 1, 2, 2};
-    cout << s.majorityElement(a) << endl;
+    // FAST;
+    testcase(t)
+    {
+        func();
+    }
 }

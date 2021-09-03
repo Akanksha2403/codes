@@ -73,35 +73,24 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-class Solution
+ll func(vi &start, vi &finish)
 {
-public:
-    int majorityElement(vector<int> &nums)
+    vi ans;
+    ll n = start.size();
+    ll starting = 0;
+    range(i, n)
     {
-        map<int, int> freq;
-        int n = nums.size();
-
-        // iteration process
-        for(auto element : nums)
+        if(start[i] >= starting)
         {
-            freq[element]++;
-        }
-
-        // map me check karna
-        for (auto i : freq)
-        {
-            if (i.second > n / 2)
-            {
-                return i.first;
-            }
+            ans.push_back(i);
+            starting = finish[i];
         }
     }
-};
+    return 0;
+}
 int main()
 {
-    FAST;
-
-    Solution s;
-    vector<int> a = {1, 1, 1, 2, 2};
-    cout << s.majorityElement(a) << endl;
+    vi start = {1, 3, 0, 5, 8, 5};
+    vi finish = {2, 4, 6, 7, 9, 9};
+    func(start, finish);
 }

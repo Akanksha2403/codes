@@ -73,24 +73,66 @@
 //     }
 //     return vec;
 // }
-// ll func(ll n)
+// ll func()
 // {
-//     string s = to_string(n);
-//     ll l = stoi(string(s.length(), 1));
-
-//     range(i, n)
+//     new_int_2(a, b);
+//     if (b > a)
+//         swap(b, a);
+//     if (a == b)
 //     {
+//         cout << 0 << " " << 0 << endl;
+//         return 0;
+//     }
+//     ll ans1 = a - b;
+//     if (a % ans1 == 0)
+//     {
+//         cout << ans1 << " " << 0 << endl;
+//         return 0;
+//     }
+//     else
+//     {
+//         ll base = a / ans1 * ans1;
+//         ll up = base + ans1;
+//         if (abs(up - a) > abs(base - a))
+//         {
+//             cout << ans1 << " " << abs(base - a) << endl;
+//             return 0;
+//         }
+//         else
+//         {
+//             cout << ans1 << " " << abs(up - a) << endl;
+//             return 0;
+//         }
 //     }
 
 //     return 0;
 // }
-// int main()
+// ll main()
 // {
 //     // FAST;
 //     testcase(t)
 //     {
-//         new_int_2(a, b);
-//         ll ans = func(b) - func(a);
-//         cout << ans << endl;
+//         func();
 //     }
 // }
+
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
+
+int main()
+{
+    ll t, a, b;
+    cin >> t;
+    while (t--)
+    {
+        cin >> a >> b;
+        if (a == b)
+            cout << 0 << " " << 0 << endl;
+        else
+        {
+            ll dif = abs(b - a);
+            cout << dif << " " << min(a % (dif), dif - a % (dif)) << endl;
+        }
+    }
+}

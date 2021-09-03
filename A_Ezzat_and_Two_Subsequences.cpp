@@ -73,35 +73,31 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-class Solution
+string toprecision(ld num, ll precision)
 {
-public:
-    int majorityElement(vector<int> &nums)
-    {
-        map<int, int> freq;
-        int n = nums.size();
+    string str = to_string(num);
 
-        // iteration process
-        for(auto element : nums)
-        {
-            freq[element]++;
-        }
+    ll req0 = precision - (str.length() - str.find('.'));
+    str = str + string(req0+1, '0');
+    return str;
+}
+ll func()
+{
+    new_int_1(n);
+    vi vec = inputvec(n);
+    ld a = *max_element(all(vec));
+    ld b = ((ld)accumulate(vec.begin(), vec.end(), 0LL) - a) / ((ld)vec.size() - 1);
+    ld c = a+b;
+    cout << fixed << setprecision(9) << c << endl;
+    // cout << toprecision(a+b, 9) << endl;
 
-        // map me check karna
-        for (auto i : freq)
-        {
-            if (i.second > n / 2)
-            {
-                return i.first;
-            }
-        }
-    }
-};
+    return 0;
+}
 int main()
 {
-    FAST;
-
-    Solution s;
-    vector<int> a = {1, 1, 1, 2, 2};
-    cout << s.majorityElement(a) << endl;
+    // FAST;
+    testcase(t)
+    {
+        func();
+    }
 }

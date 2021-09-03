@@ -73,35 +73,43 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-class Solution
+vector<ll> notobinary(ll n)
 {
-public:
-    int majorityElement(vector<int> &nums)
+    vi vec(63);
+    for (ll i = 62; i >= 0; i--)
     {
-        map<int, int> freq;
-        int n = nums.size();
-
-        // iteration process
-        for(auto element : nums)
+        vec[i] = (n % 2);
+        n = n / 2;
+    }
+    return vec;
+}
+ll func()
+{
+    new_int_2(n, k);
+    vi vec = inputvec(n);
+    vi base(63, 0);
+    range(i, n)
+    {
+        vi newvec = notobinary(vec[i]);
+        for (ll j = 0; j < base.size(); j++)
         {
-            freq[element]++;
-        }
-
-        // map me check karna
-        for (auto i : freq)
-        {
-            if (i.second > n / 2)
-            {
-                return i.first;
-            }
+            base[j] += newvec[j];
         }
     }
-};
+    
+    ll opr = 0;
+    for (ll i = 0; i < base.size(); i++)
+    {
+        opr += ceil(((ld)base[i]) / ((ld)k));
+    }
+
+    return opr;
+}
 int main()
 {
-    FAST;
-
-    Solution s;
-    vector<int> a = {1, 1, 1, 2, 2};
-    cout << s.majorityElement(a) << endl;
+    // FAST;
+    testcase(t)
+    {
+        cout << func() << endl;
+    }
 }

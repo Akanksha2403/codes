@@ -1,1 +1,0 @@
-{"name":"Local: B_Plus_and_Multiply","url":"d:\\Codes\\B_Plus_and_Multiply.cpp","tests":[{"id":1625390093703,"input":"5\n24 3 5\n10 3 6\n2345 1 4\n19260817 394 485\n19260817 233 264","output":"Yes\nNo\nYes\nNo\nYes"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes\\B_Plus_and_Multiply.cpp","group":"local","local":true}

@@ -66,12 +66,41 @@ vi inputvec(ll n, ll start = 0)
 }
 ll gcd(ll a, ll b)
 {
-    if(a == 0) return b; return gcd(b, a%b);
+    while (b != 0)
+    {
+        ll temp = a;
+        a = b;
+        b = temp % a;
+    }
+    return a;
+}
+ll lcm(ll a, ll b)
+{
+    return a * b / gcd(a, b);
 }
 ll func()
 {
-    cout << 1 << endl;
-    return 0;
+    new_int_1(n);
+    if (n == 1)
+        return 2;
+    ll lcmof = 2;
+    ll used = 0;
+    ll ans = 0;
+    for (ll i = 2; i <= n + 1; i++)
+    {
+        lcmof = lcm(i, lcmof);
+        ll left = n / lcmof;
+        ll nleft = n - left - used;
+        used = n - left;
+        ans += nleft * i;
+        ans = ans%mod;
+        if (n / lcmof == 0)
+        {
+            break;
+        }
+    }
+
+    return ans;
 }
 int main()
 {
@@ -79,6 +108,6 @@ int main()
     new_int_1(t);
     while (t--)
     {
-        func();
+        cout << func() << endl;
     }
 }

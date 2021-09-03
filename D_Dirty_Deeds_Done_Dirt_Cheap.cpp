@@ -73,35 +73,41 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-class Solution
-{
-public:
-    int majorityElement(vector<int> &nums)
-    {
-        map<int, int> freq;
-        int n = nums.size();
-
-        // iteration process
-        for(auto element : nums)
-        {
-            freq[element]++;
-        }
-
-        // map me check karna
-        for (auto i : freq)
-        {
-            if (i.second > n / 2)
-            {
-                return i.first;
-            }
-        }
-    }
-};
 int main()
 {
-    FAST;
-
-    Solution s;
-    vector<int> a = {1, 1, 1, 2, 2};
-    cout << s.majorityElement(a) << endl;
+    // FAST;
+    new_int_1(n);
+    vector<pii> ans;
+    range(i, n)
+    {
+        new_int_2(a, b);
+        ans.push_back(mp(a, b));
+    }
+    V<tuple<ll, ll, ll>> m1, m2;
+    range(i, n)
+    {
+        if (ans[i].fi < ans[i].se)
+            m1.push_back(make_tuple(ans[i].fi, ans[i].se, i));
+        else
+            m2.push_back(make_tuple(ans[i].se, ans[i].fi, i));
+    }
+    sort(m1.begin(), m1.end()); sort(m2.begin(), m2.end());
+    reverse(all(m1));
+    cout << max(m1.size(), m2.size()) << endl;
+    if (m1.size() > m2.size())
+    {
+        range(i, m1.size())
+        {
+            cout << get<2>(m1[i])+1 << " ";
+        }
+    }
+    else
+    {
+        range(i, m2.size())
+        {
+            cout << get<2>(m2[i])+1 << " ";
+        }
+    }
+    cout << endl;
+    return 0;
 }

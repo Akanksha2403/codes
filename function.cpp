@@ -180,9 +180,18 @@ void SieveOfEratosthenes()
         factors[i] = factors[prime[factors]]+1;
     }
     */
-}
+// }
 // sieve ends here */
-
+vector<ll> notobinary(ll n)
+{
+    vi vec(63);
+    for (ll i = 62; i >= 0; i--)
+    {
+        vec[i] = (n % 2);
+        n = n / 2;
+    }
+    return vec;
+}
 int main()
 {
     ios_base::sync_with_stdio(false);

@@ -73,35 +73,39 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-class Solution
+void mergesort(vi &vec, ll start = 0, ll stop = -1)
 {
-public:
-    int majorityElement(vector<int> &nums)
+    if (start + 1 == stop)
     {
-        map<int, int> freq;
-        int n = nums.size();
-
-        // iteration process
-        for(auto element : nums)
+        return;
+    }
+    stop == -1 ? stop = vec.size() : stop = stop;
+    mergesort(vec, start, stop / 2), mergesort(vec, stop / 2, stop);
+    ll i = start;
+    ll j = stop / 2;
+    vi sortedarr(stop - start);
+    while (i - start + j - stop / 2 != stop)
+    {
+        if (i == stop/2 || vec[i] >= vec[j])
         {
-            freq[element]++;
+            sortedarr[i - start + j - stop / 2] = vec[j];
+            j++;
         }
-
-        // map me check karna
-        for (auto i : freq)
+        else if(j == stop || vec[i] < vec[j])
         {
-            if (i.second > n / 2)
-            {
-                return i.first;
-            }
+            sortedarr[i - start + j - stop / 2] = vec[i];
+            i++;
         }
     }
-};
+    for(ll i = start; i != stop; i++)
+    {
+        vec[i] = sortedarr[i];
+    }
+}
 int main()
 {
-    FAST;
-
-    Solution s;
-    vector<int> a = {1, 1, 1, 2, 2};
-    cout << s.majorityElement(a) << endl;
+    // FAST;
+    new_int_1(n);
+    vi vec = inputvec(n);
+    mergesort(vec);
 }

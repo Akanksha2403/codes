@@ -73,35 +73,45 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-class Solution
+ll func()
 {
-public:
-    int majorityElement(vector<int> &nums)
+    new_string(str);
+    map<char, int> freq;
+    for (auto i : str)
     {
-        map<int, int> freq;
-        int n = nums.size();
-
-        // iteration process
-        for(auto element : nums)
+        if (freq.find(i) != freq.end() || i > str.size() + 'a' - 1)
         {
-            freq[element]++;
+            return 0;
         }
-
-        // map me check karna
-        for (auto i : freq)
+        else
         {
-            if (i.second > n / 2)
-            {
-                return i.first;
-            }
+            freq[i] = 1;
         }
     }
-};
+    if (str.size() == 1)
+        return 1;
+    ll ind = str.find('a');
+    for (ll i = ind; i+1 < str.length(); i++)
+    {
+        if (str[i] > str[i + 1])
+        {
+            return 0;
+        }
+    }
+    for (ll i = ind; i-1 >= 0; i--)
+    {
+        if (str[i] > str[i - 1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
 int main()
 {
-    FAST;
-
-    Solution s;
-    vector<int> a = {1, 1, 1, 2, 2};
-    cout << s.majorityElement(a) << endl;
+    // FAST;
+    testcase(t)
+    {
+        func() ? cout << "YES" << endl : cout << "NO" << endl;
+    }
 }
