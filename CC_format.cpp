@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
+#define INF LONG_LONG_MAX
+#define INT_INF INT_MAX
 #define ll long long
 #define ld long double
 #define V vector
@@ -15,23 +17,14 @@ using namespace std;
 #define pf push_front
 #define fi first
 #define se second
-#define FAST ios_base::sync_with_stdio(false), cin.tie(NULL);
-
+#define FAST ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define all(a) a.begin(), a.end()
-#define print(x)                \
-    for (auto element : x)      \
-        cout << element << " "; \
-    cout << endl
 #define db(x) cout << #x << " = " << x << "\n"
-#define range(i, n) for (ll i = 0; i < n; i++)
-#define ranges(i, s, n) for (ll i = s; i < n; i++)
+#define range(i, stop) for (ll i = 0; i != stop; i++)
+#define ranges(i, start, stop) for (ll i = start; i != stop; i++)
 #define sranges(i, start, stop, step) for (ll i = start; i != stop; i = i + step)
-#define pb push_back
-#define mp make_pair
-#define all(a) a.begin(), a.end()
-#define testcase(t) \
-    new_int_1(t);   \
-    range(i, t)
+#define iterate(i, start, end) for (auto i = start; i != end; i++)
+
 #define new_string(str) \
     string str;         \
     cin >> str;
@@ -53,11 +46,19 @@ const ld pi = acos(-1);
 typedef vector<string> vs;
 typedef vector<ll> vi;
 typedef pair<ll, ll> pii;
-typedef pair<ll, string> pis;
-typedef pair<string, string> pss;
-typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
+
+void print(ll x)
+{
+    cout << x << endl;
+}
+void print(vi x)
+{
+    for (auto &i : x)
+        cout << i << " ";
+    cout << endl;
+}
 
 ll input()
 {
@@ -75,37 +76,16 @@ vi inputvec(ll n, ll start = 0)
 }
 ll func()
 {
-
+    
     return 0;
 }
-const ll N = 10000;
-vi adj[N];
-bool vis[N] = {};
-void dfs(int);
+
 int main()
 {
     // FAST;
-    ll n, m;
-    cin >> n >> m;
-
-    range(i, m)
+    new_int_1(t);
+    range(i, t)
     {
-        new_int_2(x, y);
-        adj[x].push_back(y);
-        adj[y].push_back(x);
-    }
-    dfs(1);
-}
-void dfs(int x)
-{
-    cout << x << endl;
-    vis[x] = 1;
-    for (auto i : adj[x])
-    {
-        if (vis[i] == 0)
-        {
-
-            dfs(i);
-        }
+        func();
     }
 }

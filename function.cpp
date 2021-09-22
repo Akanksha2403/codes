@@ -166,7 +166,7 @@ ll gcd(ll a, ll b)
 }
 
 /* TO FIND NO OF PRIME FACTORS OF A NUMBER
- ll nooffactors(ll n)
+ll nooffactors(ll n)
 {
     ll ans = 0; // Print the number of 2s that divide n
     while (n % 2 == 0)
@@ -245,27 +245,26 @@ ll ncr(ll n, ll r)
     {
         ans = ((ans % m) * (i % m)) % m;
     }
-    */
-// }
-// sieve ends here */
-vector<ll> notobinary(ll n)
-{
-    vi vec(63);
-    for (ll i = 62; i >= 0; i--)
+    * /
+        // }
+        // sieve ends here */
+        vector<ll> notobinary(ll n)
     {
-        vec[i] = (n % 2);
-        n = n / 2;
+        vi vec(63);
+        for (ll i = 62; i >= 0; i--)
+        {
+            vec[i] = (n % 2);
+            n = n / 2;
+        }
+        return vec;
     }
-    return vec;
-}
 
-
-int main()
-{
-    ios_base::sync_with_stdio(false);
-    new_int_1(t);
-    rep(i, 0, t)
+    int main()
     {
-        0;
+        ios_base::sync_with_stdio(false);
+        new_int_1(t);
+        rep(i, 0, t)
+        {
+            0;
+        }
     }
-}

@@ -1,6 +1,9 @@
+import time
+# import pyautogui
 
-import pyautogui
-# pyautogui.failSafeCheck = False
-pyautogui.sleep(5)
-for i in range(500):
-    pyautogui.leftClick()
+# time.sleep(5)
+# for i in range(100):
+#     # pyautogui.leftClick()
+#     pyautogui.hotkey('ctrl', 'v')
+#     pyautogui.press('enter')
+ 
