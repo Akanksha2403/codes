@@ -76,51 +76,40 @@ vi inputvec(ll n, ll start = 0)
 }
 ll func()
 {
-
-    return 0;
-}
-V<bool> visited;
-void bfs(ll n, map<ll, US<ll>> &graph)
-{
-    queue<ll> q;
-    visited[n] = true;
-    q.push(n);
-    while (q.size() != 0)
+    new_int_2(n, m);
+    vs room;
+    range(i, n)
     {
-        n = q.front();
-        cout << n << endl;
-        q.pop();
-        for (auto i : graph[n])
+        new_string(str);
+        room.push_back(str);
+    }
+    V<V<bool>> visited(n, V<bool>(m, false));
+
+    range(i, n)
+    {
+        range(j, m)
         {
-            if (visited[i])
-                continue;
-            q.push(i);
-            visited[i] = true;
+            ll ci = i, cj = j;
+            stack<pii> check;
+            check.push(mp(i, j));
+            do
+            {
+                ll ci = check.top().first, cj = check.top().second;
+                if (room[ci][cj] == '.' && visited[ci][cj] == false)
+                {
+                    if (ci + 1 < n && cj + 1 < m && ci + 1 >= 0 && cj + 1 >= 0 && room[ci + 1][cj + 1] == '.' && visited[ci][cj] == false)
+                    {
+                        
+                    }
+                }
+            } while (check.size());
         }
     }
+    return 0;
 }
+
 int main()
 {
     // FAST;
-    /* 
-8
-1 2
-1 3
-2 4 
-2 5 
-4 5
-5 6
-6 3
-3 5
-    */
-    new_int_1(n);
-    map<ll, US<ll>> graph;
-    range(i, n)
-    {
-        new_int_2(a, b);
-        graph[a].insert(b);
-        graph[b].insert(a);
-    }
-    visited = V<bool>(n + 1, 0);
-    bfs(graph.begin()->first, graph);
+    func();
 }

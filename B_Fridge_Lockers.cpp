@@ -18,7 +18,7 @@ using namespace std;
 #define fi first
 #define se second
 #define FAST ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-#define all(a) a.begin(), a.end()
+// #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
 #define range(i, stop) for (ll i = 0; i != stop; i++)
 #define ranges(i, start, stop) for (ll i = start; i != stop; i++)
@@ -40,6 +40,9 @@ using namespace std;
 #define new_int_4(a, b, c, d) \
     ll a, b, c, d;            \
     cin >> a >> b >> c >> d;
+#define endwith(a) \
+    print(a);      \
+    return a;
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
 const ld pi = acos(-1);
@@ -49,17 +52,16 @@ typedef pair<ll, ll> pii;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
 
-void print(ll x)
-{
-    cout << x << endl;
-}
 void print(vi x)
 {
     for (auto &i : x)
         cout << i << " ";
     cout << endl;
 }
-
+void print(ll x)
+{
+    cout << x << endl;
+}
 ll input()
 {
     new_int_1(n);
@@ -76,51 +78,50 @@ vi inputvec(ll n, ll start = 0)
 }
 ll func()
 {
+    new_int_2(n, c);
+    vi vec = inputvec(n);
+
+    sort(vec.begin(), vec.end());
+    ll sum = n - 1 + n - 3;
+    if (sum > c)
+    {
+        print(-1);
+        return 0;
+    }
+
+    ll cost = 0;
+    V<pii> answers;
+    for (ll i = 1; i < n; i++)
+    {
+        answers.push_back(mp(0, i));
+        cost += vec[0] + vec[i];
+    }
+    for (ll i = 3; i < n; i++)
+    {
+        answers.push_back(mp(1, i));
+        cost += vec[1] + vec[i];
+    }
+    for (ll i = sum; i < c; i++)
+    {
+        answers.push_back(mp(0, 1));
+        cost += vec[0] + vec[1];
+    }
+
+    cout << cost << endl;
+    range(i, answers.size())
+    {
+        cout << answers[i].first + 1 << " " << answers[i].second + 1 << endl;
+    }
 
     return 0;
 }
-V<bool> visited;
-void bfs(ll n, map<ll, US<ll>> &graph)
-{
-    queue<ll> q;
-    visited[n] = true;
-    q.push(n);
-    while (q.size() != 0)
-    {
-        n = q.front();
-        cout << n << endl;
-        q.pop();
-        for (auto i : graph[n])
-        {
-            if (visited[i])
-                continue;
-            q.push(i);
-            visited[i] = true;
-        }
-    }
-}
+
 int main()
 {
     // FAST;
-    /* 
-8
-1 2
-1 3
-2 4 
-2 5 
-4 5
-5 6
-6 3
-3 5
-    */
-    new_int_1(n);
-    map<ll, US<ll>> graph;
-    range(i, n)
+    new_int_1(t);
+    range(i, t)
     {
-        new_int_2(a, b);
-        graph[a].insert(b);
-        graph[b].insert(a);
+        func();
     }
-    visited = V<bool>(n + 1, 0);
-    bfs(graph.begin()->first, graph);
 }

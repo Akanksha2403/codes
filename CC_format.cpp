@@ -24,22 +24,11 @@ using namespace std;
 #define ranges(i, start, stop) for (ll i = start; i != stop; i++)
 #define sranges(i, start, stop, step) for (ll i = start; i != stop; i = i + step)
 #define iterate(i, start, end) for (auto i = start; i != end; i++)
-
-#define new_string(str) \
-    string str;         \
-    cin >> str;
-#define new_int_1(t) \
-    ll t;            \
-    cin >> t;
-#define new_int_2(a, b) \
-    ll a, b;            \
-    cin >> a >> b;
-#define new_int_3(a, b, c) \
-    ll a, b, c;            \
-    cin >> a >> b >> c;
-#define new_int_4(a, b, c, d) \
-    ll a, b, c, d;            \
-    cin >> a >> b >> c >> d;
+#define new_string(str)string str;cin >> str;
+#define new_int_1(t) ll t; cin >> t;
+#define new_int_2(a, b) ll a, b; cin >> a >> b;
+#define new_int_3(a, b, c) ll a, b, c; cin >> a >> b >> c;
+#define new_int_4(a, b, c, d) ll a, b, c, d; cin >> a >> b >> c >> d;
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
 const ld pi = acos(-1);
@@ -48,35 +37,15 @@ typedef vector<ll> vi;
 typedef pair<ll, ll> pii;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
-
-void print(ll x)
-{
-    cout << x << endl;
-}
-void print(vi x)
-{
-    for (auto &i : x)
-        cout << i << " ";
-    cout << endl;
-}
-
-ll input()
-{
-    new_int_1(n);
-    return n;
-}
+void print(ll x){ cout << x << endl; }
+void print(vi x){ for (auto &i : x) cout << i << " "; cout << endl; }
+ll input(){ new_int_1(n); return n; }
 vi inputvec(ll n, ll start = 0)
-{
-    vi vec(n);
-    for (ll i = start; i < n; i++)
-    {
-        vec[i] = input();
-    }
-    return vec;
-}
+{ vi vec(n); for (ll i = start; i < n; i++){ vec[i] = input(); } return vec; }
+
 ll func()
 {
-    
+    // write your code here
     return 0;
 }
 

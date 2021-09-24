@@ -74,53 +74,54 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
+
 ll func()
 {
-
-    return 0;
-}
-V<bool> visited;
-void bfs(ll n, map<ll, US<ll>> &graph)
-{
-    queue<ll> q;
-    visited[n] = true;
-    q.push(n);
-    while (q.size() != 0)
+    new_int_1(n);
+    UM<ll, ll> dp;
+    vi vec = inputvec(n + 1, 1);
+    // [score] [i]
+    for (ll i = 1; i <= n; i++)
     {
-        n = q.front();
-        cout << n << endl;
-        q.pop();
-        for (auto i : graph[n])
+        ll ci = i;
+        stack<ll> st;
+        ll add;
+        while (ci <= n)
         {
-            if (visited[i])
-                continue;
-            q.push(i);
-            visited[i] = true;
+            add = vec[ci];
+            st.push(ci);
+            ci += add;
+            if (ci > n)
+                st.push(ci);
+            if(dp.find(ci) != dp.end()) break;
+        }
+        ll ni = st.top();
+        ll m;
+        while (st.size())
+        {
+            m = st.top();
+            if (dp.find(ni) == dp.end())
+                dp[ni] = 0;
+            dp[m] = dp[ni] + ni - m;
+            ni = st.top();
+            st.pop();
         }
     }
+    ll score = -INT_INF;
+    for (ll i = 1; i <= n; i++)
+    {
+        score = max(dp[i], score);
+    }
+    cout << score << endl;
+    return 0;
 }
+
 int main()
 {
-    // FAST;
-    /* 
-8
-1 2
-1 3
-2 4 
-2 5 
-4 5
-5 6
-6 3
-3 5
-    */
-    new_int_1(n);
-    map<ll, US<ll>> graph;
-    range(i, n)
+    FAST;
+    new_int_1(t);
+    range(i, t)
     {
-        new_int_2(a, b);
-        graph[a].insert(b);
-        graph[b].insert(a);
+        func();
     }
-    visited = V<bool>(n + 1, 0);
-    bfs(graph.begin()->first, graph);
 }
