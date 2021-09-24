@@ -74,44 +74,18 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-ll dfs(ll i, ll j, ll n, ll m, vs &room, V<V<bool>> &visited)
-{
-    if (i < n && j < n && i >= 0 && j >= 0 && room[i][j] == '.' && visited[i][j] == false)
-    {
-        visited[i][j] = true;
-        dfs(i + 1, j, n, m, room, visited);
-        dfs(i - 1, j, n, m, room, visited);
-        dfs(i, j + 1, n, m, room, visited);
-        dfs(i, j - 1, n, m, room, visited);
-        return 1;
-    }
-    return 0;
-}
-
 ll func()
 {
-    new_int_2(n, m);
-    vs room;
-    range(i, n)
-    {
-        new_string(str);
-        room.push_back(str);
-    }
-    V<V<bool>> visited(n, V<bool>(m, false));
-    ll sum = 0;
-    range(i, n) range(j, m)
-    {
-        if (visited[i][j] == false)
-            sum += dfs(i, j, n, m, room, visited);
-    }
-    cout << sum << endl;
+    new_int_2(n, k);
+    
     return 0;
 }
 
 int main()
 {
     // FAST;
-
+    new_int_1(t);
+    range(i, t)
     {
         func();
     }

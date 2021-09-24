@@ -1,4 +1,8 @@
+
 #include <bits/stdc++.h>
+#include <type_traits>
+#include <string>
+#include <iostream>
 using namespace std;
 #define endl "\n"
 #define INF LONG_LONG_MAX
@@ -49,70 +53,33 @@ typedef pair<ll, ll> pii;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
 
-void print(ll x)
+template <typename... Args>
+auto FoldMultiply(Args... args)
 {
-    cout << x << endl;
-}
-void print(vi x)
-{
-    for (auto &i : x)
-        cout << i << " ";
-    cout << endl;
+    return (args * ... * 1);
 }
 
-ll input()
-{
-    new_int_1(n);
-    return n;
-}
-vi inputvec(ll n, ll start = 0)
-{
-    vi vec(n);
-    for (ll i = start; i < n; i++)
-    {
-        vec[i] = input();
-    }
-    return vec;
-}
-ll dfs(ll i, ll j, ll n, ll m, vs &room, V<V<bool>> &visited)
-{
-    if (i < n && j < n && i >= 0 && j >= 0 && room[i][j] == '.' && visited[i][j] == false)
-    {
-        visited[i][j] = true;
-        dfs(i + 1, j, n, m, room, visited);
-        dfs(i - 1, j, n, m, room, visited);
-        dfs(i, j + 1, n, m, room, visited);
-        dfs(i, j - 1, n, m, room, visited);
-        return 1;
-    }
-    return 0;
-}
+template <typename T>
 
+void my_function(T value)
+{
+    if constexpr (is_same<T, int>)
+    {
+        cout << "int\n";
+    }
+    if constexpr (is_same<T, string>)
+    {
+        cout << "string\n";
+    }
+}
 ll func()
 {
-    new_int_2(n, m);
-    vs room;
-    range(i, n)
-    {
-        new_string(str);
-        room.push_back(str);
-    }
-    V<V<bool>> visited(n, V<bool>(m, false));
-    ll sum = 0;
-    range(i, n) range(j, m)
-    {
-        if (visited[i][j] == false)
-            sum += dfs(i, j, n, m, room, visited);
-    }
-    cout << sum << endl;
+
     return 0;
 }
 
 int main()
 {
     // FAST;
-
-    {
-        func();
-    }
+    cout << FoldMultiply(1, 2, 3, 4, 5) << endl;
 }
