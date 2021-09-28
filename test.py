@@ -1,6 +1,6 @@
 
-# # # import time
-# # # import pyautogui
+import time
+import pyautogui
 
 # # # time.sleep(5)
 # # # for i in range(1000):
@@ -17,10 +17,14 @@
 # import pyautogui
 # pyautogui.displayMousePosition()
 
-freq = dict()
-inp = input()
-for i in inp:
-    if i not in freq:
-        freq[i] = 1
-    else:
-        freq[i] += 1
+
+time.sleep(10)
+pyautogui.PAUSE = 0.5
+for i in range(1000):
+    # pyautogui.leftClick()
+    pyautogui.hotkey('ctrl', 'c')
+    pyautogui.hotkey('alt', 'tab')
+    pyautogui.hotkey('ctrl', 'v')
+    pyautogui.press('enter')
+    pyautogui.hotkey('alt', 'tab')
+    pyautogui.press('down')

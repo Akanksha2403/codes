@@ -1,4 +1,8 @@
 #include <bits/stdc++.h>
+
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 using namespace std;
 #define endl "\n"
 #define INF LONG_LONG_MAX
@@ -48,7 +52,13 @@ typedef vector<ll> vi;
 typedef pair<ll, ll> pii;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
-
+template <typename T>
+bool btn(T a, T b, T c)
+{
+    if ((a <= b && b <= c) || (a >= b && b >= c))
+        return true;
+    return false;
+}
 void print(ll x)
 {
     cout << x << endl;
@@ -59,6 +69,7 @@ void print(vi x)
         cout << i << " ";
     cout << endl;
 }
+void print(string s) { cout << s << endl; }
 
 ll input()
 {
@@ -72,21 +83,108 @@ vi inputvec(ll n, ll start = 0)
     {
         vec[i] = input();
     }
+
     return vec;
 }
-ll func()
+ll n, m;
+V<V<bool>> visited;
+
+bool isValid(ll i, ll j)
 {
-    new_int_2(n, k);
-    
-    return 0;
+    if (!btn(0LL, i, n) || !btn(0LL, j, m))
+        return false;
+    if (visited[i][j] == true)
+        return false;
+    return true;
 }
 
 int main()
 {
-    // FAST;
-    new_int_1(t);
-    range(i, t)
+    FAST;
+    cin >> n >> m;
+    vs vec(n);
+    range(i, n) cin >> vec[i];
+    pii spath;
+    pii endpath;
+    visited = V<V<bool>>(n, V<bool>(m, 0));
+    V<pii> moves = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    V<V<pii>> path(n, V<pii>(m));
+    range(i, n)
     {
-        func();
+        range(j, m)
+        {
+            if (vec[i][j] == '#')
+                visited[i][j] = true;
+            if (vec[i][j] == 'A')
+            {
+                spath.first = i;
+                spath.second = j;
+            }
+            if (vec[i][j] == 'B')
+            { 
+                endpath.first = i;
+                endpath.second = j;
+            }
+        }
     }
+
+    queue<tuple<ll, ll>> opr; // position, string
+    opr.push({spath.first, spath.second});
+    while (opr.size() != 0)
+    {
+        auto [sx, sy] = opr.front();
+        visited[sx][sy] = true;
+        opr.pop();
+        for (auto u : moves)
+        {
+            ll ux = u.second;
+            ll uy = u.first;
+            if (isValid(sx + ux, sy + uy))
+            {
+                opr.push({sx + ux, sy + uy});
+                direction[sx + ux][sy + uy] = 'U';
+                if (sx - 1 == endpath.first && sy == endpath.second)
+                    break;
+            }
+        }
+    }
+
+    if (opr.size() == 0)
+        cout << "NO" << endl;
+    else
+    {
+        cout << "YES" << endl;
+        string st = "";
+        ll fpy = endpath.first;
+        ll fpx = endpath.second;
+
+        while (spath.first != fpy || spath.second != fpx)
+        {
+            if (direction[fpy][fpx] == 'U')
+            {
+                st += 'U';
+                fpy += 1;
+            }
+            else if (direction[fpy][fpx] == 'D')
+            {
+                st += 'D';
+                fpy -= 1;
+            }
+            else if (direction[fpy][fpx] == 'R')
+            {
+                st += 'R';
+                fpx -= 1;
+            }
+            else
+            {
+                st += 'L';
+                fpx += 1;
+            }
+        }
+        reverse(all(st));
+        cout << st.size() << endl;
+        cout << st << endl;
+    }
+
+    return 0;
 }

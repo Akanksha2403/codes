@@ -1,19 +1,32 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define endl "\n"
-#define ll long long int
-#define ld long long double
-#define print(x) for (auto element : x) cout << element << " ";cout << endl
-#define db(x) cout << #x << " = " << x << "\n"
-#define range(i, n) for (ll i = 0; i < n; i++)
-#define loop(i, a, b) for (ll i = a; i < b; i++)
-#define loopr(i, a, b) for (ll i = a; i >= b; i--)
-#define loops(i, a, b, step) for (ll i = a; i < b; i += step)
-#define looprs(i, a, b, step) for (ll i = a; i >= b; i -= step)
-#define pb push_back
+#define INF LONG_LONG_MAX
+#define INT_INF INT_MAX
+#define ll long long
+#define ld long double
+#define V vector
+#define P pair
+#define S string
+#define MS multiset
+#define UM unordered_map
+#define US unordered_set
+#define MM multimap
 #define mp make_pair
+#define pb push_back
+#define pf push_front
+#define fi first
+#define se second
+#define FAST ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define all(a) a.begin(), a.end()
-#define new_string(str) string str; cin >> str;
+#define db(x) cout << #x << " = " << x << "\n"
+#define range(i, stop) for (ll i = 0; i != stop; i++)
+#define ranges(i, start, stop) for (ll i = start; i != stop; i++)
+#define sranges(i, start, stop, step) for (ll i = start; i != stop; i = i + step)
+#define iterate(i, start, end) for (auto i = start; i != end; i++)
+#define new_string(str) \
+    string str;         \
+    cin >> str;
 #define new_int_1(t) \
     ll t;            \
     cin >> t;
@@ -26,35 +39,21 @@ using namespace std;
 #define new_int_4(a, b, c, d) \
     ll a, b, c, d;            \
     cin >> a >> b >> c >> d;
-#define V vector
-#define P pair
-#define MS multiset
-#define UM unordered_map
-#define US unordered_set
-#define MM multimap
-#define mp make_pair
-#define pb push_back
-#define pf push_front
-#define F first
-#define S second
-#define FAST ios_base::sync_with_stdio(false);
-#define all(a) a.begin(), a.end()
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
-const double pi = acos(-1);
+const ld pi = acos(-1);
 typedef vector<string> vs;
-typedef vector<vector<ll>> vvi;
 typedef vector<ll> vi;
 typedef pair<ll, ll> pii;
-typedef pair<ll, string> pis;
-typedef pair<string, string> pss;
-typedef pair<string, ll> psi;
 typedef map<ll, ll> mii;
-typedef map<string, ll> msi;
-typedef map<char, ll> mci;
-typedef map<string, string> mss;
 typedef set<ll> si;
-
+void print(ll x) { cout << x << endl; }
+void print(vi x)
+{
+    for (auto &i : x)
+        cout << i << " ";
+    cout << endl;
+}
 ll input()
 {
     new_int_1(n);
@@ -69,26 +68,38 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
+template <typename T>
+bool btn(T a, T b, T c)
+{
+    if ((a <= b && b <= c) || (a >= b && b >= c))
+        return true;
+    return false;
+}
+
+ll func(vi &vec, ll a, ll b, ll acc)
+{
+    // write your code here
+    if (a == b)
+        return vec[a];
+    ll ans1 = vec[a] + acc - func(vec, a + 1, b, acc);
+    ll ans2 = vec[b] + func(vec, a, b - 1, acc);
+    return max(ans1, ans2);
+}
 
 int main()
 {
-    FAST;
+    // FAST;
     new_int_1(n);
-    vi vec = inputvec(n+2, 1);
-    ll dp[n+2][n+2] = {};
-    
-    loop(i, 1, n+1)
+    vi vec = inputvec(n);
+    vi pre(n, 0);
+    UM<ll, ll> pre;
+    pre[0] = vec[0];
+    for (ll i = 1; i < n; i++)
     {
-        loop(j, 1, n+1)
-        {
-            if(i == j)  continue;
-            // if taking first character as my answer;
-            ll first = vec[i];
-            if(vec[i-1] > vec[j])
-            {
-                dp[i][j] = dp[i+1][j];
-            }
-        }
+        pre[i] = pre[i - 1] + vec[i];
     }
+    
 
+    ll acc = accumulate(all(vec), 0LL);
+    cout << func(vec, 0, n - 1, acc);
 }

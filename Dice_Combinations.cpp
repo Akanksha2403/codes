@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 // Uncomment them for optimisations
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("avx,avx2,fma")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
 #define GET_MACRO(_1,_2,_3,_4,NAME,...) NAME
 #define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1)(__VA_ARGS__)
 #define r4(var, start, stop, step) for(auto var = start; var != stop; var = var + step)
@@ -53,7 +53,16 @@ ll func()
 {
     // write your code here
     new_int_1(n);
-    vi vec = inputvec(n);
+    vi dp(n+1);
+    dp[0] = 1;
+    range(i, 1, n+1)
+    {
+        for(ll j = 1; j <= i && j <= 6; j++)
+        {
+            dp[i] = (dp[i]+dp[i - j])%mod;
+        }
+    }
+    cout << dp[n] << endl;
     
     return 0;
 }
@@ -62,8 +71,8 @@ int main()
 {
     // Uncomment for faster I/O
     // FAST;
-    new_int_1(t);
-    range(t)
+    // new_int_1(t);
+    // range(t)
     {
         func();
     }

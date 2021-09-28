@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 // Uncomment them for optimisations
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("avx,avx2,fma")
+// #pragma GCC optimize("Ofast")
+// #pragma GCC target("avx,avx2,fma")
 #define GET_MACRO(_1,_2,_3,_4,NAME,...) NAME
 #define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1)(__VA_ARGS__)
 #define r4(var, start, stop, step) for(auto var = start; var != stop; var = var + step)
@@ -52,9 +52,21 @@ template<typename... T> void print(T &&...args){ ((cout << args << " "), ...); c
 ll func()
 {
     // write your code here
-    new_int_1(n);
-    vi vec = inputvec(n);
-    
+    new_int_2(n, m);
+    vi vec = inputvec(n+1, 1);
+    sort(all(vec), greater<ll>());
+    V<vi> dp(n+1, vi(m+1, INT_INF));
+    dp[0] = vi(m+1, 0);
+    range(i, n+1) dp[i][0] = 0;
+    range(i, 1, n+1)
+    {
+        range(j, 1, m+1)
+        {
+            
+        }
+    }
+    if(dp[n][m] != INT_INF) print(dp[n][m]);
+    else print(-1);
     return 0;
 }
 
@@ -62,9 +74,7 @@ int main()
 {
     // Uncomment for faster I/O
     // FAST;
-    new_int_1(t);
-    range(t)
-    {
-        func();
-    }
+    // new_int_1(t);
+    // range(t)
+    func();
 }
