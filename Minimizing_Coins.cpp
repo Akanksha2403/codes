@@ -53,16 +53,21 @@ ll func()
 {
     // write your code here
     new_int_2(n, m);
-    vi vec = inputvec(n+1, 1);
+    vi vec = inputvec(n+1, 1); 
+    vec[0] = INT_INF;
     sort(all(vec), greater<ll>());
-    V<vi> dp(n+1, vi(m+1, INT_INF));
-    dp[0] = vi(m+1, 0);
+    V<V<int>> dp(n+1, V<int>(m+1, INT_INF));
+    dp[0][0] = 0;
     range(i, n+1) dp[i][0] = 0;
     range(i, 1, n+1)
     {
         range(j, 1, m+1)
         {
-            
+            dp[i][j] = dp[i-1][j];
+            if(j-vec[i] >= 0 && dp[i][j-vec[i]] != INT_INF)
+            {
+                dp[i][j] = min(dp[i][j], 1+dp[i][j-vec[i]]);
+            }
         }
     }
     if(dp[n][m] != INT_INF) print(dp[n][m]);

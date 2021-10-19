@@ -17,7 +17,7 @@ import pyautogui
 # import pyautogui
 # pyautogui.displayMousePosition()
 
-
+a = input()
 time.sleep(10)
 pyautogui.PAUSE = 0.5
 for i in range(1000):

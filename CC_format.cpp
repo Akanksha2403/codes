@@ -4,7 +4,7 @@
 //#pragma GCC target("avx,avx2,fma")
 #define GET_MACRO(_1,_2,_3,_4,NAME,...) NAME
 #define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1)(__VA_ARGS__)
-#define r4(var, start, stop, step) for(auto var = start; var != stop; var = var + step)
+#define r4(var, start, stop, step) for (auto var = start; start<=stop? var<stop:var>stop ; var = var + step)
 #define r3(var, start, stop) for(auto var = start; var != stop; var++)
 #define r2(var, stop) for(ll var = 0; var != stop; var++)
 #define r1(stop) for(ll start_from_0 = 0; start_from_0 != stop; start_from_0++)
@@ -48,13 +48,15 @@ template <typename T>
 ostream& operator<<(ostream& os, const V<T>& v){for (int i = 0; i < v.size();
 ++i) {os << v[i];if (i != v.size() - 1) os << " ";} return os;}
 template<typename... T> void print(T &&...args){ ((cout << args << " "), ...); cout << endl;}
+template <typename... T, typename Q>
+Q max(Q arg1, T &&...args){Q ans = arg1;((ans = (args > ans ? args : ans)), ...);return ans;}
+template <typename... T, typename Q>
+Q min(Q arg1, T &&...args){Q ans = arg1;((ans = (args < ans ? args : ans)), ...);return ans;}
 
 ll func()
 {
     // write your code here
-    new_int_1(n);
-    vi vec = inputvec(n);
-    
+    auto [a, b, c, d, e] = make_tuple(1, 2, 3, 4, 5);
     return 0;
 }
 
