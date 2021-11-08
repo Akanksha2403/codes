@@ -1,8 +1,21 @@
 #include <bits/stdc++.h>
+// Uncomment them for optimisations
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
+#define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
+#define r4(var, start, stop, step) for (auto var = start; start <= stop ? var < stop : var > stop; var = var + step)
+#define r3(var, start, stop) for (auto var = start; var != stop; var++)
+#define r2(var, stop) for (ll var = 0; var != stop; var++)
+#define r1(stop) for (ll start_from_0 = 0; start_from_0 != stop; start_from_0++)
+#define new_int(...) \
+    ll __VA_ARGS__;  \
+    take_input(__VA_ARGS__)
 using namespace std;
-#pragma GCC optimize("Ofast")
-#pragma GCC target("avx,avx2,fma")
 #define endl "\n"
+#define FULL_INF numeric_limits<double>::infinity()
 #define INF LONG_LONG_MAX
 #define INT_INF INT_MAX
 #define ll long long
@@ -19,46 +32,25 @@ using namespace std;
 #define pf push_front
 #define fi first
 #define se second
-#define FAST ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+#define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
-#define range(i, stop) for (ll i = 0; i != stop; i++)
-#define ranges(i, start, stop) for (ll i = start; i != stop; i++)
-#define sranges(i, start, stop, step) for (ll i = start; i != stop; i = i + step)
-#define iterate(i, start, end) for (auto i = start; i != end; i++)
 #define new_string(str) \
     string str;         \
     cin >> str;
-#define new_int_1(t) \
-    ll t;            \
-    cin >> t;
-#define new_int_2(a, b) \
-    ll a, b;            \
-    cin >> a >> b;
-#define new_int_3(a, b, c) \
-    ll a, b, c;            \
-    cin >> a >> b >> c;
-#define new_int_4(a, b, c, d) \
-    ll a, b, c, d;            \
-    cin >> a >> b >> c >> d;
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
 const ld pi = acos(-1);
 typedef vector<string> vs;
-typedef vector<ll> vi;
 typedef pair<ll, ll> pii;
+typedef vector<ll> vi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
-void print(ll x) { cout << x << endl; }
-void print(vi x)
-{
-    for (auto &i : x)
-        cout << i << " ";
-    cout << endl;
-}
+template <typename... T>
+void take_input(T &&...args) { ((cin >> args), ...); }
 ll input()
 {
-    new_int_1(n);
+    new_int(n);
     return n;
 }
 vi inputvec(ll n, ll start = 0)
@@ -77,33 +69,96 @@ bool btn(T a, T b, T c)
         return true;
     return false;
 }
-UM<ll, UM<ll, ll>> dp;
-ll func(vi &vec, ll pos, ll pos1)
+template <typename T>
+ostream &operator<<(ostream &os, const V<T> &v)
 {
-    // write your code here
-    if (dp.find(pos) != dp.end() && dp[pos].find(pos1) != dp[pos].end())
-        return dp[pos][pos1];
-    if (pos == -1)
-        return 0;
-    ll ans;
-    if (vec[pos] < vec[pos1])
+    for (int i = 0; i < v.size(); ++i)
     {
-        // two answers are there
-        ans = max(1 + func(vec, pos - 1, pos), func(vec, pos - 1, pos1));
+        os << v[i];
+        if (i != v.size() - 1)
+            os << " ";
     }
-    else
-    {
-        ans = func(vec, pos - 1, pos1);
-    }
-    return dp[pos][pos1] = ans;
+    return os;
+}
+template <typename... T>
+void print(T &&...args)
+{
+    ((cout << args << " "), ...);
+    cout << endl;
+}
+template <typename... T>
+void printl(T &&...args) { ((cout << args << " "), ...); }
+template <typename... T, typename Q>
+Q max(Q arg1, T &&...args)
+{
+    Q ans = arg1;
+    ((ans = (args > ans ? args : ans)), ...);
+    return ans;
+}
+template <typename... T, typename Q>
+Q min(Q arg1, T &&...args)
+{
+    Q ans = arg1;
+    ((ans = (args < ans ? args : ans)), ...);
+    return ans;
 }
 
+ld TLD(ll n) { return TLD(n); }
+
+ll func()
+{
+    // write your code here
+
+    return 0;
+}
 int main()
 {
-    FAST;
-    new_int_1(n);
-    vi vec;
-    range(i, n) vec.push_back(input());
-    vec.push_back(INT_INF);
-    cout << func(vec, n - 1, n) << endl;
+    // Uncomment for faster I/O
+    // FAST;
+    new_int(n);
+    vi vec = inputvec(n);
+    V<vi> dp;
+    vi placer;
+    dp.pb(placer);
+    dp[0].pb(vec[0]);
+    range(i, 1, n)
+    {
+        ll I = vec[i];
+        ll l = 0, r = dp.size()-1, mid;
+        while (l <= r)
+        {
+            mid = (l + r) / 2;
+            ll f = dp[mid][dp[mid].size() - 1];
+            if (f == I)
+            {
+                break;
+            }
+            else if (f < I)
+            {
+                l = mid + 1;
+            }
+            else
+            {
+                r = mid - 1;
+            }
+        }
+        while (dp[mid][dp[mid].size() - 1] < I)
+        {
+            mid++;
+            if (mid == dp.size())
+            {
+                break;
+            }
+        }
+        if (mid < dp.size())
+        {
+            dp[mid].pb(I);
+        }
+        else
+        {
+            dp.push_back(placer);
+            dp[mid].pb(I);
+        }
+    }
+    print(dp.size());
 }

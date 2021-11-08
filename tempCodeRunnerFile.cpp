@@ -10,6 +10,9 @@
 #define r3(var, start, stop) for (auto var = start; var != stop; var++)
 #define r2(var, stop) for (ll var = 0; var != stop; var++)
 #define r1(stop) for (ll start_from_0 = 0; start_from_0 != stop; start_from_0++)
+#define newint(...) \
+    ll __VA_ARGS__; \
+    take_input(__VA_ARGS__)
 using namespace std;
 #define endl "\n"
 #define FULL_INF numeric_limits<double>::infinity()
@@ -24,6 +27,7 @@ using namespace std;
 #define UM unordered_map
 #define US unordered_set
 #define MM multimap
+#define mt make_tuple
 #define mp make_pair
 #define pb push_back
 #define pf push_front
@@ -35,24 +39,6 @@ using namespace std;
 #define new_string(str) \
     string str;         \
     cin >> str;
-#define new_int_1(t) \
-    ll t;            \
-    cin >> t;
-#define new_int_2(a, b) \
-    ll a, b;            \
-    cin >> a >> b;
-#define new_int_3(a, b, c) \
-    ll a, b, c;            \
-    cin >> a >> b >> c;
-#define new_int_4(a, b, c, d) \
-    ll a, b, c, d;            \
-    cin >> a >> b >> c >> d;
-#define new_int_5(a, b, c, d, e) \
-    ll a, b, c, d, e;            \
-    cin >> a >> b >> c >> d >> e;
-#define new_int_6(a, b, c, d, e, f) \
-    ll a, b, c, d, e, f;            \
-    cin >> a >> b >> c >> d >> e >> f;
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
 const ld pi = acos(-1);
@@ -61,9 +47,11 @@ typedef pair<ll, ll> pii;
 typedef vector<ll> vi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
+template <typename... T>
+void take_input(T &&...args) { ((cin >> args), ...); }
 ll input()
 {
-    new_int_1(n);
+    newint(n);
     return n;
 }
 vi inputvec(ll n, ll start = 0)
@@ -85,8 +73,7 @@ bool btn(T a, T b, T c)
 template <typename T>
 ostream &operator<<(ostream &os, const V<T> &v)
 {
-    for (int i = 0; i < v.size();
-         ++i)
+    for (int i = 0; i < v.size(); ++i)
     {
         os << v[i];
         if (i != v.size() - 1)
@@ -100,66 +87,52 @@ void print(T &&...args)
     ((cout << args << " "), ...);
     cout << endl;
 }
-string tos(ll n)
+template <typename... T>
+void printl(T &&...args) { ((cout << args << " "), ...); }
+template <typename... T, typename Q>
+Q max(Q arg1, T &&...args)
 {
-    if (n == 0)
-        return "";
-    else
-        return tos(n / 10) + ((char)(n % 10));
+    Q ans = arg1;
+    ((ans = (args > ans ? args : ans)), ...);
+    return ans;
 }
-ll power(ll x, ll y)
+template <typename... T, typename Q>
+Q min(Q arg1, T &&...args)
 {
-    ll res = 1;
-    while (y)
-    {
-        if ((y & 1) == 1LL)
-            res = (res * x);
+    Q ans = arg1;
+    ((ans = (args < ans ? args : ans)), ...);
+    return ans;
+}
 
-        y = y >> 1LL;
-        x = (x * x);
-    }
-    return res;
-}
+ld TLD(ll n) { return TLD(n); }
 
 ll func()
 {
     // write your code here
-    new_int_3(n, l, r);
+    newint(n);
     vi vec = inputvec(n);
-    sort(all(vec));
-
-    ll ans = 0;
-    for (auto ele : vec)
+    ll mul = 1;
+    range(i, n)
     {
-        ll sele = tos(ele).size();
-        ll newl = (l - ele) / (power(10, sele));
-        ll newr = (r - ele) / (power(10, sele));
-        ll bl, br;
-        if ((l - ele) % power(10, sele) == 0)
-        {
-            bl = lower_bound(all(vec), newl) - vec.begin();
-        }
-        else
-        {
-            bl = upper_bound(all(vec), newl) - vec.begin();
-        }
-
-        br = upper_bound(all(vec), newr) - vec.begin();
-        ans += br - bl;
+        ll divin = i + 2;
+        if (mul > INT_MAX)
+            continue;
+        mul *= divin;
+        if (vec[i] % divin == 0)
+            return 0;
     }
-
-    print(ans);
-
-    return 0;
+    return 1;
 }
-
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
-    new_int_1(t);
+    newint(t);
     range(t)
     {
-        func();
+        if (func())
+            print("YES");
+        else
+            print("NO");
     }
 }

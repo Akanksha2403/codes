@@ -1,95 +1,48 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
+// Uncomment them for optimisations
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
 using namespace std;
+#define GET_MACRO(_1,_2,_3,_4,NAME,...) NAME
+#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1)(__VA_ARGS__)
+#define r4(var, start, stop, step) for (auto var = start; start<=stop? var<stop:var>stop ; var = var + step)
+#define r3(var, start, stop) for(auto var = start; var != stop; var++)
+#define r2(var, stop) for(ll var = 0; var != stop; var++)
+#define r1(stop) for(ll start_from_0 = 0; start_from_0 != stop; start_from_0++)
+#define newint(...) ll __VA_ARGS__; take_input(__VA_ARGS__)
 #define endl "\n"
+#define FULL_INF numeric_limits<double>::infinity()
+#define INF LONG_LONG_MAX
+#define INT_INF INT_MAX
 #define ll long long
-#define debug(x)                \
-    for (auto element : x)      \
-        cout << element << " "; \
-    cout << endl
-#define debugp(x)          \
-    for (auto element : x) \
-    cout << element.first << " " << element.second << endl
-#define db(x) cout << #x << " = " << x << "\n"
-#define rep(i, k, n) for (ll i = k; i < n; i++)
-#define rept(i, k, n) for (auto i = k; i != n; ++i)
-#define drep(i, k, n) for (ll i = k; i >= n; i--)
-#define pb push_back
-#define mp make_pair
-#define all(a) a.begin(), a.end()
 #define ld long double
-#define clr(s) memset(s, 0, sizeof(s))
-#define new_string(str) \
-    string str;         \
-    stringinput(str);
-#define new_int_1(t) \
-    ll t;            \
-    cin >> t;
-#define new_int_2(a, b) \
-    ll a, b;            \
-    cin >> a >> b;
-#define new_int_3(a, b, c) \
-    ll a, b, c;            \
-    cin >> a >> b >> c;
-#define new_int_4(a, b, c, d) \
-    ll a, b, c, d;            \
-    cin >> a >> b >> c >> d;
-#define new_int_5(a, b, c, d, e) \
-    ll a, b, c, d, e;            \
-    cin >> a >> b >> c >> d >> e;
-#define new_int_6(a, b, c, d, e, f) \
-    ll a, b, c, d, e, f;            \
-    cin >> a >> b >> c >> d >> e;
-typedef vector<string> vs;
-typedef vector<vector<ll>> vvi;
-typedef vector<ll> vi;
-typedef vector<pair<ll, ll>> vii;
-typedef vector<set<ll>> vsi;
-typedef vector<set<pair<ll, ll>>> vspii;
-typedef vector<vector<pair<ll, ll>>> vvpii;
-typedef pair<ll, ll> pii;
-typedef pair<ll, pair<ll, ll>> pipii;
-typedef pair<ll, string> pis;
-typedef pair<string, string> pss;
-typedef map<ll, ll> mii;
-typedef map<string, ll> msi;
-typedef map<char, ll> mci;
-typedef map<string, string> mss;
-typedef set<ll> si;
-typedef set<pair<ll, ll>> spii;
-typedef set<pair<string, ll>> spsi;
-const ll mod = 1000000007;
-const ll mod2 = 998244353;
-void stringinput(string &str)
-{
-    cin >> str;
-}
-vector<ll> randvec(ll n, ll start = 0, ll end = 100)
-{
-    vector<ll> arr(n);
-    for (ll i = 0; i < n; i++)
-    {
-        arr[i] = rand() % end;
-        if (arr[i] < start)
-        {
-            arr[i] = arr[i] + start;
-        }
-    }
-    return arr;
-}
-ll input()
-{
-    new_int_1(n);
-    return n;
-}
-vi inputvec(ll n, ll start = 0)
-{
-    vi vec(n);
-    for (ll i = start; i < n; i++)
-    {
-        *(vec.begin() + i) = input();
-    }
-    return vec;
-}
+#define V vector
+#define P pair
+#define S string
+#define MS multiset
+#define UM unordered_map
+#define US unordered_set
+#define MM multimap
+#define mt make_tuple
+#define mp make_pair
+#define pb push_back
+#define pf push_front
+#define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
+#define all(a) a.begin(), a.end()
+#define db(x) cout << #x << " = " << x << "\n"
+#define new_string(str) string str; cin >> str;
+const ll mod = 1000000007; const ll mod2 = 998244353; const ld pi = acos(-1);
+typedef vector<string> vs; typedef pair<ll, ll> pii;typedef vector<ll> vi;typedef map<ll, ll> mii; typedef set<ll> si;
+template<typename ...T>void take_input(T&&...args){((cin >> args), ...);}
+ll input(){ newint(n); return n; }vi inputvec(ll n, ll start = 0){ vi vec(n); for (ll i = start; i < n; i++){ vec[i] = input(); } return vec; }
+template<typename T>bool btn(T a, T b, T c){if((a <= b && b <= c) || (a >= b && b >= c)) return true; return false;}
+template<typename T>ostream& operator<<(ostream& os,const V<T>& v){for(int i=0;i<v.size();++i){os << v[i];if(i!=v.size()-1)os<< " ";}return os;}
+template<typename... T>void print(T &&...args){ ((cout << args << " "), ...); cout << endl;}
+template<typename... T>void printl(T &&...args){ ((cout << args << " "), ...);}
+template<typename... T,typename Q>Q max(Q arg1,T&&...args){Q ans=arg1;((ans=(args>ans?args:ans)),...);return ans;}
+template<typename... T,typename Q>Q min(Q arg1,T&&...args){Q ans = arg1;((ans = (args < ans ? args : ans)), ...);return ans;}
+ll gcd(ll a, ll b){while (1){b = b % a, swap(b, a); if (b == 0) return a; else b = b % a, swap(b, a);}}
+ld TLD(ll n) {return n;}
 
 // Functions below
 ll power(ll x, ll y)
@@ -106,7 +59,7 @@ ll power(ll x, ll y)
     return res % mod;
 }
 
-vector<ll> randvec(ll n, ll start = 0, ll end = 100)
+vector<ll> randVec(ll n, ll start = 0, ll end = 100)
 {
     vector<ll> arr(n);
     for (ll i = 0; i < n; i++)
@@ -120,9 +73,45 @@ vector<ll> randvec(ll n, ll start = 0, ll end = 100)
     return arr;
 }
 
-/* binarytoint inttobinary
+//      ncr of a number
+ll NCR(ll n, ll r)
+{
+    if (r > n)
+        return 0;
+    ll m = mod2;
+    ll inv[r + 1] = {0};
+    inv[0] = 1;
+    if (r + 1 >= 2)
+        inv[1] = 1;
 
-vi inttobinary(ll n)
+    // Getting the modular inversion
+    // for all the numbers
+    // from 2 to r with respect to m
+    // here m = 1000000007
+    for (ll i = 2; i <= r; i++)
+    {
+        inv[i] = m - (m / i) * inv[m % i] % m;
+    }
+
+    ll ans = 1;
+
+    // for 1/(r!) part
+    for (ll i = 2; i <= r; i++)
+    {
+        ans = ((ans % m) * (inv[i] % m)) % m;
+    }
+
+    // for (n)*(n-1)*(n-2)*...*(n-r+1) part
+    for (ll i = n; i >= (n - r + 1); i--)
+    {
+        ans = ((ans % m) * (i % m)) % m;
+    }
+    return ans;
+}
+
+
+//      inttobinary
+vi intToBinary(ll n)
 {
     vi binary(63);
     for (ll i = 0; i < 64 && n != 0; i++)
@@ -139,7 +128,10 @@ vi inttobinary(ll n)
     }
     return binary;
 }
-int binarytoint(vi &num)
+
+
+//      binarytoint 
+int binaryToInt(vi &num)
 {
     int dec_value = 0;
     ll base = 1;
@@ -154,19 +146,23 @@ int binarytoint(vi &num)
     }
     return dec_value;
 }
- */
 
+
+//      hcf finder
 ll gcd(ll a, ll b)
 {
-    if (b == 0)
+    while (true)
     {
-        return a;
+
+        b = b % a, swap(b, a);
+        if (b == 0)
+            return a;
     }
-    return gcd(b, a % b);
 }
 
-/* TO FIND NO OF PRIME FACTORS OF A NUMBER
-ll nooffactors(ll n)
+
+//      TO FIND NO OF PRIME FACTORS OF A NUMBER
+ll noOfFactors(ll n)
 {
     ll ans = 0; // Print the number of 2s that divide n
     while (n % 2 == 0)
@@ -193,13 +189,12 @@ ll nooffactors(ll n)
         ans++;
     return ans;
 } 
-*/
 
-/* sieve starts here |sieve modified to provide smallest factors of a number|
+
+//      sieve starts here |sieve modified to provide smallest factors of a number|
 const ll range = 1000006;
-//vi factors(range + 1, 0);
 vi prime(range + 1, 0);
-void SieveOfEratosthenes()
+void sieveOfEratosthenes()
 {
     for (int p = 2; p * p <= range; p++)
     {
@@ -211,7 +206,75 @@ void SieveOfEratosthenes()
         }
     }
 }
-*/
+
+
+//      to find using segment tree
+class SegmentTree
+{
+private:
+    vi tree;
+    vi vec;
+
+public:
+    SegmentTree(vi &vec)
+    {
+        tree = vi(vec.size() * 4);
+        this->vec = vec;
+        constructTree(0, vec.size() - 1, 0);
+    }
+    ll constructTree(ll start, ll end, ll ind)
+    {
+        if (start == end)
+            return tree[ind] = vec[start];
+        // change operator here
+        return tree[ind] = constructTree(start, (start + end) / 2, ind * 2 + 1) +
+                           constructTree(1 + (start + end) / 2, end, ind * 2 + 2);
+    }
+    ll rangeFind(ll start, ll end, ll index = 0, ll fullstart = -1, ll fullend = -1)
+    {
+        if (fullstart == -1)
+            fullstart = 0, fullend = vec.size() - 1;
+        if (start == fullstart && end == fullend)
+            return tree[index];
+        ll mid = (fullstart + fullend) / 2;
+        if (btn(fullstart, end, mid))
+        {
+            return rangeFind(start, end, index * 2 + 1, fullstart, mid);
+        }
+        if (btn(mid + 1, start, fullend))
+        {
+            return rangeFind(start, end, index * 2 + 2, mid + 1, fullend);
+        }
+        else
+        {
+            //change operator here
+            return rangeFind(start, mid, index * 2 + 1, fullstart, mid) +
+                   rangeFind(mid + 1, end, index * 2 + 2, mid + 1, fullend);
+        }
+    }
+    void changeElement(ll index, ll newelement)
+    {
+        ll fullstart = 0, fullend = vec.size() - 1;
+        ll treeindex = 0;
+        do
+        {
+            tree[treeindex] += newelement - vec[index];
+            if (btn(fullstart, index, (fullstart + fullend) / 2))
+            {
+                fullend = (fullstart + fullend) / 2;
+                treeindex = treeindex * 2 + 1;
+            }
+            else
+            {
+                fullstart = 1 + (fullstart + fullend) / 2;
+                treeindex = treeindex * 2 + 1;
+            }
+        } while (fullstart != fullend);
+        vec[index] = newelement;
+    }
+};
+
+
 
 int main()
 {

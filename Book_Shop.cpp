@@ -79,6 +79,13 @@ ll func()
 
     return 0;
 }
+// template <typename... T, typename Q>
+// Q max(Q arg1, T &&...args)
+// {
+//     Q ans = arg1;
+//     ((ans = (args > ans ? args : ans)), ...);
+//     return ans;
+// }
 int main()
 {
     FAST;
@@ -87,7 +94,6 @@ int main()
     vi pages = inputvec(n+1, 1);
 
     ll dp[n+1][target+1] = {};
-
     loop(i, 1, n + 1)
     {
         loop(j, 1, target + 1)

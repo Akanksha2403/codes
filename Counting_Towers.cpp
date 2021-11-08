@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 // Uncomment them for optimisations
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("avx,avx2,fma")
+// #pragma GCC optimize("Ofast")
+// #pragma GCC target("avx,avx2,fma")
 #define GET_MACRO(_1,_2,_3,_4,NAME,...) NAME
 #define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1)(__VA_ARGS__)
 #define r4(var, start, stop, step) for (auto var = start; start<=stop? var<stop:var>stop ; var = var + step)
@@ -38,23 +38,35 @@ using namespace std;
 #define new_int_5(a, b, c, d, e) ll a, b, c, d, e; cin >> a >> b >> c >> d >> e;
 #define new_int_6(a, b, c, d, e, f) ll a, b, c, d, e, f; cin >> a >> b >> c >> d >> e >> f;
 const ll mod = 1000000007; const ll mod2 = 998244353; const ld pi = acos(-1);
-typedef vector<string> vs; typedef pair<ll, ll> pii;
-typedef vector<ll> vi;typedef map<ll, ll> mii; typedef set<ll> si;
-ll input(){ new_int_1(n); return n; }
-vi inputvec(ll n, ll start = 0){ vi vec(n); for (ll i = start; i < n; i++){ vec[i] = input(); } return vec; }
-template<typename T>
-bool btn(T a, T b, T c){if((a <= b && b <= c) || (a >= b && b >= c)) return true; return false;}
-template <typename T>
-ostream& operator<<(ostream& os, const V<T>& v){for (int i = 0; i < v.size();
-++i) {os << v[i];if (i != v.size() - 1) os << " ";} return os;}
+typedef vector<string> vs; typedef pair<ll, ll> pii;typedef vector<ll> vi;typedef map<ll, ll> mii; typedef set<ll> si;
+ll input(){ new_int_1(n); return n; }vi inputvec(ll n, ll start = 0){ vi vec(n); for (ll i = start; i < n; i++){ vec[i] = input(); } return vec; }
+template<typename T>bool btn(T a, T b, T c){if((a <= b && b <= c) || (a >= b && b >= c)) return true; return false;}
+template <typename T>ostream& operator<<(ostream& os, const V<T>& v){for (int i = 0; i < v.size();++i) {os << v[i];if (i != v.size() - 1) os << " ";} return os;}
 template<typename... T> void print(T &&...args){ ((cout << args << " "), ...); cout << endl;}
-
+template<typename... T> void printl(T &&...args){ ((cout << args << " "), ...);}
+template <typename... T, typename Q>Q max(Q arg1, T &&...args){Q ans = arg1;((ans = (args > ans ? args : ans)), ...);return ans;}
+template <typename... T, typename Q>Q min(Q arg1, T &&...args){Q ans = arg1;((ans = (args < ans ? args : ans)), ...);return ans;}
+inline ld TLD(ll n) {return TLD(n);}
+const ll range = 1000006;
+V<vi> dp(range, vi(2));
 ll func()
 {
-    // write your code here
-    new_int_1(n);
-    vi vec = inputvec(n);
-    
+    dp[1][0]=1;
+    dp[1][1]=1;
+    for(ll i = 2; i < range; i++)
+    {   
+        // when used as unlinked
+        dp[i][0] = dp[i-1][0]
+                 + dp[i-1][0] + dp[i-1][0]
+                 + dp[i-1][0]
+                 + dp[i-1][1];
+        dp[i][0] = dp[i][0]%mod;
+        // when used as linked
+        dp[i][1] = dp[i-1][1]
+                 + dp[i-1][1]
+                 + dp[i-1][0];
+        dp[i][1]=dp[i][1]%mod;
+    }
     return 0;
 }
 
@@ -62,9 +74,11 @@ int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    func();
     new_int_1(t);
     range(t)
     {
-        func();
+        new_int_1(n);
+        print((dp[n][0]+dp[n][1])%mod);
     }
 }
