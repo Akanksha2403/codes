@@ -68,7 +68,6 @@ bool btn(T a, T b, T c)
         return true;
     return false;
 }
-
 template <typename T>
 ostream &operator<<(ostream &os, const V<T> &v)
 {
@@ -120,15 +119,72 @@ ld TLD(ll n) { return n; }
 ll func()
 {
     // write your code here
+    newint(n);
+    vi vec = inputvec(n);
+    V<pii> ans;
+    ll tot = accumulate(all(vec), 0LL);
+    ll half = tot / 2;
+    ll start = 0;
+    ll mid;
+    ll start1;
+    ll vmidl, vmidr;
+    range(i, n)
+    {
+        if (half - vec[i] <= 0)
+        {
+            mid = i;
+            start1 = mid;
+            vmidr = vec[i] - half;
+            vmidl = vec[i] - vmidr;
+            break;
+        }
+        else
+            half -= vec[i];
+    }
+    while (start != mid + 1 && start1 != n)
+    {
+        if (vec[start] == 0 || (start == mid && vmidl == 0))
+        {
+            start += 1;
+            continue;
+        }
+        if (vec[start1] == 0 || (start1 == mid && vmidr == 0))
+        {
+            start1 += 1;
+            continue;
+        }
+        if (start == mid && start1 == mid)
+        {
+            start1++;
+            continue;
+        }
 
+        ans.pb(mp(start, start1));
+        vec[start]--;
+        vec[start1]--;
+        if (start1 == mid)
+        {
+            vmidr -= 1;
+            continue;
+        }
+        if (start == mid)
+        {
+            vmidl -= 1;
+            continue;
+        }
+    }
+    print(ans.size());
+    for (auto &i : ans)
+        print(i.first + 1, i.second + 1);
     return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
-    __int128_t a, b;
-    a = INF;
-    b = 2;
-    print(a*b);
+    newint(t);
+    range(t)
+    {
+        func();
+    }
 }

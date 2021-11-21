@@ -104,121 +104,72 @@ Q min(Q arg1, T &&...args)
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-class SegmentTree
+inline ll prec(V<vi> &pre, ll x2, ll y2, ll x1, ll y1)
 {
-private:
-    vi tree;
-    vi vec;
-    ll constructTree(ll start, ll end, ll ind)
-    {
-        if (start == end)
-            return tree[ind] = vec[start];
-        // change operator here
-        return tree[ind] = constructTree(start, (start + end) / 2, ind * 2 + 1) +
-                           constructTree(1 + (start + end) / 2, end, ind * 2 + 2);
-    }
-    inline ll opr(ll a, ll b)
-    {
-        return a + b;
-    }
-
-public:
-    SegmentTree(vi &vec)
-    {
-        ll n = vec.size();
-        ll treesizemaker = 1;
-        while (treesizemaker < n)
-        {
-            treesizemaker *= 2;
-        }
-        tree = vi(treesizemaker * 2 - 1);
-        this->vec = vec;
-        constructTree(0, vec.size() - 1, 0);
-    }
-
-    ll rangeFind(ll start, ll end, ll index = 0, ll fullstart = -1, ll fullend = -1)
-    {
-        if (fullstart == -1)
-            fullstart = 0, fullend = vec.size() - 1;
-        if (start == fullstart && end == fullend)
-            return tree[index];
-        ll mid = (fullstart + fullend) / 2;
-        if (btn(fullstart, end, mid))
-        {
-            return rangeFind(start, end, index * 2 + 1, fullstart, mid);
-        }
-        if (btn(mid + 1, start, fullend))
-        {
-            return rangeFind(start, end, index * 2 + 2, mid + 1, fullend);
-        }
-        else
-        {
-
-            return opr(rangeFind(start, mid, index * 2 + 1, fullstart, mid),
-                       rangeFind(mid + 1, end, index * 2 + 2, mid + 1, fullend));
-        }
-    }
-    void changeElement(ll index, ll newelement)
-    {
-        ll fullstart = 0, fullend = vec.size() - 1;
-        ll treeindex = 0;
-        vec[index] = newelement;
-
-        // going to all the indexes
-        while (true)
-        {
-            if (btn(fullstart, index, (fullstart + fullend) / 2))
-            {
-                fullend = (fullstart + fullend) / 2;
-                treeindex = treeindex * 2 + 1;
-                if (treeindex * 2 + 1 >= tree.size())
-                    break;
-            }
-            else
-            {
-                fullstart = 1 + (fullstart + fullend) / 2;
-                treeindex = treeindex * 2 + 2;
-                if (treeindex * 2 + 2 >= tree.size())
-                    break;
-            }
-        }
-        tree[treeindex] = newelement;
-        // update all parents
-        while (true)
-        {
-            treeindex = treeindex & 1 ? treeindex / 2 : treeindex / 2 - 1;
-            if (treeindex < 0)
-                break;
-            tree[treeindex] = opr(tree[treeindex * 2 + 1], tree[treeindex * 2 + 2]);
-        }
-    }
-};
-
+    if (x1 < 0 || y1 < 0)
+        return 0;
+    return pre[y2][x2] - pre[y2][x1] - pre[y1][x2] + pre[y1][x1];
+}
 ll func()
 {
     // write your code here
-    newint(n, r);
-    vi vec = inputvec(n);
-    auto seg = SegmentTree(vec);
-    range(r)
+    newint(n, m, k);
+    ll ans = 0;
+    V<vi> vec;
+    vec.push_back(vi(m + 1, 0));
+    range(i, n) { vec.push_back(inputvec(m + 1, 1)); }
+    V<vi> pre(n + 1, vi(m + 1, 0));
+    range(i, 1, n + 1)
     {
-        newint(a, b, c);
-        if (a == 1)
+        range(j, 1, m + 1)
         {
-            seg.changeElement(b - 1, c);
-        }
-        else
-        {
-            print(seg.rangeFind(b - 1, c - 1));
+            pre[i][j] = pre[i - 1][j] + pre[i][j - 1] - pre[i - 1][j - 1] + vec[i][j];
         }
     }
-    return 0;
-}
+    range(st, 1, n + 1)
+    {
+        range(l, 1, 1 + max(m, n))
+        {
+            if (st - l < 0)
+                break;
+            ll left = l, right = m, mid = m + 1;
+            while (left <= right)
+            {
+                mid = (left + right) / 2;
+                ll midc = prec(pre, mid, st, mid - l, st - l);
+                // if(st == 2 && l == 2)
+                // print("hello");
+                if ((midc >= l * l * k && prec(pre, mid - 1, st, mid - l - 1, st - l) < l * l * k))
+                {
+                    // db(st);
+                    // db(midc);
+                    // db(l);
+                    // db(m + 1 - mid);
+                    // print(" ");
+                    ans += m + 1 - mid;
+                    break;
+                }
+                else if (midc >= l* l * k)
+                {
+                    right = mid - 1;
+                }
+                else
+                {
+                    left = mid + 1;
+                }
+            }
+        }
+    }
+    return ans;
+} 
+
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    newint(t);
+    range(t)
     {
-        func();
+        print(func());
     }
 }

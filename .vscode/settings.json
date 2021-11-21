@@ -79,5 +79,6 @@
         "typeindex": "cpp",
         "typeinfo": "cpp"
     },
-    "C_Cpp.errorSquiggles": "Enabled"
+    "C_Cpp.errorSquiggles": "Enabled",
+    "livePreview.defaultPreviewPath": "/index.html"
 }

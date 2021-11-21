@@ -88,14 +88,14 @@ void print(T &&...args)
 template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
 template <typename... T, typename Q>
-Q max(Q arg1, T &&...args)
+inline Q max(Q arg1, T &&...args)
 {
     Q ans = arg1;
     ((ans = (args > ans ? args : ans)), ...);
     return ans;
 }
 template <typename... T, typename Q>
-Q min(Q arg1, T &&...args)
+inline Q min(Q arg1, T &&...args)
 {
     Q ans = arg1;
     ((ans = (args < ans ? args : ans)), ...);
@@ -109,29 +109,25 @@ class SegmentTree
 private:
     vi tree;
     vi vec;
+    // change operation here
+    inline ll opr(ll a, ll b)
+    {
+        return min(a, b);
+    }
     ll constructTree(ll start, ll end, ll ind)
     {
         if (start == end)
             return tree[ind] = vec[start];
         // change operator here
-        return tree[ind] = constructTree(start, (start + end) / 2, ind * 2 + 1) +
-                           constructTree(1 + (start + end) / 2, end, ind * 2 + 2);
-    }
-    inline ll opr(ll a, ll b)
-    {
-        return a + b;
+        return tree[ind] = opr(constructTree(start, (start + end) / 2, ind * 2 + 1),
+                               constructTree(1 + (start + end) / 2, end, ind * 2 + 2));
     }
 
 public:
     SegmentTree(vi &vec)
     {
         ll n = vec.size();
-        ll treesizemaker = 1;
-        while (treesizemaker < n)
-        {
-            treesizemaker *= 2;
-        }
-        tree = vi(treesizemaker * 2 - 1);
+        tree = vi(vec.size() * 4 + 10);
         this->vec = vec;
         constructTree(0, vec.size() - 1, 0);
     }
@@ -171,16 +167,14 @@ public:
             {
                 fullend = (fullstart + fullend) / 2;
                 treeindex = treeindex * 2 + 1;
-                if (treeindex * 2 + 1 >= tree.size())
-                    break;
             }
             else
             {
                 fullstart = 1 + (fullstart + fullend) / 2;
                 treeindex = treeindex * 2 + 2;
-                if (treeindex * 2 + 2 >= tree.size())
-                    break;
             }
+            if (fullstart == fullend)
+                break;
         }
         tree[treeindex] = newelement;
         // update all parents
@@ -197,27 +191,31 @@ public:
 ll func()
 {
     // write your code here
-    newint(n, r);
-    vi vec = inputvec(n);
-    auto seg = SegmentTree(vec);
-    range(r)
+    newint(a, b);
+    vi vec = inputvec(a);
+    SegmentTree seg(vec);
+
+    range(b)
     {
-        newint(a, b, c);
-        if (a == 1)
+        newint(x, y, z);
+        if (x == 1)
         {
-            seg.changeElement(b - 1, c);
+            seg.changeElement(y - 1, z);
         }
         else
         {
-            print(seg.rangeFind(b - 1, c - 1));
+            print(seg.rangeFind(y - 1, z - 1));
         }
     }
+
     return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    // newint(t);
+    // range(t)
     {
         func();
     }

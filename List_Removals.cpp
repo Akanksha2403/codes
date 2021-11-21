@@ -108,54 +108,45 @@ class SegmentTree
 {
 private:
     vi tree;
-    vi vec;
+    inline ll mid(ll l, ll r) { return (l + r) / 2; }
+    ll n;
+    // change operation here
+    inline ll opr(ll a, ll b)
+    {
+        return (a + b);
+    }
     ll constructTree(ll start, ll end, ll ind)
     {
         if (start == end)
             return tree[ind] = vec[start];
         // change operator here
-        return tree[ind] = constructTree(start, (start + end) / 2, ind * 2 + 1) +
-                           constructTree(1 + (start + end) / 2, end, ind * 2 + 2);
-    }
-    inline ll opr(ll a, ll b)
-    {
-        return a + b;
+        return tree[ind] = opr(constructTree(start, (start + end) / 2, ind * 2 + 1),
+                               constructTree(1 + (start + end) / 2, end, ind * 2 + 2));
     }
 
 public:
-    SegmentTree(vi &vec)
+    vi vec;
+    SegmentTree(vi vec)
     {
-        ll n = vec.size();
-        ll treesizemaker = 1;
-        while (treesizemaker < n)
-        {
-            treesizemaker *= 2;
-        }
-        tree = vi(treesizemaker * 2 - 1);
+        n = vec.size();
+        tree = vi(vec.size() * 4 + 10);
         this->vec = vec;
         constructTree(0, vec.size() - 1, 0);
     }
 
-    ll rangeFind(ll start, ll end, ll index = 0, ll fullstart = -1, ll fullend = -1)
+    ll rangeFind(ll index, ll start = 0, ll stop = 0, ll treeind = 0)
     {
-        if (fullstart == -1)
-            fullstart = 0, fullend = vec.size() - 1;
-        if (start == fullstart && end == fullend)
-            return tree[index];
-        ll mid = (fullstart + fullend) / 2;
-        if (btn(fullstart, end, mid))
+        if (treeind == 0)
+            stop = n - 1;
+        if (start == stop)
+            return start;
+        if (tree[treeind * 2 + 1] >= index)
         {
-            return rangeFind(start, end, index * 2 + 1, fullstart, mid);
-        }
-        if (btn(mid + 1, start, fullend))
-        {
-            return rangeFind(start, end, index * 2 + 2, mid + 1, fullend);
+            return rangeFind(index, start, mid(start, stop), treeind * 2 + 1);
         }
         else
         {
-
-            return opr(rangeFind(start, mid, index * 2 + 1, fullstart, mid),
-                       rangeFind(mid + 1, end, index * 2 + 2, mid + 1, fullend));
+            return rangeFind(index - tree[treeind * 2 + 1], 1 + mid(start, stop), stop, treeind * 2 + 2);
         }
     }
     void changeElement(ll index, ll newelement)
@@ -171,16 +162,14 @@ public:
             {
                 fullend = (fullstart + fullend) / 2;
                 treeindex = treeindex * 2 + 1;
-                if (treeindex * 2 + 1 >= tree.size())
-                    break;
             }
             else
             {
                 fullstart = 1 + (fullstart + fullend) / 2;
                 treeindex = treeindex * 2 + 2;
-                if (treeindex * 2 + 2 >= tree.size())
-                    break;
             }
+            if (fullstart == fullend)
+                break;
         }
         tree[treeindex] = newelement;
         // update all parents
@@ -193,25 +182,22 @@ public:
         }
     }
 };
-
 ll func()
 {
     // write your code here
-    newint(n, r);
+    newint(n);
     vi vec = inputvec(n);
-    auto seg = SegmentTree(vec);
-    range(r)
+    vi arr = inputvec(n);
+    vi s = vi (n, 1);
+    SegmentTree seg(s);
+
+    for (auto i : arr)
     {
-        newint(a, b, c);
-        if (a == 1)
-        {
-            seg.changeElement(b - 1, c);
-        }
-        else
-        {
-            print(seg.rangeFind(b - 1, c - 1));
-        }
+        ll vind = seg.rangeFind(i);
+        printl(vec[vind]);
+        seg.changeElement(vind, 0);
     }
+
     return 0;
 }
 int main()

@@ -5,7 +5,7 @@
 using namespace std;
 #define GET_MACRO(_1,_2,_3,_4,NAME,...) NAME
 #define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1)(__VA_ARGS__)
-#define r4(var, start, stop, step) for (auto var = start; start<=stop? var<stop:var>stop ; var = var + step)
+#define r4(var, start, stop, step) for (auto var = start; step >=0 ? var<stop:var>stop ; var = var + step)
 #define r3(var, start, stop) for(auto var = start; var != stop; var++)
 #define r2(var, stop) for(ll var = 0; var != stop; var++)
 #define r1(stop) for(ll start_from_0 = 0; start_from_0 != stop; start_from_0++)

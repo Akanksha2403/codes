@@ -88,14 +88,14 @@ void print(T &&...args)
 template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
 template <typename... T, typename Q>
-Q max(Q arg1, T &&...args)
+inline Q max(Q arg1, T &&...args)
 {
     Q ans = arg1;
     ((ans = (args > ans ? args : ans)), ...);
     return ans;
 }
 template <typename... T, typename Q>
-Q min(Q arg1, T &&...args)
+inline Q min(Q arg1, T &&...args)
 {
     Q ans = arg1;
     ((ans = (args < ans ? args : ans)), ...);
@@ -109,87 +109,99 @@ class SegmentTree
 private:
     vi tree;
     vi vec;
-    ll constructTree(ll start, ll end, ll ind)
-    {
-        if (start == end)
-            return tree[ind] = vec[start];
-        // change operator here
-        return tree[ind] = constructTree(start, (start + end) / 2, ind * 2 + 1) +
-                           constructTree(1 + (start + end) / 2, end, ind * 2 + 2);
-    }
+    ll n;
+    // change operation here
     inline ll opr(ll a, ll b)
     {
-        return a + b;
+        return (a ^ b);
+    }
+    inline ll mid(ll start, ll end)
+    {
+        return (start + end) / 2;
+    }
+    void constructTree(ll start, ll end, ll ind)
+    {
+        if (start == end)
+        {
+            tree[ind] = vec[start];
+            return;
+        }
+        else
+        {
+            ll mid = this->mid(start, end);
+            constructTree(start, mid, ind * 2 + 1);
+            constructTree(mid + 1, end, ind * 2 + 2);
+        }
     }
 
 public:
     SegmentTree(vi &vec)
     {
-        ll n = vec.size();
-        ll treesizemaker = 1;
-        while (treesizemaker < n)
-        {
-            treesizemaker *= 2;
-        }
-        tree = vi(treesizemaker * 2 - 1);
+        this->n = vec.size();
+        tree = vi(vec.size() * 4 + 10);
         this->vec = vec;
         constructTree(0, vec.size() - 1, 0);
     }
 
-    ll rangeFind(ll start, ll end, ll index = 0, ll fullstart = -1, ll fullend = -1)
+    ll findelement(ll ind)
     {
-        if (fullstart == -1)
-            fullstart = 0, fullend = vec.size() - 1;
-        if (start == fullstart && end == fullend)
-            return tree[index];
-        ll mid = (fullstart + fullend) / 2;
-        if (btn(fullstart, end, mid))
-        {
-            return rangeFind(start, end, index * 2 + 1, fullstart, mid);
-        }
-        if (btn(mid + 1, start, fullend))
-        {
-            return rangeFind(start, end, index * 2 + 2, mid + 1, fullend);
-        }
-        else
-        {
-
-            return opr(rangeFind(start, mid, index * 2 + 1, fullstart, mid),
-                       rangeFind(mid + 1, end, index * 2 + 2, mid + 1, fullend));
-        }
-    }
-    void changeElement(ll index, ll newelement)
-    {
-        ll fullstart = 0, fullend = vec.size() - 1;
         ll treeindex = 0;
-        vec[index] = newelement;
-
-        // going to all the indexes
+        ll part1 = 0, part2 = n - 1;
+        ll ans = 0;
         while (true)
         {
-            if (btn(fullstart, index, (fullstart + fullend) / 2))
+            ll mid = this->mid(part1, part2);
+            if (part1 == part2)
             {
-                fullend = (fullstart + fullend) / 2;
+                ans += tree[treeindex];
+                return ans;
+            }
+            if (btn(part1, ind, mid))
+            {
+                ans += tree[treeindex];
                 treeindex = treeindex * 2 + 1;
-                if (treeindex * 2 + 1 >= tree.size())
-                    break;
+                part2 = mid;
             }
             else
             {
-                fullstart = 1 + (fullstart + fullend) / 2;
+                ans += tree[treeindex];
                 treeindex = treeindex * 2 + 2;
-                if (treeindex * 2 + 2 >= tree.size())
-                    break;
+                part1 = mid + 1;
             }
         }
-        tree[treeindex] = newelement;
-        // update all parents
-        while (true)
+        return 0;
+    }
+    void changeElement(ll fromindex, ll toindex, ll increment, ll part1 = -1,
+                       ll part2 = -1, ll treeindex = 0)
+    {
+        if (part1 == -1)
+            part1 = 0, part2 = n - 1;
+        if (fromindex == part1 && toindex == part2)
         {
-            treeindex = treeindex & 1 ? treeindex / 2 : treeindex / 2 - 1;
-            if (treeindex < 0)
-                break;
-            tree[treeindex] = opr(tree[treeindex * 2 + 1], tree[treeindex * 2 + 2]);
+            tree[treeindex] += increment;
+            return;
+        }
+
+        ll mid = this->mid(part1, part2);
+        // debug
+        if(mid > part2)
+        {
+            db(mid); db(part2);
+        }
+        
+        
+        if (btn(part1, toindex, mid))
+        {
+            changeElement(fromindex, toindex, increment, part1, mid, treeindex * 2 + 1);
+        }
+        else if (btn(mid + 1, fromindex, part2))
+        {
+            changeElement(fromindex, toindex, increment, mid + 1, part2, treeindex * 2 + 2);
+        }
+        else
+        {
+            changeElement(fromindex, mid, increment, part1, mid, treeindex * 2 + 1);
+            changeElement(mid + 1, toindex, increment, mid + 1, part2, treeindex * 2 + 2);
         }
     }
 };
@@ -197,27 +209,33 @@ public:
 ll func()
 {
     // write your code here
-    newint(n, r);
-    vi vec = inputvec(n);
-    auto seg = SegmentTree(vec);
-    range(r)
+    newint(a, b);
+    vi vec = inputvec(a);
+    SegmentTree seg(vec);
+
+    range(b)
     {
-        newint(a, b, c);
-        if (a == 1)
+        newint(x);
+        if (x == 1)
         {
-            seg.changeElement(b - 1, c);
+            newint(from, to, inc);
+            seg.changeElement(from-1, to-1, inc);
         }
         else
         {
-            print(seg.rangeFind(b - 1, c - 1));
+            newint(ind);
+            print(seg.findelement(ind - 1));
         }
     }
+
     return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    // newint(t);
+    // range(t)
     {
         func();
     }

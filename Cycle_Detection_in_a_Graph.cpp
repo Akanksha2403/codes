@@ -2,18 +2,18 @@
 // Uncomment them for optimisations
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
-using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
 #define range(...)                         \
     GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
     (__VA_ARGS__)
-#define r4(var, start, stop, step) for (auto var = start; step >= 0 ? var < stop : var > stop; var = var + step)
+#define r4(var, start, stop, step) for (auto var = start; start <= stop ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (auto var = start; var != stop; var++)
 #define r2(var, stop) for (ll var = 0; var != stop; var++)
 #define r1(stop) for (ll start_from_0 = 0; start_from_0 != stop; start_from_0++)
 #define newint(...) \
     ll __VA_ARGS__; \
     take_input(__VA_ARGS__)
+using namespace std;
 #define endl "\n"
 #define FULL_INF numeric_limits<double>::infinity()
 #define INF LONG_LONG_MAX
@@ -34,8 +34,8 @@ using namespace std;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
-#define new_string(str) \
-    string str;         \
+#define newstring(str) \
+    string str;        \
     cin >> str;
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
@@ -68,7 +68,6 @@ bool btn(T a, T b, T c)
         return true;
     return false;
 }
-
 template <typename T>
 ostream &operator<<(ostream &os, const V<T> &v)
 {
@@ -102,19 +101,7 @@ Q min(Q arg1, T &&...args)
     ((ans = (args < ans ? args : ans)), ...);
     return ans;
 }
-ll gcd(ll a, ll b)
-{
-    while (1)
-    {
-        b = b % a, swap(b, a);
-        if (b == 0)
-            return a;
-        else
-            b = b % a, swap(b, a);
-    }
-}
-ld TLD(ll n) { return n; }
-
+inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 ll func()
@@ -127,8 +114,36 @@ int main()
 {
     // Uncomment for faster I/O
     // FAST;
-    __int128_t a, b;
-    a = INF;
-    b = 2;
-    print(a*b);
+    newint(n, k);
+    V<vi> g(n + 1);
+    range(k)
+    {
+        newint(a, b);
+        g[a].push_back(b);
+        g[b].push_back(a);
+    }
+    vi visited(n + 1, 0);
+
+    stack<ll> st;
+
+    range(u, 1, n + 1)
+    {
+        if (visited[u])
+            continue;
+        else
+        {
+            ll x;
+            st.push(u);
+            while (st.size())
+            {
+                x = st.top();
+                visited[x] = 1;
+                st.pop();
+                for(auto i : g[x])
+                {
+                    
+                }
+            }
+        }
+    }
 }
