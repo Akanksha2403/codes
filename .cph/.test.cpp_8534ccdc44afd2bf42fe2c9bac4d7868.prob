@@ -1,1 +1,1 @@
-{"name":"Local: test","url":"/home/prabhavagrawal7/codes/test.cpp","tests":[{"id":1636979504272,"input":"","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhavagrawal7/codes/test.cpp","group":"local","local":true}
+{"name":"Local: test","url":"/home/prabhavagrawal7/codes/test.cpp","tests":[{"id":1636979504272,"input":"1\nabcd\nacc","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhavagrawal7/codes/test.cpp","group":"local","local":true}

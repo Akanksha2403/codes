@@ -101,17 +101,7 @@ Q min(Q arg1, T &&...args)
     ((ans = (args < ans ? args : ans)), ...);
     return ans;
 }
-ll gcd(ll a, ll b)
-{
-    while (1)
-    {
-        b = b % a, swap(b, a);
-        if (b == 0)
-            return a;
-        else
-            b = b % a, swap(b, a);
-    }
-}
+
 ld TLD(ll n) { return n; }
 
 // Functions below
@@ -218,13 +208,8 @@ int binaryToInt(vi &num)
 //      hcf finder
 ll gcd(ll a, ll b)
 {
-    while (true)
-    {
-
-        b = b % a, swap(b, a);
-        if (b == 0)
-            return a;
-    }
+    if(b == 0) return a;
+    return gcd(b, a%b);
 }
 
 //      TO FIND NO OF PRIME FACTORS OF A NUMBER
@@ -357,7 +342,6 @@ public:
         }
     }
 };
-
 
 int main()
 {

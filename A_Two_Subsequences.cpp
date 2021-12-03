@@ -108,8 +108,9 @@ ll func()
 {
     // write your code here
     newstring(str);
-    
-
+    ll a = min_element(all(str)) - str.begin();
+    string ns = str.substr(0, a) + str.substr(a+1);
+    print(str[a], ns);
     return 0;
 }
 int main()
