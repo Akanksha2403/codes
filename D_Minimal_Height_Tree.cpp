@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -92,28 +93,56 @@ void printl(T &&...args) { ((cout << args << " "), ...); }
 inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-UM<ll, ll> dp;
-ll func(ll n)
+ll dfs(UM<ll, US<ll>> &g, vi &visited, ll x = 1)
+{
+    ll ans = 0;
+    visited[x] = true;
+    foreach (i, g[x])
+    {
+        if (!visited[i])
+            ans = max(ans, dfs(g, visited, i) + 1);
+    }
+    return ans;
+}
+ll func()
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
+    newint(n);
+    vi vec = inputvec(n);
+    queue<ll> leaf_node;
+    leaf_node.push(1);
+
+    UM<ll, US<ll>> g;
+
+    range(i, 1, n)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        ll x = leaf_node.front();
+        if (vec[i] > vec[i - 1])
+        {
+            leaf_node.push(vec[i]);
+            g[x].insert(vec[i]);
+            g[vec[i]].insert(x);
+        }
+        else
+        {
+            leaf_node.pop();
+            x = leaf_node.front();
+            leaf_node.push(vec[i]);
+            g[x].insert(vec[i]);
+            g[vec[i]].insert(x);
+        }
     }
-    return dp[n] = ans;
+    ll ans = 0;
+    vi visited(n + 1);
+    return (dfs(g, visited));
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    newint(t);
+    range(t)
     {
-        newint(n);
-        print(func(n));
+        print(func());
     }
 }

@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -93,27 +94,54 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-UM<ll, ll> dp;
-ll func(ll n)
+vi coloured;
+vi removebad;
+UM<ll, US<ll>> g;
+
+void dfs(ll x)
+{
+    bool a = true;
+    foreach (i, g[x])
+    {
+        dfs(i);
+        if (!coloured[i])
+        {
+            a = false;
+        }
+    }
+    if (a && coloured[x])
+        removebad.push_back(x);
+}
+ll func()
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
+    newint(n);
+    coloured = vi(n + 1, 0);
+    ll root;
+    range(i, 1, n + 1)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        newint(a, c);
+        if (a == -1)
+        {
+            root = i;
+            continue;
+        }
+        g[a].insert(i);
+        coloured[i] = c;
     }
-    return dp[n] = ans;
+    dfs(root);
+    sort(all(removebad));
+    if (removebad.size())
+        print(removebad);
+    else
+        print(-1);
+    return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
     {
-        newint(n);
-        print(func(n));
+        func();
     }
 }

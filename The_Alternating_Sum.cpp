@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -93,27 +94,46 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-UM<ll, ll> dp;
-ll func(ll n)
+ll func()
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
+    newint(n);
+    vi vec = inputvec(n);
+    vi pref;
+    pref.push_back(0);
+
+    for (ll i = 0; i < n; i++)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        if (i % 2 == 0)
+            pref.push_back(pref[pref.size() - 1] + vec[i]);
+        else
+            pref.push_back(pref[pref.size() - 1] - vec[i]);
     }
-    return dp[n] = ans;
+
+    ll ans = -INT_INF;
+    for (ll i = pref.size() - 1; i >= 0; i -= 2)
+    {
+        ll exp = pref[i] - pref[0] - (pref[pref.size() - 1] - pref[i]);
+        ans = max(ans, exp);
+    }
+    ll nans = 0;
+    range(i, n)
+    {
+        if (i % 2 == 0)
+            nans += vec[i];
+        else
+            nans -= vec[i];
+    }
+    print(max(ans, nans));
+    return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    newint(t);
+    range(t)
     {
-        newint(n);
-        print(func(n));
+        func();
     }
 }

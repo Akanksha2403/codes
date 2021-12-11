@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -93,27 +94,45 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-UM<ll, ll> dp;
-ll func(ll n)
+ll _func(vi &vec, vi &vec1, vi &vec2, ll start, ll end)
+{
+    ll n = end - start;
+    vi dp(n);
+    for(ll i = end; i >= start; i++)
+    {
+        
+    }
+
+}
+
+ll func()
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
+    newint(n);
+    vi vec = inputvec(n);
+    vi vec1 = inputvec(n);
+    vi vec2 = inputvec(n);
     ll ans = 0;
-    range(i, 10)
+    ll l = 0, r;
+    range(i, n)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        if (vec1[i] == vec2[i])
+        {
+            r = i;
+            ll tans = _func(vec, vec1, vec2, l, r);
+            ans = max(ans, tans);
+            l = i;
+        }
     }
-    return dp[n] = ans;
+    return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    newint(t);
+    range(t)
     {
-        newint(n);
-        print(func(n));
+        func();
     }
 }

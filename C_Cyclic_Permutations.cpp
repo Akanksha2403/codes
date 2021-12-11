@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -93,27 +94,27 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-UM<ll, ll> dp;
-ll func(ll n)
-{
-    // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
-    {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
-    }
-    return dp[n] = ans;
-}
+vi fac(1000006);
+
 int main()
 {
     // Uncomment for faster I/O
-    // FAST;
+    ll u = 1;
+    fac[0] = 1, fac[1] = 1;
+    range(i, 2, fac.size())
     {
-        newint(n);
-        print(func(n));
+        fac[i] = (fac[i - 1] * i) % mod;
     }
+    // FAST;
+    vi func(1000006);
+    func[3] = 2;
+    range(i, 4, func.size())
+    {
+        func[i] = (fac[i] - (2 * fac[i - 1]) + func[i - 1] * 2) % mod;
+        func[i] = mod + func[i];
+        func[i] = func[i] % mod;
+    }
+
+    newint(n);
+    print(func[n]);
 }

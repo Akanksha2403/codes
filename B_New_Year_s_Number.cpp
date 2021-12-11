@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -94,26 +95,31 @@ inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 UM<ll, ll> dp;
+
 ll func(ll n)
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
+    if (n % 2020 == 0 || n % 2021 == 0)
+        return dp[n] = true;
     if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
-    {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
-    }
-    return dp[n] = ans;
+        return dp[n] = true;
+    else if (n > 2020 && func(n - 2020))
+        return dp[n] = func(n - 2020);
+    else if (n > 2021 && func(n - 2021))
+        return dp[n] = func(n - 2021);
+    return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    newint(t);
+    range(t)
     {
         newint(n);
-        print(func(n));
+        if (func(n))
+            print("YES");
+        else
+            print("NO");
     }
 }

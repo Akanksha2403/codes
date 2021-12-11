@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -93,27 +94,42 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-UM<ll, ll> dp;
-ll func(ll n)
+long long maxa(ll n, ll k, int a[])
 {
-    // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
+    if (n == 0)
+        return 0;
+    ll ans = INT_MAX;
+    range(i, n)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        ans = max(ans, maxa(n - i, k - 1, a + i) + a[0] + a[i]);
     }
-    return dp[n] = ans;
+    return ans;
+}
+long long mina(ll n, ll k, int a[])
+{
+    if (n == 0)
+        return 0;
+    ll ans = INT_MAX;
+    range(i, n)
+    {
+        ans = min(ans, mina(n - i, k - 1, a + i) + a[0] + a[i]);
+    }
+    return ans;
+}
+long long diffAmount(int N, int K, vector<int> A)
+{
+    int a[N];
+    range(i, N){
+        a[i] = A[i];
+    }
+
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    newint(t);
+    range(t)
     {
-        newint(n);
-        print(func(n));
     }
 }

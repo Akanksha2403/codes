@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -93,27 +94,52 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-UM<ll, ll> dp;
-ll func(ll n)
+vi charp(26);
+ll get_parent(ll n)
+{
+    if (charp[n] == n)
+        return n;
+    else
+        return charp[n] = get_parent(charp[n]);
+}
+
+ll func()
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
+    newint(n);
+    V<string> astr(n);
+    range(i, n) cin >> astr[i];
+    range(i, 26) charp[i] = i;
+    vi postring(n, -1);
+    range(i, n)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        string newstr = astr[i];
+        ll mainchar = get_parent(newstr[0] - 'a');
+        range(j, newstr.size())
+        {
+            ll a = get_parent(newstr[j] - 'a');
+            ll b = get_parent(mainchar);
+            charp[a] = b;
+        }
+        postring[i] = get_parent(mainchar);
     }
-    return dp[n] = ans;
+    set<ll> ansv;
+    range(i, n)
+    {
+        if (postring[i] == -1)
+            continue;
+        else
+            ansv.insert(get_parent(postring[i]));
+    }
+    print(ansv.size());
+
+    return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
     {
-        newint(n);
-        print(func(n));
+        func();
     }
 }

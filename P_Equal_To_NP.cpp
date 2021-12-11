@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -93,27 +94,77 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-UM<ll, ll> dp;
-ll func(ll n)
+ll func()
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
+    newstring(str);
     ll ans = 0;
-    range(i, 10)
+    ll n = str.size();
+    ll np = 0, p = 0;
+    range(i, n - 1)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        if (str[i] == 'N' && str[i + 1] == 'P')
+        {
+            np += 1;
+            str[i] = 'X', str[i + 1] = 'X';
+        }
     }
-    return dp[n] = ans;
+    range(i, n)
+    {
+        if (str[i] == 'P')
+        {
+            p += 1;
+            str[i] = 'X';
+        }
+    }
+
+    range(i, n - 1)
+    {
+        if (str[i] == 'N')
+        {
+            ll len = 0;
+            ll j = i;
+            for (j = i; j < n; j++)
+            {
+                if (str[j] != 'N')
+                {
+                    break;
+                }
+                else
+                {
+                    len++;
+                }
+            }
+            i = j - 1;
+            if (len % 2 == 0)
+            {
+                np += len / 2;
+                ans += len / 2;
+            }
+            else
+            {
+                np += len / 2;
+                p += 1;
+                ans += len / 2 + 1;
+            }
+        }
+    }
+
+    if (np > p)
+        ans += (np - p) / 3;
+    else if (p > np)
+        ans += (p - np) / 3;
+    print(ans);
+    return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    newint(t);
+    range(t)
     {
-        newint(n);
-        print(func(n));
+
+        func();
     }
 }

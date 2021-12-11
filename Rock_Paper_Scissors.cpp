@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -93,27 +94,52 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-UM<ll, ll> dp;
-ll func(ll n)
+char lose(char a)
+{
+    if (a == 'S')
+        return 'R';
+    if (a == 'R')
+        return 'P';
+    else
+        return 'S';
+}
+ll func()
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
+    newint(n);
+    newstring(str);
+    V<char> ans(n);
+    map<char, deque<ll>> shatru;
+
+    range(i, n - 1, -1, -1)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        if (shatru.find(lose(str[i])) == shatru.end())
+        {
+            ans[i] = str[i];
+            shatru[str[i]].push_front(i);
+        }
+        else
+        {
+            ll pos = shatru[lose(str[i])][0];
+            // db(pos);
+            ans[i] = ans[pos];
+            shatru[str[i]].push_front(i);
+        }
     }
-    return dp[n] = ans;
+    range(i, n)
+    {
+        cout << ans[i];
+    }
+    cout << endl;
+    return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    newint(t);
+    range(t)
     {
-        newint(n);
-        print(func(n));
+        func();
     }
 }

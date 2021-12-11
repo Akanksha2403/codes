@@ -93,27 +93,27 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-UM<ll, ll> dp;
-ll func(ll n)
+ll func()
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
+    newint(n);
+    vi vec(n);
+    range(i, n)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        vec[i] = i+2;
     }
-    return dp[n] = ans;
+    vec[vec.size()-1] = 1;
+    print(vec);
+
+    return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    newint(t);
+    range(t)
     {
-        newint(n);
-        print(func(n));
+        func();
     }
 }

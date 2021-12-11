@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -93,27 +94,62 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-UM<ll, ll> dp;
-ll func(ll n)
+ll func()
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
+    newint(n, localmax, localmin);
+    if (abs(localmax - localmin) > 1 || localmax + localmin > n - 2)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        print(-1);
+        return 0;
     }
-    return dp[n] = ans;
+    if (localmax == localmin)
+    {
+        vi ans;
+        ans.push_back(0);
+        ans.push_back(1);
+
+        ll min = -1, max = 2;
+        ll flag = true;
+        range(i, n)
+        {
+            if (flag)
+            {
+                ans.push_back(min);
+                min--;
+                localmax--;
+            }
+            else
+            {
+                ans.push_back(max);
+                max++;
+                localmin--;
+            }
+        }
+        ll last = ans[ans.size() - 1];
+        if (last > 0)
+        {
+            while (ans.size() != n)
+            {
+                ans.push_back(ans[ans.size() - 1]);
+            }
+        }
+        
+        ll mle = *min_element(all(ans));
+        foreach (i, ans)
+            i = i - mle + 1;
+        print(ans);
+    }
+
+    return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    newint(t);
+    range(t)
     {
-        newint(n);
-        print(func(n));
+        func();
     }
 }

@@ -1,11 +1,12 @@
 #include <bits/stdc++.h>
 // Uncomment them for optimisations
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("avx,avx2,fma")
+// #pragma GCC optimize("Ofast")
+// #pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -92,28 +93,96 @@ void printl(T &&...args) { ((cout << args << " "), ...); }
 inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-UM<ll, ll> dp;
-ll func(ll n)
+ll func()
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
+    newint(n);
+    vi vec = inputvec(n);
+
+    // finding duplicates
+    map<ll, vector<ll>> freq;
+    range(i, n) freq[vec[i]].push_back(i);
+    vi ans = vec;
+    foreach (tv, freq)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        if (tv.second.size() > 1)
+        {
+            foreach (i, tv.second)
+                ans[i] = -1;
+        }
     }
-    return dp[n] = ans;
+    // finding those who are giving gifts in duplicate and not taking gifts
+    set<ll> sensitiveinfo;
+    set<ll> nottakinggifts;
+    range(i, 1, n + 1) nottakinggifts.insert(i);
+    foreach (i, vec)
+        nottakinggifts.erase(i);
+    range(i, ans.size())
+    {
+        if (ans[i] == -1 && nottakinggifts.find(i + 1) != nottakinggifts.end())
+            sensitiveinfo.insert(i + 1);
+    }
+    deque<ll> nottakinggiftss;
+    foreach (i, sensitiveinfo)
+        nottakinggiftss.push_back(i), nottakinggifts.erase(i);
+    foreach (i, nottakinggifts)
+        nottakinggiftss.push_back(i);
+    foreach (i, freq)
+    {
+        if (i.second.size() == 1)
+            continue;
+        ll u = vec[i.second[0]];
+        bool uexhausted = false;
+        for (auto j = i.second.begin(); j != i.second.end(); j++)
+        {
+            if (j == prev(i.second.end()))
+            {
+                if (!uexhausted)
+                    ans[*j] = u;
+                else
+                {
+                    auto itr = nottakinggiftss.begin();
+                    while (*j + 1 == *itr)
+                    {
+                        itr++;
+                        if (itr == nottakinggiftss.end())
+                            break;
+                    }
+                    ans[*j] = *itr;
+                    nottakinggiftss.erase(itr);
+                }
+                continue;
+            }
+            auto itr = nottakinggiftss.begin();
+            while (*j + 1 == *itr)
+            {
+                itr++;
+                if (itr == nottakinggiftss.end())
+                    break;
+            }
+            if (itr == nottakinggiftss.end() && !uexhausted)
+            {
+                ans[*j] = u;
+                uexhausted = true;
+                continue;
+            }
+            ans[*j] = *itr;
+            nottakinggiftss.erase(itr);
+        }
+    }
+    ll ansval = 0;
+    range(i, n) if (ans[i] == vec[i]) ansval++;
+    print(ansval);
+    print(ans);
+    return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
-    // FAST;
+    FAST;
+    newint(t);
+    range(t)
     {
-        newint(n);
-        print(func(n));
+        func();
     }
 }

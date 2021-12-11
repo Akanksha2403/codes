@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -93,27 +94,34 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-UM<ll, ll> dp;
-ll func(ll n)
+ll func()
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
+    newint(n);
+    vi vec = inputvec(n + 1, 1);
+    V<vi> dp(n + 1, vi(2, INT_INF));
+    dp[1][0] = vec[1];
+    if (n >= 2)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        dp[2][0] = vec[1] + vec[2];
+        dp[2][1] = vec[1];
     }
-    return dp[n] = ans;
+    range(i, 3, n + 1)
+    {
+        dp[i][0] = min(dp[i - 1][1] + vec[i], dp[i - 2][1] + vec[i - 1] + vec[i]);
+    
+        dp[i][1] = min(dp[i - 1][0], dp[i - 2][0]);
+    }
+    print(min(dp[n][0], dp[n][1]));
+    return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    newint(t);
+    range(t)
     {
-        newint(n);
-        print(func(n));
+        func();
     }
 }

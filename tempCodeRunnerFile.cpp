@@ -7,13 +7,16 @@ using namespace std;
 #define range(...)                         \
     GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
     (__VA_ARGS__)
-#define r4(var, start, stop, step) for (auto var = start; step >= 0 ? var < stop : var > stop; var = var + step)
-#define r3(var, start, stop) for (auto var = start; var != stop; var++)
-#define r2(var, stop) for (ll var = 0; var != stop; var++)
-#define r1(stop) for (ll start_from_0 = 0; start_from_0 != stop; start_from_0++)
+#define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
+#define r3(var, start, stop) for (ll var = start; var < stop; var++)
+#define r2(var, stop) for (ll var = 0; var < stop; var++)
+#define r1(stop) for (ll start_from_0 = 0; start_from_0 < stop; start_from_0++)
 #define newint(...) \
     ll __VA_ARGS__; \
     take_input(__VA_ARGS__)
+#define max(...) max({__VA_ARGS__})
+#define min(...) min({__VA_ARGS__})
+#define foreach(a, x) for (auto &a : x)
 #define endl "\n"
 #define FULL_INF numeric_limits<double>::infinity()
 #define INF LONG_LONG_MAX
@@ -22,8 +25,9 @@ using namespace std;
 #define ld long double
 #define V vector
 #define P pair
-#define S string
+#define S set
 #define MS multiset
+#define M map
 #define UM unordered_map
 #define US unordered_set
 #define MM multimap
@@ -34,13 +38,12 @@ using namespace std;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
-#define new_string(str) \
-    string str;         \
-    cin >> str;
+#define newstring(s) \
+    string s;        \
+    cin >> s;
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
 const ld pi = acos(-1);
-typedef vector<string> vs;
 typedef pair<ll, ll> pii;
 typedef vector<ll> vi;
 typedef map<ll, ll> mii;
@@ -57,12 +60,12 @@ vi inputvec(ll n, ll start = 0)
     vi vec(n);
     for (ll i = start; i < n; i++)
     {
-        vec[i] = input();
+        cin >> vec[i];
     }
     return vec;
 }
 template <typename T>
-bool btn(T a, T b, T c)
+inline bool btn(T a, T b, T c)
 {
     if ((a <= b && b <= c) || (a >= b && b >= c))
         return true;
@@ -87,128 +90,39 @@ void print(T &&...args)
 }
 template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
-template <typename... T, typename Q>
-Q max(Q arg1, T &&...args)
-{
-    Q ans = arg1;
-    ((ans = (args > ans ? args : ans)), ...);
-    return ans;
-}
-template <typename... T, typename Q>
-Q min(Q arg1, T &&...args)
-{
-    Q ans = arg1;
-    ((ans = (args < ans ? args : ans)), ...);
-    return ans;
-}
-ld TLD(ll n) { return n; }
-ll gcd(ll __m, ll __n)
-{
-    while (__n != 0)
-    {
-        ll __t = __m % __n;
-        __m = __n;
-        __n = __t;
-    }
-    return __m;
-}
-
+inline ll gcd(ll m, ll n) { return __gcd(m, n); }
+inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-ll solve(vi &vec, ll k, ll n)
-{
-    deque<ll> tans;
-    tans.push_back(1);
-    range(i, 1, vec.size())
-    {
-        if (vec[i] - vec[i - 1] == 1)
-        {
-            tans[tans.size() - 1]++;
-        }
-        else
-            tans.push_back(1);
-    }
-    ll ans = 0;
-    if (vec[0] == 0 && tans.size() > 0)
-    {
-        ans += tans[0];
-        tans.pop_front();
-    }
-    if (vec[vec.size() - 1] == n - 1 && tans.size() > 0)
-    {
-        ans += tans[tans.size() - 1];
-        tans.pop_back();
-    }
 
-    sort(all(tans), greater<ll>());
-    range(i, min(tans.size(), k - 1))
-    {
-        ans += tans[i];
-    }
-    return ans;
-}
 ll func()
 {
     // write your code here
-    newint(n, k);
-    new_string(str);
-    if (k == 0)
-    {
-        string nstr = str;
-        sort(all(nstr));
-        if (nstr[0] == nstr[nstr.size() - 1])
-            print(str.size());
-        else
-            print(0);
-        return 0;
-    }
-    else if (k == 1)
-    {
-        ll ans = 0;
-        ll ans2 = 0;
-        bool flag = false;
-        if (str[0] == str[str.size() - 1])
-        {
-            range(i, n)
-            {
-                if (str[0] != str[i])
-                {
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag)
-                return 0;
-        }
-        range(i, n)
-        {
-            if (str[i] != str[0])
-                break;
-            else
-                ans++;
-        }
-        for (ll i = n - 1; i >= 0; i--)
-        {
-            if (str[i] != str[str.size() - 1])
-                break;
-            else
-                ans2++;
-        }
-        if (flag)
-            print(ans + ans2);
-        else
-            print(max(ans, ans2));
-        return 0;
-    }
+    newstring(str);
     ll ans = 0;
-    map<char, vector<ll>> positions;
+    ll n = str.size();
+    range(i, n - 1)
+    {
+        if (str[i] == 'N' && str[i + 1] == 'N')
+        {
+            ans += 1;
+            str[i + 1] = 'P';
+        }
+    }
+    if (str[n - 1] == 'N')
+        ans += 1, str[n - 1] = 'P';
+
+    ll np = 0, p = 0;
     range(i, n)
     {
-        positions[str[i]].push_back(i);
+        if (str[i] == 'N' && str[i + 1] == 'P')
+            np++, i++;
+        else
+            p++;
     }
-    for (auto &i : positions)
-    {
-        ans = max(ans, solve(i.second, k, n));
-    }
+    if (np > p)
+        ans += (np - p) / 3;
+    else if (p > np)
+        ans += (p - np) / 2;
     print(ans);
     return 0;
 }
@@ -219,6 +133,7 @@ int main()
     newint(t);
     range(t)
     {
+
         func();
     }
 }

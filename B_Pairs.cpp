@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -92,28 +93,83 @@ void printl(T &&...args) { ((cout << args << " "), ...); }
 inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
+ll common(pii a, pii b)
+{
 
-UM<ll, ll> dp;
-ll func(ll n)
+    if (a.first == b.first)
+        return a.first;
+    else if (a.first == b.second)
+        return a.first;
+    else if (a.second == b.first)
+        return a.second;
+    else if (a.second == b.second)
+        return a.second;
+    return 0;
+}
+ll _func(V<pii> vec, ll cmn)
+{
+    ll a = vec[0].first == cmn ? vec[0].second : vec[0].first;
+    ll b = vec[1].first == cmn ? vec[1].second : vec[1].first;
+    pii u = {a, b};
+    range(i, vec.size())
+    {
+        if (common(u, vec[i]))
+            continue;
+        else
+            return 0;
+    }
+    return 1;
+}
+ll func()
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
+    newint(n, k);
+    set<pii> svec;
+    range(k)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        newint(a, b);
+        if (a > b)
+            swap(a, b);
+        svec.insert({a, b});
     }
-    return dp[n] = ans;
+    V<pii> vec(all(svec));
+    k = vec.size();
+    if (k == 1)
+        return 1;
+    ll cmn = common(vec[0], vec[1]);
+    if (_func(vec, cmn))
+        return 1;
+
+    V<pii> extracted;
+    range(i, k)
+    {
+        if (vec[i].first == cmn || vec[i].second == cmn)
+            continue;
+        else
+        {
+            extracted.push_back(vec[i]);
+        }
+    }
+    if (extracted.size() < 2)
+        return 1;
+    ll cmn2 = common(extracted[0], extracted[1]);
+    if (cmn2 == 0)
+        return 0;
+    range(i, extracted.size())
+    {
+        if (extracted[i].first == cmn2 || extracted[i].second == cmn2)
+            continue;
+        else
+            return 0;
+    }
+    return 1;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
-    {
-        newint(n);
-        print(func(n));
-    }
+    if (func())
+        print("YES");
+    else
+        print("NO");
 }

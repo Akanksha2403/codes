@@ -4,8 +4,9 @@
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -92,28 +93,52 @@ void printl(T &&...args) { ((cout << args << " "), ...); }
 inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-UM<ll, ll> dp;
-ll func(ll n)
+ll get_parent(ll x, vi &p)
+{
+    if (p[x] == x)
+        return x;
+    else
+        return p[x] = get_parent(p[x], p);
+}
+ll func()
 {
     // write your code here
-    if (n / 10 == 0)
-        return max(1LL, n);
-    if (dp.find(n) != dp.end())
-        return dp[n];
-    ll ans = 0;
-    range(i, 10)
+    newint(n, q);
+    // create dsu
+    vi parent(n + 1);
+    range(i, n + 1) parent[i] = i;
+
+    range(i, q)
     {
-        ans = max(ans, ((n - i) % 10) * func((n - i) / 10));
+        newint(x);
+        vi vec = inputvec(x);
+        if (x == 0)
+            continue;
+        range(i, x)
+        {
+            ll a = get_parent(vec[i], parent);
+            ll b = get_parent(vec[0], parent);
+            parent[a] = b;
+        }
     }
-    return dp[n] = ans;
+
+    vi tot_child(n + 1, 0);
+    range(i, 1, n + 1)
+    {
+        tot_child[get_parent(i, parent)]++;
+    }
+    range(i, 1, n + 1)
+    {
+        printl(tot_child[get_parent(i, parent)]);
+    }
+
+    return 0;
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
     {
-        newint(n);
-        print(func(n));
+        func();
     }
 }
