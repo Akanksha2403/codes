@@ -1,58 +1,64 @@
 #include <bits/stdc++.h>
+// Uncomment them for optimisations
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
 using namespace std;
+#define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
+#define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
+#define r3(var, start, stop) for (ll var = start; var < stop; var++)
+#define r2(var, stop) for (ll var = 0; var < stop; var++)
+#define r1(stop) for (ll start_from_0 = 0; start_from_0 < stop; start_from_0++)
+#define newint(...) \
+    ll __VA_ARGS__; \
+    take_input(__VA_ARGS__)
+#define min(...) min({__VA_ARGS__})
+#define max(...) max({__VA_ARGS__})
+#define give(...)           \
+    {                       \
+        print(__VA_ARGS__); \
+        return;             \
+    }
 #define endl "\n"
-#define ll unsigned long long int
-#define print(x)                \
-    for (auto element : x)      \
-        cout << element << " "; \
-    cout << endl
-#define db(x) cout << #x << " = " << x << "\n"
-#define range(i, n) for (ll i = 0; i < n; i++)
-#define loop(i, a, b) for (ll i = a; i < b; i++)
-#define loopr(i, a, b) for (ll i = a; i >= b; i--)
-#define loops(i, a, b, step) for (ll i = a; i < b; i += step)
-#define looprs(i, a, b, step) for (ll i = a; i >= b; i -= step)
-#define pb push_back
-#define mp make_pair
-#define all(a) a.begin(), a.end()
+#define FULL_INF numeric_limits<double>::infinity()
+#define INF LONG_LONG_MAX
+#define INT_INF INT_MAX
+#define ll long long
 #define ld long double
-#define new_string(str) \
-    string str;         \
-    cin >> str;
-#define new_int_1(t) \
-    ll t;            \
-    cin >> t;
-#define ll2(a, b) \
-    ll a, b;      \
-    cin >> a >> b;
-#define ll3(a, b, c) \
-    ll a, b, c;      \
-    cin >> a >> b >> c;
-#define ll4(a, b, c, d) \
-    ll a, b, c, d;      \
-    cin >> a >> b >> c >> d;
 #define V vector
 #define P pair
+#define S set
 #define MS multiset
+#define M map
 #define UM unordered_map
 #define US unordered_set
 #define MM multimap
+#define mt make_tuple
 #define mp make_pair
 #define pb push_back
 #define pf push_front
-#define F first
-#define S second
-#define FAST ios_base::sync_with_stdio(false);
+#define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
+#define db(x) cout << #x << " = " << x << "\n"
+#define newstring(str) \
+    string str;        \
+    cin >> str;
+#define foreach(a, x) for (auto &a : x)
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
-const double pi = acos(-1);
+const ld pi = acos(-1);
 typedef vector<string> vs;
+typedef pair<ll, ll> pii;
 typedef vector<ll> vi;
+typedef map<ll, ll> mii;
 typedef set<ll> si;
+template <typename... T>
+void take_input(T &&...args) { ((cin >> args), ...); }
 ll input()
 {
-    new_int_1(n);
+    newint(n);
     return n;
 }
 vi inputvec(ll n, ll start = 0)
@@ -64,50 +70,73 @@ vi inputvec(ll n, ll start = 0)
     }
     return vec;
 }
-ll gcd(ll a, ll b)
+template <typename T>
+bool btn(T a, T b, T c)
 {
-    while (b != 0)
-    {
-        ll temp = a;
-        a = b;
-        b = temp % a;
-    }
-    return a;
+    if ((a <= b && b <= c) || (a >= b && b >= c))
+        return true;
+    return false;
 }
+template <typename T>
+ostream &operator<<(ostream &os, const V<T> &v)
+{
+    for (int i = 0; i < v.size(); ++i)
+    {
+        os << v[i];
+        if (i != v.size() - 1)
+            os << " ";
+    }
+    return os;
+}
+template <typename... T>
+void print(T &&...args)
+{
+    ((cout << args << " "), ...);
+    cout << endl;
+}
+template <typename... T>
+void printl(T &&...args) { ((cout << args << " "), ...); }
+inline ld TLD(ll n) { return n; }
+inline ll gcd(ll m, ll n) { return __gcd(m, n); }
+inline ll rs(ll n) { return n % mod; }
+/* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
 ll lcm(ll a, ll b)
 {
     return a * b / gcd(a, b);
 }
-ll func()
+void func()
 {
-    new_int_1(n);
-    if (n == 1)
-        return 2;
-    ll lcmof = 2;
-    ll used = 0;
+    newint(n);
     ll ans = 0;
-    for (ll i = 2; i <= n + 1; i++)
+    vi vec;
+    vi primes(1000);
+    range(i, 1000)
     {
-        lcmof = lcm(i, lcmof);
-        ll left = n / lcmof;
-        ll nleft = n - left - used;
-        used = n - left;
-        ans += nleft * i;
-        ans = ans%mod;
-        if (n / lcmof == 0)
-        {
-            break;
-        }
+        primes[i] = i + 2;
     }
-
-    return ans;
+    auto itr = primes.begin();
+    ll div = *primes.begin();
+    ll nstaken = 0;
+    while (n)
+    {
+        div = lcm(*itr, div);
+        ll left = n - n / div - nstaken;
+        nstaken += left;
+        ans += (left * *itr) % mod;
+        itr++;
+        if (n / div == 0)
+            break;
+    }
+    print(ans % mod);
 }
 int main()
 {
+    // Uncomment for faster I/O
     // FAST;
-    new_int_1(t);
-    while (t--)
+    newint(t);
+    range(t)
     {
-        cout << func() << endl;
+        func();
     }
 }

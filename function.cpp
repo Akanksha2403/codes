@@ -38,7 +38,7 @@ using namespace std;
     string str;         \
     cin >> str;
 const ll mod = 1000000007;
-const ll mod2 = 998244353;
+const ll mod = 998244353;
 const ld pi = acos(-1);
 typedef vector<string> vs;
 typedef pair<ll, ll> pii;
@@ -138,7 +138,6 @@ ll NCR(ll n, ll r)
 {
     if (r > n)
         return 0;
-    ll m = mod2;
     ll inv[r + 1] = {0};
     inv[0] = 1;
     if (r + 1 >= 2)
@@ -150,7 +149,7 @@ ll NCR(ll n, ll r)
     // here m = 1000000007
     for (ll i = 2; i <= r; i++)
     {
-        inv[i] = m - (m / i) * inv[m % i] % m;
+        inv[i] = mod - (mod / i) * inv[mod % i] % mod;
     }
 
     ll ans = 1;
@@ -158,13 +157,13 @@ ll NCR(ll n, ll r)
     // for 1/(r!) part
     for (ll i = 2; i <= r; i++)
     {
-        ans = ((ans % m) * (inv[i] % m)) % m;
+        ans = ((ans % mod) * (inv[i] % mod)) % mod;
     }
 
     // for (n)*(n-1)*(n-2)*...*(n-r+1) part
     for (ll i = n; i >= (n - r + 1); i--)
     {
-        ans = ((ans % m) * (i % m)) % m;
+        ans = ((ans % mod) * (i % mod)) % mod;
     }
     return ans;
 }

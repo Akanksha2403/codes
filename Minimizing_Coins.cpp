@@ -1,14 +1,26 @@
 #include <bits/stdc++.h>
 // Uncomment them for optimisations
-// #pragma GCC optimize("Ofast")
-// #pragma GCC target("avx,avx2,fma")
-#define GET_MACRO(_1,_2,_3,_4,NAME,...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1)(__VA_ARGS__)
-#define r4(var, start, stop, step) for(auto var = start; var != stop; var = var + step)
-#define r3(var, start, stop) for(auto var = start; var != stop; var++)
-#define r2(var, stop) for(ll var = 0; var != stop; var++)
-#define r1(stop) for(ll start_from_0 = 0; start_from_0 != stop; start_from_0++)
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
 using namespace std;
+#define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
+#define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
+#define r3(var, start, stop) for (ll var = start; var < stop; var++)
+#define r2(var, stop) for (ll var = 0; var < stop; var++)
+#define r1(stop) for (ll start_from_0 = 0; start_from_0 < stop; start_from_0++)
+#define newint(...) \
+    ll __VA_ARGS__; \
+    take_input(__VA_ARGS__)
+#define min(...) min({__VA_ARGS__})
+#define max(...) max({__VA_ARGS__})
+#define give(...)           \
+    {                       \
+        print(__VA_ARGS__); \
+        return;             \
+    }
 #define endl "\n"
 #define FULL_INF numeric_limits<double>::infinity()
 #define INF LONG_LONG_MAX
@@ -17,69 +29,107 @@ using namespace std;
 #define ld long double
 #define V vector
 #define P pair
-#define S string
+#define S set
 #define MS multiset
+#define M map
 #define UM unordered_map
 #define US unordered_set
 #define MM multimap
+#define mt make_tuple
 #define mp make_pair
 #define pb push_back
 #define pf push_front
-#define fi first
-#define se second
+const ll mod = 1000000007;
+//const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
-#define new_string(str) string str; cin >> str;
-#define new_int_1(t) ll t; cin >> t;
-#define new_int_2(a, b) ll a, b; cin >> a >> b;
-#define new_int_3(a, b, c) ll a, b, c; cin >> a >> b >> c;
-#define new_int_4(a, b, c, d) ll a, b, c, d; cin >> a >> b >> c >> d;
-#define new_int_5(a, b, c, d, e) ll a, b, c, d, e; cin >> a >> b >> c >> d >> e;
-#define new_int_6(a, b, c, d, e, f) ll a, b, c, d, e, f; cin >> a >> b >> c >> d >> e >> f;
-const ll mod = 1000000007; const ll mod2 = 998244353; const ld pi = acos(-1);
-typedef vector<string> vs; typedef pair<ll, ll> pii;
-typedef vector<ll> vi;typedef map<ll, ll> mii; typedef set<ll> si;
-ll input(){ new_int_1(n); return n; }
-vi inputvec(ll n, ll start = 0){ vi vec(n); for (ll i = start; i < n; i++){ vec[i] = input(); } return vec; }
-template<typename T>
-bool btn(T a, T b, T c){if((a <= b && b <= c) || (a >= b && b >= c)) return true; return false;}
-template <typename T>
-ostream& operator<<(ostream& os, const V<T>& v){for (int i = 0; i < v.size();
-++i) {os << v[i];if (i != v.size() - 1) os << " ";} return os;}
-template<typename... T> void print(T &&...args){ ((cout << args << " "), ...); cout << endl;}
-
-ll func()
+#define newstring(str) \
+    string str;        \
+    cin >> str;
+#define foreach(a, x) for (auto &a : x)
+const ld pi = acos(-1);
+typedef vector<string> vs;
+typedef pair<ll, ll> pii;
+typedef vector<ll> vi;
+typedef map<ll, ll> mii;
+typedef set<ll> si;
+template <typename... T>
+void take_input(T &&...args) { ((cin >> args), ...); }
+ll input()
 {
-    // write your code here
-    new_int_2(n, m);
-    vi vec = inputvec(n+1, 1); 
-    vec[0] = INT_INF;
-    sort(all(vec), greater<ll>());
-    V<V<int>> dp(n+1, V<int>(m+1, INT_INF));
-    dp[0][0] = 0;
-    range(i, n+1) dp[i][0] = 0;
-    range(i, 1, n+1)
+    newint(n);
+    return n;
+}
+vi inputvec(ll n, ll start = 0)
+{
+    vi vec(n);
+    for (ll i = start; i < n; i++)
     {
-        range(j, 1, m+1)
+        vec[i] = input();
+    }
+    return vec;
+}
+template <typename T>
+bool btn(T a, T b, T c)
+{
+    if ((a <= b && b <= c) || (a >= b && b >= c))
+        return true;
+    return false;
+}
+template <typename T>
+ostream &operator<<(ostream &os, const V<T> &v)
+{
+    for (int i = 0; i < v.size(); ++i)
+    {
+        os << v[i];
+        if (i != v.size() - 1)
+            os << " ";
+    }
+    return os;
+}
+template <typename... T>
+void print(T &&...args)
+{
+    ((cout << args << " "), ...);
+    cout << endl;
+}
+template <typename... T>
+void printl(T &&...args) { ((cout << args << " "), ...); }
+inline ld TLD(ll n) { return n; }
+inline ll gcd(ll m, ll n) { return __gcd(m, n); }
+inline ll rs(ll n) { return n % mod; }
+
+/* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+void func()
+{
+    newint(n, k);
+    vi vec = inputvec(n);
+    V<vi> dp(n + 1, vi(k + 1, INT_INF));
+    range(i, n)
+    {
+        dp[i][0] = 0;
+    }
+    range(i, n)
+    {
+        range(j, 1, k + 1)
         {
-            dp[i][j] = dp[i-1][j];
-            if(j-vec[i] >= 0 && dp[i][j-vec[i]] != INT_INF)
-            {
-                dp[i][j] = min(dp[i][j], 1+dp[i][j-vec[i]]);
-            }
+            ll ans1 = INT_INF, ans2 = INT_INF;
+            if (j - vec[i] >= 0)
+                ans1 = 1 + dp[i][j - vec[i]];
+            if (i - 1 >= 0)
+                ans2 = dp[i - 1][j];
+            dp[i][j] = min(ans1, ans2);
         }
     }
-    if(dp[n][m] != INT_INF) print(dp[n][m]);
-    else print(-1);
-    return 0;
+    if (dp[n - 1][k] < INT_INF)
+        print(dp[n - 1][k]);
+    else
+        print(-1);
 }
-
 int main()
 {
-    // Uncomment for faster I/O
-    // FAST;
-    // new_int_1(t);
-    // range(t)
+    FAST;
     func();
 }

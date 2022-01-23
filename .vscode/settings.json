@@ -80,5 +80,6 @@
         "typeinfo": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled",
-    "livePreview.defaultPreviewPath": "/index.html"
+    "livePreview.defaultPreviewPath": "/index.html",
+    "editor.fontFamily": "monolisa , 'Courier New', monospace"
 }

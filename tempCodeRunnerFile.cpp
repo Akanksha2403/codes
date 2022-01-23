@@ -3,6 +3,7 @@
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
+#define cntpop(x) __builtin__popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
 #define range(...)                         \
     GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
@@ -14,9 +15,13 @@ using namespace std;
 #define newint(...) \
     ll __VA_ARGS__; \
     take_input(__VA_ARGS__)
-#define max(...) max({__VA_ARGS__})
 #define min(...) min({__VA_ARGS__})
-#define foreach(a, x) for (auto &a : x)
+#define max(...) max({__VA_ARGS__})
+#define give(...)           \
+    {                       \
+        print(__VA_ARGS__); \
+        return;             \
+    }
 #define endl "\n"
 #define FULL_INF numeric_limits<double>::infinity()
 #define INF LONG_LONG_MAX
@@ -35,15 +40,17 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
+const ll mod = 1000000007;
+//const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
-#define newstring(s) \
-    string s;        \
-    cin >> s;
-const ll mod = 1000000007;
-const ll mod2 = 998244353;
+#define newstring(str) \
+    string str;        \
+    cin >> str;
+#define foreach(a, x) for (auto &a : x)
 const ld pi = acos(-1);
+typedef vector<string> vs;
 typedef pair<ll, ll> pii;
 typedef vector<ll> vi;
 typedef map<ll, ll> mii;
@@ -60,12 +67,12 @@ vi inputvec(ll n, ll start = 0)
     vi vec(n);
     for (ll i = start; i < n; i++)
     {
-        cin >> vec[i];
+        vec[i] = input();
     }
     return vec;
 }
 template <typename T>
-inline bool btn(T a, T b, T c)
+bool btn(T a, T b, T c)
 {
     if ((a <= b && b <= c) || (a >= b && b >= c))
         return true;
@@ -90,41 +97,85 @@ void print(T &&...args)
 }
 template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
-inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
-/* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
+inline ll gcd(ll m, ll n) { return __gcd(m, n); }
+inline ll rs(ll n) { return n % mod; }
 
-ll func()
+/* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
+#include <iostream>
+#include <vector>
+
+// Binary search (note boundaries in the caller)
+int CeilIndex(vi &v, int l, int r, int key)
 {
-    // write your code here
-    newstring(str);
-    ll ans = 0;
-    ll n = str.size();
-    range(i, n - 1)
+    while (r - l > 1)
     {
-        if (str[i] == 'N' && str[i + 1] == 'N')
+        int m = l + (r - l) / 2;
+        if (v[m] >= key)
+            r = m;
+        else
+            l = m;
+    }
+
+    return r;
+}
+
+int LongestIncreasingSubsequenceLength(vi &v)
+{
+    if (v.size() == 0)
+        return 0;
+
+    vi tail(v.size(), 0);
+    int length = 1; // always points empty slot in tail
+
+    tail[0] = v[0];
+    for (size_t i = 1; i < v.size(); i++)
+    {
+
+        // new smallest value
+        if (v[i] < tail[0])
+            tail[0] = v[i];
+
+        // v[i] extends largest subsequence
+        else if (v[i] >= tail[length - 1])
+            tail[length++] = v[i];
+
+        // v[i] will become end candidate of an existing
+        // subsequence or Throw away larger elements in all
+        // LIS, to make room for upcoming greater elements
+        // than v[i] (and also, v[i] would have already
+        // appeared in one of LIS, identify the location
+        // and replace it)
+        else
+            tail[CeilIndex(tail, -1, length - 1, v[i])] = v[i];
+    }
+
+    return length;
+}
+
+void func()
+{
+    newint(n, m);
+    vi vec = inputvec(n);
+    vi vec1 = inputvec(m);
+    vec.push_back(INT_INF);
+    vec1.push_back(INT_INF);
+    vi ans;
+    ll i = 0, j = 0;
+    while (vec[i] != INT_INF || vec1[j] != INT_INF)
+    {
+        if (vec[i] < vec1[j])
         {
-            ans += 1;
-            str[i + 1] = 'P';
+            ans.push_back(vec[i]);
+            i++;
+        }
+        else
+        {
+            ans.push_back(vec1[j]);
+            j++;
         }
     }
-    if (str[n - 1] == 'N')
-        ans += 1, str[n - 1] = 'P';
-
-    ll np = 0, p = 0;
-    range(i, n)
-    {
-        if (str[i] == 'N' && str[i + 1] == 'P')
-            np++, i++;
-        else
-            p++;
-    }
-    if (np > p)
-        ans += (np - p) / 3;
-    else if (p > np)
-        ans += (p - np) / 2;
-    print(ans);
-    return 0;
+    print(LongestIncreasingSubsequenceLength(ans));
 }
 int main()
 {
@@ -133,7 +184,6 @@ int main()
     newint(t);
     range(t)
     {
-
         func();
     }
 }

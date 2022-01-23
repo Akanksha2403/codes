@@ -14,9 +14,13 @@ using namespace std;
 #define newint(...) \
     ll __VA_ARGS__; \
     take_input(__VA_ARGS__)
-#define max(...) max({__VA_ARGS__})
 #define min(...) min({__VA_ARGS__})
-#define foreach(a, x) for (auto &a : x)
+#define max(...) max({__VA_ARGS__})
+#define give(...)           \
+    {                       \
+        print(__VA_ARGS__); \
+        return;             \
+    }
 #define endl "\n"
 #define FULL_INF numeric_limits<double>::infinity()
 #define INF LONG_LONG_MAX
@@ -38,12 +42,14 @@ using namespace std;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
-#define newstring(s) \
-    string s;        \
-    cin >> s;
+#define newstring(str) \
+    string str;        \
+    cin >> str;
+#define foreach(a, x) for (auto &a : x)
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
 const ld pi = acos(-1);
+typedef vector<string> vs;
 typedef pair<ll, ll> pii;
 typedef vector<ll> vi;
 typedef map<ll, ll> mii;
@@ -60,12 +66,12 @@ vi inputvec(ll n, ll start = 0)
     vi vec(n);
     for (ll i = start; i < n; i++)
     {
-        cin >> vec[i];
+        vec[i] = input();
     }
     return vec;
 }
 template <typename T>
-inline bool btn(T a, T b, T c)
+bool btn(T a, T b, T c)
 {
     if ((a <= b && b <= c) || (a >= b && b >= c))
         return true;
@@ -90,30 +96,52 @@ void print(T &&...args)
 }
 template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
-inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
+inline ll gcd(ll m, ll n) { return __gcd(m, n); }
+inline ll rs(ll n) { return n % mod; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-ll func()
+void func()
 {
-    // write your code here
     newint(n);
-    vi vec = inputvec(n);
     vi vec1 = inputvec(n);
-    ll h = max_element(all(vec)) - vec.begin();
-    ll h1 = max_element(all(vec1)) - vec1.begin();
-    if (h == h1)
+    vi vec2 = inputvec(n);
+    V<vector<ll>> for_sort1;
+    UM<ll, US<ll>> g;
+    range(i, n) { for_sort1.push_back({vec1[i], vec2[i], i}); }
+    sort(all(for_sort1));
+    range(i, n - 1)
     {
-        string str(n, '0');
-        str[h] = '1';
-        print(str);
+        g[(for_sort1[i][2])].insert((for_sort1[i + 1][2]));
     }
-    else
+
+    V<vector<ll>> for_sort2;
+    range(i, n) { for_sort2.push_back({vec2[i], vec1[i], i}); }
+    sort(all(for_sort2));
+    range(i, n - 1)
     {
-        string str(n, '1');
-        print(str);
+        g[(for_sort2[i][2])].insert((for_sort2[i + 1][2]));
     }
-    return 0;
+    // just dfsing...
+    vi visited(n, 0);
+    stack<ll> dfs;
+    dfs.push(for_sort1[n - 1][2]), dfs.push(for_sort2[n - 1][2]);
+    while (dfs.size())
+    {
+        ll x = dfs.top();
+        dfs.pop();
+        visited[x] = 1;
+        foreach (i, g[x])
+        {
+            if (!visited[i])
+                dfs.push(i);
+        }
+    }
+    range(i, n)
+    {
+        cout << visited[i]; 
+    }
+    cout << endl; 
 }
 int main()
 {

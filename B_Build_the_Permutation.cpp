@@ -14,9 +14,13 @@ using namespace std;
 #define newint(...) \
     ll __VA_ARGS__; \
     take_input(__VA_ARGS__)
-#define max(...) max({__VA_ARGS__})
 #define min(...) min({__VA_ARGS__})
-#define foreach(a, x) for (auto &a : x)
+#define max(...) max({__VA_ARGS__})
+#define give(...)           \
+    {                       \
+        print(__VA_ARGS__); \
+        return;             \
+    }
 #define endl "\n"
 #define FULL_INF numeric_limits<double>::infinity()
 #define INF LONG_LONG_MAX
@@ -38,12 +42,14 @@ using namespace std;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
-#define newstring(s) \
-    string s;        \
-    cin >> s;
+#define newstring(str) \
+    string str;        \
+    cin >> str;
+#define foreach(a, x) for (auto &a : x)
 const ll mod = 1000000007;
 const ll mod2 = 998244353;
 const ld pi = acos(-1);
+typedef vector<string> vs;
 typedef pair<ll, ll> pii;
 typedef vector<ll> vi;
 typedef map<ll, ll> mii;
@@ -60,12 +66,12 @@ vi inputvec(ll n, ll start = 0)
     vi vec(n);
     for (ll i = start; i < n; i++)
     {
-        cin >> vec[i];
+        vec[i] = input();
     }
     return vec;
 }
 template <typename T>
-inline bool btn(T a, T b, T c)
+bool btn(T a, T b, T c)
 {
     if ((a <= b && b <= c) || (a >= b && b >= c))
         return true;
@@ -90,58 +96,90 @@ void print(T &&...args)
 }
 template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
-inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ld TLD(ll n) { return n; }
+inline ll gcd(ll m, ll n) { return __gcd(m, n); }
+inline ll rs(ll n) { return n % mod; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-ll func()
+void adjustment(vi &vec, ll n){
+    ll last = vec[vec.size()-1];
+    if(last > 0){
+        while(vec.size() != n) {last++;vec.push_back(last);}
+    }
+    else if(last < 0){
+        while(vec.size() != n) {last--;vec.push_back(last);}
+    }
+    ll mini = *min_element(all(vec));
+    foreach(i, vec) i = i - mini + 1;
+}
+void func()
 {
-    // write your code here
-    newint(n, localmax, localmin);
-    if (abs(localmax - localmin) > 1 || localmax + localmin > n - 2)
+    newint(n, lmax, lmin);
+    if (abs(lmin - lmax) > 1)
     {
-        print(-1);
-        return 0;
+        give(-1);
     }
-    if (localmax == localmin)
+    vi vec;
+    if(lmin == 0 && lmax == 0) 
     {
-        vi ans;
-        ans.push_back(0);
-        ans.push_back(1);
-
-        ll min = -1, max = 2;
-        ll flag = true;
-        range(i, n)
-        {
-            if (flag)
-            {
-                ans.push_back(min);
-                min--;
-                localmax--;
-            }
-            else
-            {
-                ans.push_back(max);
-                max++;
-                localmin--;
-            }
-        }
-        ll last = ans[ans.size() - 1];
-        if (last > 0)
-        {
-            while (ans.size() != n)
-            {
-                ans.push_back(ans[ans.size() - 1]);
-            }
-        }
-        
-        ll mle = *min_element(all(ans));
-        foreach (i, ans)
-            i = i - mle + 1;
-        print(ans);
+        range(i, 1, n+1) vec.push_back(i);
+        give(vec);
     }
 
-    return 0;
+    ll clmin = lmin, clmax = lmax;
+    if (lmax > lmin)
+    {
+        vec.push_back(0);
+        vec.push_back(1);
+        vec.push_back(-1);
+        lmax -= 1;
+        ll mini = -2, maxi = 2;
+        while (lmax || lmin)
+        {
+            if (vec[vec.size() - 1] <= 0 && lmin > 0)
+            {
+                vec.push_back(maxi);
+                maxi++;
+                lmin--;
+            }
+            else if (vec[vec.size() - 1] >= 0 && lmax > 0)
+            {
+                vec.push_back(mini);
+                mini--;
+                lmax--;
+            }
+        }
+    }
+    else
+    {
+        vec.push_back(0);
+        vec.push_back(-1);
+        vec.push_back(1);
+        lmin -= 1;
+        ll mini = -2, maxi = 2;
+        while (lmax || lmin)
+        {
+            if (vec[vec.size() - 1] <= 0 && lmin > 0)
+            {
+                vec.push_back(maxi);
+                maxi++;
+                lmin--;
+            }
+            else if (vec[vec.size() - 1] >= 0 && lmax > 0)
+            {
+                vec.push_back(mini);
+                mini--;
+                lmax--;
+            }
+        }
+    }
+    if(vec.size() > n)
+    {
+        give(-1);
+    }
+
+    adjustment(vec, n);
+    print(vec);
+
 }
 int main()
 {
