@@ -1,6 +1,3 @@
-foreach (i, changes)
+
+    if (dp[n][k] == 1)
     {
-        sum += i;
-        printl(sum);
-    }
-    print();

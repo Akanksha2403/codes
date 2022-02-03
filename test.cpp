@@ -109,28 +109,59 @@ void brute()
     vi vec = inputvec(n);
     vi newvec(n);
     ll ans = INT_INF;
-    while (newvec[0] != 100)
+    ll u = 50;
+    vi ul = {1, 2, 5, 6};
+a:
+    while (newvec[0] != u - 1)
     {
-        ll tempans = 0;
-        range(i, 32)
+
+        ll carry = 0;
+        newvec[n - 1]++;
+
+        for (ll i = n - 1; i >= 0; i--)
         {
-            if (!((newvec[i] >> i) ^ (vec[i] >> i)))
+            newvec[i] += carry;
+            carry = newvec[i] / u;
+            newvec[i] = newvec[i] % u;
+        }
+        if (ul == newvec)
+        {
+            print(-1);
+        }
+        for (ll i = 0; i < n; i++)
+        {
+            if ((vec[i] | newvec[i]) != newvec[i])
+                goto a;
+        }
+        if (!is_sorted(all(newvec)))
+            goto a;
+
+        ll tempans = 0;
+
+        range(i, n)
+        {
+            range(j, 32)
             {
-                tempans++;
+                if ((
+                        ((newvec[i] >> j) & 1) ^ (1 & (vec[i] >> j))
+                    ))
+                {
+                    tempans++;
+                }
             }
         }
         ans = min(ans, tempans);
-
-        // iterate for ahead
-        ll carry = 0;
-        newvec[n - 1]++;
-        for (ll i = n - 1; i >= 0; i--)
-        {
-            carry = newvec[i] / 100;
-            newvec[i] = newvec[i] % 100;
-        }
+        continue;
     }
     print(ans);
+}
+
+
+void memo()
+{
+    newint(n); 
+    vi vec = inputvec(n); 
+    
 }
 int main()
 {

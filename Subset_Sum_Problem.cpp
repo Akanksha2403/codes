@@ -103,114 +103,40 @@ inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-class SegmentTree
-{
-private:
-    vi tree;
-    vi vec;
-    // change operation here
-    inline ll opr(ll a, ll b)
-    {
-        return gcd(a, b);
-    }
-    ll constructTree(ll start, ll end, ll ind)
-    {
-        if (start == end)
-            return tree[ind] = vec[start];
-        // change operator here
-        return tree[ind] = opr(constructTree(start, (start + end) / 2, ind * 2 + 1),
-                               constructTree(1 + (start + end) / 2, end, ind * 2 + 2));
-    }
-
-public:
-    SegmentTree(vi &vec)
-    {
-        ll n = vec.size();
-        tree = vi(vec.size() * 4 + 10);
-        this->vec = vec;
-        constructTree(0, vec.size() - 1, 0);
-    }
-
-    ll rangeFind(ll start, ll end, ll index = 0, ll fullstart = -1, ll fullend = -1)
-    {
-        if (fullstart == -1)
-            fullstart = 0, fullend = vec.size() - 1;
-        if (start == fullstart && end == fullend)
-            return tree[index];
-        ll mid = (fullstart + fullend) / 2;
-        if (btn(fullstart, end, mid))
-        {
-            return rangeFind(start, end, index * 2 + 1, fullstart, mid);
-        }
-        if (btn(mid + 1, start, fullend))
-        {
-            return rangeFind(start, end, index * 2 + 2, mid + 1, fullend);
-        }
-        else
-        {
-
-            return opr(rangeFind(start, mid, index * 2 + 1, fullstart, mid),
-                       rangeFind(mid + 1, end, index * 2 + 2, mid + 1, fullend));
-        }
-    }
-    void changeElement(ll index, ll newelement)
-    {
-        ll fullstart = 0, fullend = vec.size() - 1;
-        ll treeindex = 0;
-        vec[index] = newelement;
-
-        // going to all the indexes
-        while (true)
-        {
-            if (btn(fullstart, index, (fullstart + fullend) / 2))
-            {
-                fullend = (fullstart + fullend) / 2;
-                treeindex = treeindex * 2 + 1;
-            }
-            else
-            {
-                fullstart = 1 + (fullstart + fullend) / 2;
-                treeindex = treeindex * 2 + 2;
-            }
-            if (fullstart == fullend)
-                break;
-        }
-        tree[treeindex] = newelement;
-        // update all parents
-        while (true)
-        {
-            treeindex = treeindex & 1 ? treeindex / 2 : treeindex / 2 - 1;
-            if (treeindex < 0)
-                break;
-            tree[treeindex] = opr(tree[treeindex * 2 + 1], tree[treeindex * 2 + 2]);
-        }
-    }
-};
-
 void func()
 {
-    newint(n);
+    newint(n, k);
     vi vec = inputvec(n);
-    SegmentTree seg(vec);
-    ll l = 0, r = 0;
-    vi changes(n);
-    while (r < n)
+    V<vi> dp(n + 1, vi(k + 1, -1));
+    dp[0][0] = 0; 
+    range(i, 1, n + 1)
     {
-        ll lgcd = seg.rangeFind(l, r);
-        if (lgcd == r - l + 1)
-            changes[r] = 1, l = r + 1, r = r + 1;
-        else if (lgcd > r - l + 1)
-            r++;
-        else
-            l++;
+        range(j, k + 1)
+        {
+            if (j == 0)
+            {
+                dp[i][j] = 0;
+                continue;
+            }
+            dp[i][j] = dp[i - 1][j];
+
+            if (j >= vec[i - 1] && dp[i - 1][j - vec[i - 1]] != -1)
+                dp[i][j] = true;
+        }
     }
-    range(i, 1, n) changes[i] += changes[i-1]; 
-    print(changes);
+    if (dp[n][k] == 1)
+    {
+        print("YES");
+    }
+    else
+        print("NO");
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    newint(t);
+    range(t)
     {
         func();
     }
