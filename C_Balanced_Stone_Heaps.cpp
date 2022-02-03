@@ -101,33 +101,52 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ll rs(ll n) { return n % mod; }
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
+bool f(vi vec, ll x)
+{
+    vi buf(vec.size());
+    ll n = vec.size();
+    range(i, n - 1, 1, -1)
+    {
+        ll u = (vec[i] + buf[i] - x) / 3;
+        if (u < 0)
+            return false;
+        ll v = vec[i] / 3;
+        u = min(u, v);
+        vec[i] = vec[i] - 3 * u;
+        buf[i - 1] += u;
+        buf[i - 2] += u * 2;
+    }
+    ll ans = INT_INF;
+    range(i, n)
+    {
+        ans = min(ans, vec[i] + buf[i]);
+    }
+    return x <= ans;
+}
+
 void func()
 {
     newint(n);
-    vi vec = inputvec(n + 1, 1);
-    ll mini = *min_element(vec.begin() + 1, vec.end());
-    ll ans = mini;
-    vi index;
-    range(i, n)
+    vi vec = inputvec(n);
+    ll l = 1, r = 1e9, mid;
+    while (l <= r)
     {
-        if (vec[i] == mini)
-            index.push_back(i);
+        mid = (l + r) / 2;
+        ll v1 = f(vec, mid);
+        ll v2 = f(vec, mid + 1);
+        if (v1 == true && v2 == false)
+        {
+            give(mid);
+        }
+        else if (v1 == true)
+        {
+            l = mid;
+        }
+        else
+            r = mid;
+        v1 = f(vec, mid);
+        
     }
-    vi ansvec(n + 1);
-    foreach (i, index)
-    {
-        ll maxi = vec[i];
-        if (i + 1 <= n)
-            maxi += vec[i + 1] / 3;
-        if (i + 2 <= n)
-            maxi += vec[i + 2] / 3 * 2;
-        ansvec[i] = maxi;
-    }
-    foreach(i, index){
-        ans = max(ans, ansvec[i]); 
-    }
-    
-    print(ans);
 }
 int main()
 {

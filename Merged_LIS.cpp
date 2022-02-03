@@ -102,51 +102,24 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-int binary_search(int first, int last, int x, vi &height, vi &s)
+
+ll lis(vi &height)
 {
-
-    while (last > first)
+    MS<ll> s;
+    range(i, height.size())
     {
-        int mid = first + (last - first) / 2;
-        if (height[s[mid]] > x)
-            last = mid;
-        else
-            first = mid + 1;
-    }
-
-    return first; /* or last */
-}
-
-int lis(vi height)
-{
-    ll n = height.size();
-    int i, k, index;
-    vi s(height.size()+1);
-
-    index = 1;
-    s[1] = 0; /* s[i] = 0 is the index of the element that ends an increasing sequence of length  i = 1 */
-
-    for (i = 1; i < n; i++)
-    {
-
-        if (height[i] >= height[s[index]])
-        { /* larger element, extend the sequence */
-
-            index++;      /* increase the length of my subsequence */
-            s[index] = i; /* the current doll ends my subsequence */
+        auto a = s.upper_bound(height[i]);
+        if (a == s.end())
+        {
+            s.insert(height[i]);
         }
-        /* else find the smallest element in s >= a[i], basically insert a[i] in s such that s stays sorted */
         else
         {
-            k = binary_search(1, index, height[i], height, s);
-
-            if (height[s[k]] >= height[i])
-            { /* if truly >= greater */
-                s[k] = i;
-            }
+            s.erase(a);
+            s.insert(height[i]);
         }
     }
-    return index;
+    return s.size();
 }
 void func()
 {

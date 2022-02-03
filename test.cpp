@@ -5,8 +5,9 @@
 using namespace std;
 #define cntpop(x) __builtin__popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -102,20 +103,42 @@ inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-void func()
+void brute()
 {
-    class caat
+    newint(n);
+    vi vec = inputvec(n);
+    vi newvec(n);
+    ll ans = INT_INF;
+    while (newvec[0] != 100)
     {
-        ll a; 
-    };
-    class dog ::public caat{
-        ll b; 
-    };
+        ll tempans = 0;
+        range(i, 32)
+        {
+            if (!((newvec[i] >> i) ^ (vec[i] >> i)))
+            {
+                tempans++;
+            }
+        }
+        ans = min(ans, tempans);
+
+        // iterate for ahead
+        ll carry = 0;
+        newvec[n - 1]++;
+        for (ll i = n - 1; i >= 0; i--)
+        {
+            carry = newvec[i] / 100;
+            newvec[i] = newvec[i] % 100;
+        }
+    }
+    print(ans);
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
-    string s = "abcd";
-    print(s.substr(0));
+    newint(t);
+    range(t)
+    {
+        brute();
+    }
 }
