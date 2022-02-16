@@ -3,6 +3,7 @@
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
+#define cntpop(x) __builtin__popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
 #define range(...)                         \
     GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
@@ -14,6 +15,13 @@ using namespace std;
 #define newint(...) \
     ll __VA_ARGS__; \
     take_input(__VA_ARGS__)
+#define min(...) min({__VA_ARGS__})
+#define max(...) max({__VA_ARGS__})
+#define give(...)           \
+    {                       \
+        print(__VA_ARGS__); \
+        return;             \
+    }
 #define endl "\n"
 #define FULL_INF numeric_limits<double>::infinity()
 #define INF LONG_LONG_MAX
@@ -32,15 +40,15 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
+const ll mod = 1000000007;
+// const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
-#define new_string(str) \
-    string str;         \
+#define newstring(str) \
+    string str;        \
     cin >> str;
 #define foreach(a, x) for (auto &a : x)
-const ll mod = 1000000007;
-const ll mod2 = 998244353;
 const ld pi = acos(-1);
 typedef vector<string> vs;
 typedef pair<ll, ll> pii;
@@ -89,33 +97,15 @@ void print(T &&...args)
 }
 template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
-template <typename... T, typename Q>
-Q max(Q arg1, T &&...args)
-{
-    Q ans = arg1;
-    ((ans = (args > ans ? args : ans)), ...);
-    return ans;
-}
-template <typename... T, typename Q>
-Q min(Q arg1, T &&...args)
-{
-    Q ans = arg1;
-    ((ans = (args < ans ? args : ans)), ...);
-    return ans;
-}
 inline ld TLD(ll n) { return n; }
 inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ll rs(ll n) { return n % mod; }
+
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-ll func(ll a, ll b)
+ll func(ll n, ll m)
 {
-    // write your code here
-
-    ll ans = ceil(TLD(a * b) / TLD(3));
-    print(ans);
-
-    return 0;
+    
 }
 int main()
 {
@@ -124,7 +114,7 @@ int main()
     newint(t);
     range(t)
     {
-        newint(a, b);
-        func(a, b);
+        newint(n, m);
+        cout << func(n, m) << endl;
     }
 }

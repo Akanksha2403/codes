@@ -3,7 +3,7 @@
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
-#define cntpop(x) __builtin__popcount(x)
+#define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1,_2,_3,_4,NAME,...) NAME
 #define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1)(__VA_ARGS__)
 #define r4(var, start, stop, step) for(ll var=start;step>=0?var<stop:var>stop;var=var+step)
@@ -40,9 +40,9 @@ const ll mod = 1000000007;
 #define newstring(str) string str; cin >> str;
 #define foreach(a, x) for (auto &a : x)
 const ld pi = acos(-1);
-typedef vector<string> vs; typedef pair<ll, ll> pii;typedef vector<ll> vi;typedef map<ll, ll> mii; typedef set<ll> si;
+typedef vector<string> vs; typedef pair<ll, ll> pii;typedef vector<ll> vi;typedef map<ll, ll> mii; typedef set<ll> si; typedef vector<vector<ll>> vvi; 
 template<typename ...T>void take_input(T&&...args){((cin >> args), ...);}
-ll input(){ newint(n); return n; }vi inputvec(ll n, ll start = 0){ vi vec(n); for (ll i = start; i < n; i++){ vec[i] = input(); } return vec; }
+vi inputvec(ll n, ll start = 0){vi vec(n);range(i, start, n)cin >> vec[i];return vec;}
 template<typename T>bool btn(T a, T b, T c){if((a <= b && b <= c) || (a >= b && b >= c)) return true; return false;}
 template<typename T>ostream& operator<<(ostream& os,const V<T>& v){for(int i=0;i<v.size();++i){os << v[i];if(i!=v.size()-1)os<< " ";}return os;}
 template<typename... T>void print(T &&...args){ ((cout << args << " "), ...); cout << endl;}
@@ -57,7 +57,7 @@ inline ll rs(ll n){return n%mod;}
 
 void func()
 {
-    
+        
     
 }
 int main()

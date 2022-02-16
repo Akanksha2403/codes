@@ -108,7 +108,7 @@ void func()
     newint(n, k);
     vi vec = inputvec(n);
     V<vi> dp(n + 1, vi(k + 1, -1));
-    dp[0][0] = 0; 
+    dp[0][0] = true; 
     range(i, 1, n + 1)
     {
         range(j, k + 1)

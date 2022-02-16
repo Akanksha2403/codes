@@ -3,7 +3,7 @@
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
-#define cntpop(x) __builtin__popcount(x)
+#define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
 #define range(...)                         \
     GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
@@ -41,7 +41,7 @@ using namespace std;
 #define pb push_back
 #define pf push_front
 const ll mod = 1000000007;
-//const ll mod = 998244353;
+// const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
@@ -55,20 +55,13 @@ typedef pair<ll, ll> pii;
 typedef vector<ll> vi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
+typedef vector<vector<ll>> vvi;
 template <typename... T>
 void take_input(T &&...args) { ((cin >> args), ...); }
-ll input()
-{
-    newint(n);
-    return n;
-}
 vi inputvec(ll n, ll start = 0)
 {
     vi vec(n);
-    for (ll i = start; i < n; i++)
-    {
-        vec[i] = input();
-    }
+    range(i, start, n) cin >> vec[i];
     return vec;
 }
 template <typename T>
@@ -103,65 +96,42 @@ inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-void brute()
+void dfs(ll x, vector<vector<ll>> &tree, V<pair<ll, ll>> &processed, ll parent = -1, ll counter = 0)
 {
-    newint(n);
-    vi vec = inputvec(n);
-    vi newvec(n);
-    ll ans = INT_INF;
-    ll u = 50;
-    vi ul = {1, 2, 5, 6};
-a:
-    while (newvec[0] != u - 1)
+    processed[x].first = counter;
+    for (auto i : tree[x])
     {
-
-        ll carry = 0;
-        newvec[n - 1]++;
-
-        for (ll i = n - 1; i >= 0; i--)
+        if (i != parent)
         {
-            newvec[i] += carry;
-            carry = newvec[i] / u;
-            newvec[i] = newvec[i] % u;
+            counter++;
+            dfs(i, tree, processed, x, counter);
         }
-        if (ul == newvec)
-        {
-            print(-1);
-        }
-        for (ll i = 0; i < n; i++)
-        {
-            if ((vec[i] | newvec[i]) != newvec[i])
-                goto a;
-        }
-        if (!is_sorted(all(newvec)))
-            goto a;
-
-        ll tempans = 0;
-
-        range(i, n)
-        {
-            range(j, 32)
-            {
-                if ((
-                        ((newvec[i] >> j) & 1) ^ (1 & (vec[i] >> j))
-                    ))
-                {
-                    tempans++;
-                }
-            }
-        }
-        ans = min(ans, tempans);
-        continue;
     }
-    print(ans);
+    processed[x].second = ++counter;
 }
-
-
-void memo()
+void func()
 {
-    newint(n); 
-    vi vec = inputvec(n); 
-    
+    ll n;
+    cin >> n;
+    vector<vector<ll>> tree(n + 1);
+    for (ll i = 0; i < n - 1; i++)
+    {
+        ll a, b;
+        cin >> a >> b;
+        tree[a].push_back(b);
+        tree[b].push_back(a);
+    }
+    V<pair<ll, ll>> processed(n + 1);
+    dfs(1, tree, processed);
+
+    ll ans = INT_INF; 
+    for(ll i = 1; i <= n; i++)
+    {
+        ll expectednodes = (processed[i].second - processed[i].first) / 2;
+        ll realitynodes = tree[i].size(); 
+        if(expectednodes == realitynodes) ans = 1;
+        else  
+    }
 }
 int main()
 {
@@ -170,6 +140,6 @@ int main()
     newint(t);
     range(t)
     {
-        brute();
+        func();
     }
 }

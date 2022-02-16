@@ -1,0 +1,1 @@
+{"name":"Local: Count_The_No_of_subset_sum","url":"/home/prabhavagrawal7/codes/Count_The_No_of_subset_sum.cpp","tests":[{"id":1643900564642,"input":"1\n6 10\n2 3 5 6 8 10","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/prabhavagrawal7/codes/Count_The_No_of_subset_sum.cpp","group":"local","local":true}

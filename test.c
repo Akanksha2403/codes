@@ -52,6 +52,6 @@ int main()
     {
         printf("No-error\n");
     }
-
+    typeof
     return 0;
 }

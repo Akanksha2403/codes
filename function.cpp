@@ -231,49 +231,54 @@ class SegmentTree
 private:
     vi tree;
     vi vec;
+    ll n, _n;
+    inline ll mid(ll a, ll b) { return (a + b) >> 1; }
     // change operation here
     inline ll opr(ll a, ll b)
     {
-        return min(a, b);
+        return (a + b);
     }
     ll constructTree(ll start, ll end, ll ind)
     {
         if (start == end)
             return tree[ind] = vec[start];
         // change operator here
-        return tree[ind] = opr(constructTree(start, (start + end) / 2, ind * 2 + 1),
-                               constructTree(1 + (start + end) / 2, end, ind * 2 + 2));
+        return tree[ind] = opr(constructTree(start, mid(start, end), (ind << 1) + 1),
+                               constructTree(1 + mid(start, end), end, (ind << 1) + 2));
     }
-
+ 
 public:
     SegmentTree(vi &vec)
     {
-        ll n = vec.size();
-        tree = vi(vec.size() * 4 + 10);
+        n = vec.size();
+        _n = 1;
+        while (_n < n)
+            _n <<= 1;
+        tree = vi((_n << 1) - 1);
         this->vec = vec;
         constructTree(0, vec.size() - 1, 0);
     }
-
+ 
     ll rangeFind(ll start, ll end, ll index = 0, ll fullstart = -1, ll fullend = -1)
     {
         if (fullstart == -1)
             fullstart = 0, fullend = vec.size() - 1;
         if (start == fullstart && end == fullend)
             return tree[index];
-        ll mid = (fullstart + fullend) / 2;
+        ll mid = ((fullstart + fullend) >> 1);
         if (btn(fullstart, end, mid))
         {
-            return rangeFind(start, end, index * 2 + 1, fullstart, mid);
+            return rangeFind(start, end, (index << 1) + 1, fullstart, mid);
         }
         if (btn(mid + 1, start, fullend))
         {
-            return rangeFind(start, end, index * 2 + 2, mid + 1, fullend);
+            return rangeFind(start, end, (index << 1) + 2, mid + 1, fullend);
         }
         else
         {
-
-            return opr(rangeFind(start, mid, index * 2 + 1, fullstart, mid),
-                       rangeFind(mid + 1, end, index * 2 + 2, mid + 1, fullend));
+ 
+            return opr(rangeFind(start, mid, (index << 1) + 1, fullstart, mid),
+                       rangeFind(mid + 1, end, (index << 1) + 2, mid + 1, fullend));
         }
     }
     void changeElement(ll index, ll newelement)
@@ -281,19 +286,19 @@ public:
         ll fullstart = 0, fullend = vec.size() - 1;
         ll treeindex = 0;
         vec[index] = newelement;
-
+ 
         // going to all the indexes
         while (true)
         {
-            if (btn(fullstart, index, (fullstart + fullend) / 2))
+            if (btn(fullstart, index, mid(fullstart, fullend)))
             {
-                fullend = (fullstart + fullend) / 2;
-                treeindex = treeindex * 2 + 1;
+                fullend = mid(fullstart, fullend);
+                treeindex = (treeindex << 1) + 1;
             }
             else
             {
-                fullstart = 1 + (fullstart + fullend) / 2;
-                treeindex = treeindex * 2 + 2;
+                fullstart = 1 + mid(fullstart, fullend);
+                treeindex = (treeindex << 1) + 2;
             }
             if (fullstart == fullend)
                 break;
@@ -302,10 +307,10 @@ public:
         // update all parents
         while (true)
         {
-            treeindex = treeindex & 1 ? treeindex / 2 : treeindex / 2 - 1;
+            treeindex = treeindex & 1 ? (treeindex >> 1) : (treeindex >> 1) - 1;
             if (treeindex < 0)
                 break;
-            tree[treeindex] = opr(tree[treeindex * 2 + 1], tree[treeindex * 2 + 2]);
+            tree[treeindex] = opr(tree[(treeindex << 1) + 1], tree[(treeindex << 1) + 2]);
         }
     }
 };
