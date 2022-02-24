@@ -57,7 +57,22 @@ inline ll rs(ll n){return n%mod;}
 
 void func()
 {
-        
+    newstring(str); 
+    string rstr (str.rbegin(), str.rend()); 
+    ll i = 0, j = 0; 
+    ll ans = 0; 
+    while (true)
+    {
+        if(i >= str.size() || j >= str.size()) break;
+        if(str[i] == rstr[j]) {
+            i++, j++; 
+        }
+        else{
+            i++;
+            ans++;  
+        }
+    }
+    print(ans); 
     
 }
 int main()

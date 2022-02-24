@@ -91,7 +91,7 @@ template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
 inline ld TLD(ll n) { return n; }
 inline ll gcd(ll m, ll n) { return __gcd(m, n); }
-inline ll rs(ll n) { return n % mod; }
+inline ll rs(ll n) { return (mod + n % mod) % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
@@ -108,51 +108,47 @@ ll power(ll x, ll y)
     }
     return res % mod;
 }
-string to_bin(ll n)
+inline ll inv(ll n)
 {
-    string str;
-    while (n)
-    {
-        str.push_back('0' + n % 2);
-        n >>= 1;
-    }
-    reverse(all(str)); 
-    return str; 
+    return power(n, mod - 2);
 }
-ll rev(ll n)
-{
-    ll ans = 0;
-    while (n)
-    {
-        ans <<= 1;
-        ans |= (n & 1);
-        n >>= 1;
-    }
-    return ans;
-}
-
-ll code(ll n)
-{
-    if (n == 0)
-        return 0;
-    else
-        return code(n ^ rev(n)) + 1;
-}
-
 void func()
 {
-    ll n = 2;
-    ll ans = 0;
-    range(i, 1, power(2, n))
+    newint(n);
+    if (n == 1)
     {
-        string str = to_bin(i); 
-        string str1 = str; reverse(all(str1));
-        if(str != str1) print(str); 
+        give(1);
     }
-    // print(ans);
+    ll ans = 0;
+    ll sym = (power(2, n / 2) - 1);
+    if (n % 2 == 0)
+        sym = rs(sym * 2);
+    else
+    {
+        sym = rs(sym * 2);
+        sym += power(2, n / 2);
+    }
+
+    ll _2_3 = rs(power(2, n) - 1 - sym);
+    _2_3 = rs(_2_3);
+
+    ll sym1 = (power(2, (n - 2) / 2) - 1);
+    if (n % 2 == 0)
+        sym1 = rs(sym1 * 2);
+    else
+    {
+        sym1 = rs(sym1 * 2);
+        sym1 += power(2, (n - 2) / 2);
+    }
+    ll _3 = rs(power(2, n - 2) - 1 - sym1);
+    _3 = rs(_3);
+    ans += rs(sym + 2 * (_2_3 - 2*_3) + 3 * (2*_3));
+    print(ans);
 }
 int main()
 {
+    // Uncomment for faster I/O
+    // FAST;
     newint(t);
     range(t)
     {

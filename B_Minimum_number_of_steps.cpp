@@ -5,9 +5,8 @@
 using namespace std;
 #define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...)                         \
-    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-    (__VA_ARGS__)
+#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+(__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -40,7 +39,8 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
-const ll mod = 998244353;
+const ll mod = 1000000007;
+// const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
@@ -95,66 +95,52 @@ inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-ll power(ll x, ll y)
-{
-    ll res = 1;
-    while (y)
-    {
-        if (y % 2 == 1)
-            res = (res * x) % mod;
-
-        y = y >> 1;
-        x = (x * x) % mod;
-    }
-    return res % mod;
-}
-string to_bin(ll n)
-{
-    string str;
-    while (n)
-    {
-        str.push_back('0' + n % 2);
-        n >>= 1;
-    }
-    reverse(all(str)); 
-    return str; 
-}
-ll rev(ll n)
-{
-    ll ans = 0;
-    while (n)
-    {
-        ans <<= 1;
-        ans |= (n & 1);
-        n >>= 1;
-    }
-    return ans;
-}
-
-ll code(ll n)
-{
-    if (n == 0)
-        return 0;
-    else
-        return code(n ^ rev(n)) + 1;
-}
-
 void func()
 {
-    ll n = 2;
-    ll ans = 0;
-    range(i, 1, power(2, n))
+    newstring(str);
+    if (str.find("ab") == str.npos)
     {
-        string str = to_bin(i); 
-        string str1 = str; reverse(all(str1));
-        if(str != str1) print(str); 
+        give(0);
     }
-    // print(ans);
+    deque<pair<bool, ll>> prefix;
+    ll n = str.size();
+    range(i, n)
+    {
+        if (str[i] == 'a')
+        {
+            prefix.push_back({0, 1});
+        }
+        else
+            prefix.push_back({1, 1});
+    }
+    ll ans = 0;
+    while (prefix[0].first == 1)
+    {
+        prefix.pop_front();
+    }
+    while (prefix[0].first == 0)
+    {
+        ll l = prefix.size() - 1;
+        if (prefix[l].first == 0)
+            prefix.pop_back();
+        else if (prefix[l].first == 1 && prefix[l - 1].first == 1)
+        {
+            prefix[l - 1].second = rs(prefix[l - 1].second + prefix[l].second);
+            prefix.pop_back();
+        }
+        else if (prefix[l].first == 1 && prefix[l - 1].first == 0)
+        {
+            swap(prefix[l], prefix[l - 1]);
+            ans = rs(ans + prefix[l - 1].second);
+            prefix[l - 1].second = rs(prefix[l - 1].second * 2);
+        }
+    }
+    print(ans);
 }
 int main()
 {
-    newint(t);
-    range(t)
+    // Uncomment for faster I/O
+    // FAST;
     {
         func();
     }

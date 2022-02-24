@@ -40,7 +40,8 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
-const ll mod = 998244353;
+const ll mod = 1000000007;
+// const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
@@ -94,65 +95,78 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-ll power(ll x, ll y)
+ll check(vi &vec)
 {
-    ll res = 1;
-    while (y)
+    map<ll, ll> c;
+    foreach (i, vec)
     {
-        if (y % 2 == 1)
-            res = (res * x) % mod;
-
-        y = y >> 1;
-        x = (x * x) % mod;
+        c[i]++;
     }
-    return res % mod;
-}
-string to_bin(ll n)
-{
-    string str;
-    while (n)
+    foreach (i, c)
     {
-        str.push_back('0' + n % 2);
-        n >>= 1;
+        if (i.second % 2 != 0)
+        {
+            return 0;
+        }
     }
-    reverse(all(str)); 
-    return str; 
+    return 1;
 }
-ll rev(ll n)
-{
-    ll ans = 0;
-    while (n)
-    {
-        ans <<= 1;
-        ans |= (n & 1);
-        n >>= 1;
-    }
-    return ans;
-}
-
-ll code(ll n)
-{
-    if (n == 0)
-        return 0;
-    else
-        return code(n ^ rev(n)) + 1;
-}
-
 void func()
 {
-    ll n = 2;
-    ll ans = 0;
-    range(i, 1, power(2, n))
+    newint(n);
+    vi vec = inputvec(n);
+    if (check(vec) == 0)
     {
-        string str = to_bin(i); 
-        string str1 = str; reverse(all(str1));
-        if(str != str1) print(str); 
+        give(-1);
     }
-    // print(ans);
+    ll elebef = 0;
+    ll l = 0, r = 0;
+    si s;
+    V<pii> ans;
+    vi pureans;
+    bool work = false;
+    while (l < n)
+    {
+
+        if (!s.count(vec[l]) && work == false)
+        {
+            s.insert(vec[l]);
+            l++;
+            continue;
+        }
+        ll prevl = l;
+        while (true)
+        {
+            if (vec[l] == vec[r])
+            {
+                l++, r++;
+                continue;
+            }
+
+            range(i, r, prevl)
+            {
+                ans.emplace_back(elebef, vec[i]);
+            }
+            reverse(vec.begin() + r, vec.begin() + prevl);
+            pureans.push_back(prevl - r);
+            r = l + 1;
+            l = l + 1;
+            s.clear();
+            break;
+        }
+    }
+    print(ans.size());
+    range(i, ans.size())
+    {
+        print(ans[i].first, ans[i].second);
+    }
+    print(pureans.size());
+    print(pureans);
 }
 int main()
 {
+    // Uncomment for faster I/O
+    // FAST;
     newint(t);
     range(t)
     {

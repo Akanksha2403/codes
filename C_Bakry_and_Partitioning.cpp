@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 // Uncomment them for optimisations
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("avx,avx2,fma")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
@@ -96,149 +96,76 @@ inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-class SegmentTree
+ll ansfound;
+ll target;
+ll dfs(ll n, UM<ll, US<ll>> &g, ll parent, vi &vec)
 {
-private:
-    vi tree;
-    vi vec;
-    ll n, _n;
-    inline ll mid(ll a, ll b) { return (a + b) >> 1; }
-    // change operation here
-    inline ll opr(ll a, ll b)
-    {
-        return (a ^ b);
-    }
-    ll constructTree(ll start, ll end, ll ind)
-    {
-        if (start == end)
-            return tree[ind] = vec[start];
-        // change operator here
-        return tree[ind] = opr(constructTree(start, mid(start, end), (ind << 1) + 1),
-                               constructTree(1 + mid(start, end), end, (ind << 1) + 2));
-    }
-
-public:
-    SegmentTree(vi &vec)
-    {
-        n = vec.size();
-        _n = 1;
-        while (_n < n)
-            _n <<= 1;
-        tree = vi((_n << 1) - 1);
-        this->vec = vec;
-        constructTree(0, vec.size() - 1, 0);
-    }
-
-    ll rangeFind(ll start, ll end, ll index = 0, ll fullstart = -1, ll fullend = -1)
-    {
-        if (fullstart == -1)
-            fullstart = 0, fullend = vec.size() - 1;
-        if (start == fullstart && end == fullend)
-            return tree[index];
-        ll mid = ((fullstart + fullend) >> 1);
-        if (btn(fullstart, end, mid))
-        {
-            return rangeFind(start, end, (index << 1) + 1, fullstart, mid);
-        }
-        if (btn(mid + 1, start, fullend))
-        {
-            return rangeFind(start, end, (index << 1) + 2, mid + 1, fullend);
-        }
-        else
-        {
-
-            return opr(rangeFind(start, mid, (index << 1) + 1, fullstart, mid),
-                       rangeFind(mid + 1, end, (index << 1) + 2, mid + 1, fullend));
-        }
-    }
-    void changeElement(ll index, ll newelement)
-    {
-        ll fullstart = 0, fullend = vec.size() - 1;
-        ll treeindex = 0;
-        vec[index] = newelement;
-
-        // going to all the indexes
-        while (true)
-        {
-            if (btn(fullstart, index, mid(fullstart, fullend)))
-            {
-                fullend = mid(fullstart, fullend);
-                treeindex = (treeindex << 1) + 1;
-            }
-            else
-            {
-                fullstart = 1 + mid(fullstart, fullend);
-                treeindex = (treeindex << 1) + 2;
-            }
-            if (fullstart == fullend)
-                break;
-        }
-        tree[treeindex] = newelement;
-        // update all parents
-        while (true)
-        {
-            treeindex = treeindex & 1 ? (treeindex >> 1) : (treeindex >> 1) - 1;
-            if (treeindex < 0)
-                break;
-            tree[treeindex] = opr(tree[(treeindex << 1) + 1], tree[(treeindex << 1) + 2]);
-        }
-    }
-};
-
-ll counter = 0;
-void dfs(ll n, vvi &g, V<pii> &nodes, ll parent = -1)
-{
-    nodes[n].first = counter;
+    if (ansfound != -1)
+        return 0;
+    ll ans = vec[n];
     foreach (i, g[n])
     {
-        if (i != parent)
+        if (parent != i)
         {
-            counter++;
-            dfs(i, g, nodes, n);
+            ans ^= dfs(i, g, n, vec);
         }
     }
-    nodes[n].second = counter;
+    if (ansfound != -1)
+        return 0;
+    if (ans == target)
+        ansfound = n;
+    return ans;
 }
 
 void func()
 {
+    ansfound = -1;
     newint(n, k);
-    vvi g(n + 1);
     vi vec = inputvec(n);
-    range(n - 1)
+    UM<ll, US<ll>> g;
+    range(i, n - 1)
     {
         newint(a, b);
-        g[a].push_back(b);
-        g[b].push_back(a);
+        a--, b--;
+        g[a].insert(b);
+        g[b].insert(a);
     }
     ll sum = accumulate(all(vec), 0LL, [](ll a, ll b)
                         { return a ^ b; });
-    // preprocessing the nodes
-    V<pii> nodes(n + 1);
-    counter = 0;
-    dfs(1, g, nodes);
-    vi provec(n);
-    range(i, 0, n)
+    target = sum;
+    if (sum == 0)
     {
-        provec[nodes[i + 1].first] = vec[i];
+        give("YES");
     }
-    SegmentTree seg(provec);
-    range(i, 2, n + 1)
+    if (k < 3)
     {
-        ll l = nodes[i].first, r = nodes[i].second;
-        ll chotaped = seg.rangeFind(l, r);
-        ll rped = (sum ^ chotaped);
-        if (rped == chotaped)
-        {
-            if (sum == 0){give("YES");}
-            
-        }
+        give("NO");
+    }
+    dfs(0, g, -1, vec);
+    if (ansfound == -1)
+    {
+        give("NO");
+    }
+    foreach (i, g[ansfound])
+    {
+        g[i].erase(ansfound);
+    }
+    g.erase(ansfound);
+    ansfound = -1;
+    dfs(0, g, -1, vec);
+    if (ansfound != -1)
+    {
+        give("YES");
+    }
+    else
+    {
+        give("NO");
     }
 }
 int main()
 {
     // Uncomment for faster I/O
-    // FAST;
+    FAST;
     newint(t);
     range(t)
     {

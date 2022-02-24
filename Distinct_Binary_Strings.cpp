@@ -57,7 +57,17 @@ inline ll rs(ll n){return n%mod;}
 
 void func()
 {
-        
+    newint(n); 
+    newstring(str); 
+    char c = str[0]; 
+    ll dis = 1; 
+    range(i, n)    
+    {
+        if(str[i] == c) continue; 
+        c =str[i]; 
+        dis++; 
+    }
+    print(dis); 
     
 }
 int main()

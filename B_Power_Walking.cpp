@@ -57,7 +57,18 @@ inline ll rs(ll n){return n%mod;}
 
 void func()
 {
-        
+    newint(n); 
+    vi vec = inputvec(n); 
+    set<ll> x (all(vec));     
+    range(i, x.size())
+    {
+        printl(x.size());
+    }
+    range(i, x.size()+1, n+1)
+    {
+        printl(i); 
+    }
+    print();; 
     
 }
 int main()

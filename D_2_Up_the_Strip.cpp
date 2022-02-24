@@ -57,6 +57,8 @@ inline ll rs(ll n){return n%mod;}
 
 void func()
 {
+    newint(n, m); 
+    vi vec(n); 
         
     
 }

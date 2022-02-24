@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 // Uncomment them for optimisations
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("avx,avx2,fma")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
@@ -40,7 +40,8 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
-const ll mod = 998244353;
+const ll mod = 1000000007;
+// const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
@@ -91,70 +92,30 @@ template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
 inline ld TLD(ll n) { return n; }
 inline ll gcd(ll m, ll n) { return __gcd(m, n); }
-inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-ll power(ll x, ll y)
-{
-    ll res = 1;
-    while (y)
-    {
-        if (y % 2 == 1)
-            res = (res * x) % mod;
-
-        y = y >> 1;
-        x = (x * x) % mod;
-    }
-    return res % mod;
-}
-string to_bin(ll n)
-{
-    string str;
-    while (n)
-    {
-        str.push_back('0' + n % 2);
-        n >>= 1;
-    }
-    reverse(all(str)); 
-    return str; 
-}
-ll rev(ll n)
-{
-    ll ans = 0;
-    while (n)
-    {
-        ans <<= 1;
-        ans |= (n & 1);
-        n >>= 1;
-    }
-    return ans;
-}
-
-ll code(ll n)
-{
-    if (n == 0)
-        return 0;
-    else
-        return code(n ^ rev(n)) + 1;
-}
-
 void func()
 {
-    ll n = 2;
-    ll ans = 0;
-    range(i, 1, power(2, n))
+    newint(n, m);
+    vi dp(n + 1);
+    dp[1] = 1;
+    ll sum = 1;
+    range(i, 2, n + 1)
     {
-        string str = to_bin(i); 
-        string str1 = str; reverse(all(str1));
-        if(str != str1) print(str); 
+        dp[i] = sum;
+        range(j, 2, sqrt(i)+1)
+        {
+            dp[i] = (dp[i] + dp[i / j]) % m;
+        }
+        sum = (sum + dp[i]) % m;
     }
-    // print(ans);
+    print(dp[n]);
 }
 int main()
 {
-    newint(t);
-    range(t)
+    // Uncomment for faster I/O
+    // FAST;
     {
         func();
     }

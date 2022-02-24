@@ -40,7 +40,8 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
-const ll mod = 998244353;
+const ll mod = 1000000007;
+// const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
@@ -94,67 +95,83 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
+const ll limit = 200005;
 
-ll power(ll x, ll y)
+ll code(ll x)
 {
-    ll res = 1;
-    while (y)
-    {
-        if (y % 2 == 1)
-            res = (res * x) % mod;
-
-        y = y >> 1;
-        x = (x * x) % mod;
-    }
-    return res % mod;
-}
-string to_bin(ll n)
-{
-    string str;
-    while (n)
-    {
-        str.push_back('0' + n % 2);
-        n >>= 1;
-    }
-    reverse(all(str)); 
-    return str; 
-}
-ll rev(ll n)
-{
-    ll ans = 0;
-    while (n)
-    {
-        ans <<= 1;
-        ans |= (n & 1);
-        n >>= 1;
-    }
-    return ans;
-}
-
-ll code(ll n)
-{
-    if (n == 0)
+    if (x < 0)
         return 0;
-    else
-        return code(n ^ rev(n)) + 1;
+    if (x == 0)
+        return 1;
+    return rs(code(x - 2) + code(x - 1));
 }
 
 void func()
 {
-    ll n = 2;
-    ll ans = 0;
-    range(i, 1, power(2, n))
+    newint(n, k);
+    vi vec = inputvec(n);
+    US<ll> s(all(vec));
+    foreach (i, vec)
     {
-        string str = to_bin(i); 
-        string str1 = str; reverse(all(str1));
-        if(str != str1) print(str); 
+        ll x = i;
+        while (x)
+        {
+            if (x % 4 == 0)
+            {
+                x >>= 2;
+                if (s.count(x))
+                {
+                    s.erase(i);
+                    break;
+                }
+            }
+            else if (x % 2 == 1)
+            {
+                x >>= 1;
+                if (s.count(x))
+                {
+                    s.erase(i);
+                    break;
+                }
+            }
+            else
+                break;
+        }
     }
-    // print(ans);
+    vec = vi(all(s));
+    ll ans = 0;
+
+    // dp
+    vi dp(limit);
+    dp[0] = 1, dp[1] = 1;
+    range(i, 2, limit)
+    {
+        dp[i] = dp[i - 1] + dp[i - 2];
+        dp[i] = rs(dp[i]);
+    }
+    range(i, 1, limit)
+    {
+        dp[i] += dp[i - 1];
+        dp[i] = rs(dp[i]);
+    }
+
+    range(i, vec.size())
+    {
+        ll c = 0;
+        while (vec[i])
+        {
+            vec[i] >>= 1;
+            c++;
+        }
+        if(k-c >= 0)
+        ans = rs(ans + dp[k - c]);
+    }
+    print(ans);
 }
 int main()
 {
-    newint(t);
-    range(t)
+    // Uncomment for faster I/O
+    // FAST;
     {
         func();
     }

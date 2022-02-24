@@ -58,18 +58,10 @@ typedef set<ll> si;
 typedef vector<vector<ll>> vvi;
 template <typename... T>
 void take_input(T &&...args) { ((cin >> args), ...); }
-ll input()
-{
-    newint(n);
-    return n;
-}
 vi inputvec(ll n, ll start = 0)
 {
     vi vec(n);
-    for (ll i = start; i < n; i++)
-    {
-        vec[i] = input();
-    }
+    range(i, start, n) cin >> vec[i];
     return vec;
 }
 template <typename T>
@@ -104,141 +96,58 @@ inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-class SegmentTree
+//      sieve starts here |sieve modified to provide smallest factors of a number|
+const ll range = 1000006;
+vi prime(range + 1, 0);
+void sieveOfEratosthenes()
 {
-private:
-    V<ld> tree;
-    V<ld> vec;
-    ll n, _n;
-    inline ll mid(ll a, ll b) { return (a + b) >> 1; }
-    // change operation here
-    inline ld opr(ld a, ld b)
+    for (int p = 2; p * p <= range; p++)
     {
-        return (a + b);
-    }
-    ld constructTree(ll start, ll end, ll ind)
-    {
-        if (start == end)
-            return tree[ind] = vec[start];
-        // change operator here
-        return tree[ind] = opr(constructTree(start, mid(start, end), (ind << 1) + 1),
-                               constructTree(1 + mid(start, end), end, (ind << 1) + 2));
-    }
-
-public:
-    SegmentTree(V<ld> &vec)
-    {
-        n = vec.size();
-        _n = 1;
-        while (_n < n)
-            _n <<= 1;
-        tree = vi((_n << 1) - 1);
-        this->vec = vec;
-        constructTree(0, vec.size() - 1, 0);
-    }
-
-    ld rangeFind(ll start, ll end, ll index = 0, ll fullstart = -1, ll fullend = -1)
-    {
-        if (fullstart == -1)
-            fullstart = 0, fullend = vec.size() - 1;
-        if (start == fullstart && end == fullend)
-            return tree[index];
-        ll mid = ((fullstart + fullend) >> 1);
-        if (btn(fullstart, end, mid))
+        if (prime[p] == false)
         {
-            return rangeFind(start, end, (index << 1) + 1, fullstart, mid);
-        }
-        if (btn(mid + 1, start, fullend))
-        {
-            return rangeFind(start, end, (index << 1) + 2, mid + 1, fullend);
-        }
-        else
-        {
-
-            return opr(rangeFind(start, mid, (index << 1) + 1, fullstart, mid),
-                       rangeFind(mid + 1, end, (index << 1) + 2, mid + 1, fullend));
+            for (int i = p * p; i <= range; i += p)
+                if (!prime[i])
+                    prime[i] = i / p;
         }
     }
-    void changeElement(ll index, ld newelement)
-    {
-        ll fullstart = 0, fullend = vec.size() - 1;
-        ll treeindex = 0;
-        vec[index] = newelement;
-
-        // going to all the indexes
-        while (true)
-        {
-            if (btn(fullstart, index, mid(fullstart, fullend)))
-            {
-                fullend = mid(fullstart, fullend);
-                treeindex = (treeindex << 1) + 1;
-            }
-            else
-            {
-                fullstart = 1 + mid(fullstart, fullend);
-                treeindex = (treeindex << 1) + 2;
-            }
-            if (fullstart == fullend)
-                break;
-        }
-        tree[treeindex] = newelement;
-        // update all parents
-        while (true)
-        {
-            treeindex = treeindex & 1 ? (treeindex >> 1) : (treeindex >> 1) - 1;
-            if (treeindex < 0)
-                break;
-            tree[treeindex] = opr(tree[(treeindex << 1) + 1], tree[(treeindex << 1) + 2]);
-        }
-    }
-};
-
-vvi g;
-V<pii> indexed;
-ll counter = 0;
-
-void dfs(ll n, vi &visit)
+}
+void func()
 {
-    visit[n] = true;
-    indexed[n].first = counter;
-    foreach (i, g[n])
+    newint(n);
+    vi vec = inputvec(n);
+    if (n == 2)
     {
-        if (!visit[i])
+        vec[1] = vec[0] * 2;
+    }
+    range(i, 1, n - 1)
+    {
+        ll p = gcd(vec[i], vec[i - 1]);
+        ll q = gcd(vec[i], vec[i + 1]);
+        ll r = gcd(vec[i - 1], vec[i + 1]);
+        if (p == 1 && q == 1)
         {
-            counter++;
-            dfs(i, visit);
+            vec[i - 1] = 2 * vec[i];
+            vec[i + 1] = 2 * vec[i];
+        }
+        else if (p == 1)
+        {
+            vec[i - 1] = 2 * vec[i];
+        }
+        else if (q == 1)
+        {
+            vec[i + 1] = 2 * vec[i];
         }
     }
-    indexed[n].second = counter;
+    print(vec);
 }
 int main()
 {
-    newint(n);
-    g = vvi(n + 1);
-    range(n - 1)
+    // Uncomment for faster I/O
+    // FAST;
+    sieveOfEratosthenes();
+    newint(t);
+    range(t)
     {
-        newint(a, b);
-        g[a].push_back(b);
-        g[b].push_back(a);
-    }
-    // tree flatening
-    indexed = V<pii>(n + 1);
-
-    vi visit(n + 1);
-    dfs(1, visit);
-    V<ld> vec(n, 1);
-    SegmentTree seg(vec);
-    newint(q);
-    range(q)
-    {
-        newint(t, x, y);
-        if (t == 1)
-            seg.changeElement(indexed[x].first, y);
-        else
-        {
-            ld u = seg.rangeFind(indexed[x].first, indexed[x].second);
-            ld v = seg.rangeFind(indexed[y].first, indexed[y].second);
-            cout << u / v << endl;
-        }
+        func();
     }
 }

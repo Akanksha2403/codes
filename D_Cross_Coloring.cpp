@@ -40,6 +40,7 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
+// const ll mod = 1000000007;
 const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
@@ -95,6 +96,41 @@ inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
+//      ncr of a number
+ll NCR(ll n, ll r)
+{
+    if (r > n)
+        return 0;
+    ll inv[r + 1] = {0};
+    inv[0] = 1;
+    if (r + 1 >= 2)
+        inv[1] = 1;
+
+    // Getting the modular inversion
+    // for all the numbers
+    // from 2 to r with respect to m
+    // here m = 1000000007
+    for (ll i = 2; i <= r; i++)
+    {
+        inv[i] = mod - (mod / i) * inv[mod % i] % mod;
+    }
+
+    ll ans = 1;
+
+    // for 1/(r!) part
+    for (ll i = 2; i <= r; i++)
+    {
+        ans = ((ans % mod) * (inv[i] % mod)) % mod;
+    }
+
+    // for (n)*(n-1)*(n-2)*...*(n-r+1) part
+    for (ll i = n; i >= (n - r + 1); i--)
+    {
+        ans = ((ans % mod) * (i % mod)) % mod;
+    }
+    return ans;
+}
+
 ll power(ll x, ll y)
 {
     ll res = 1;
@@ -108,51 +144,43 @@ ll power(ll x, ll y)
     }
     return res % mod;
 }
-string to_bin(ll n)
+ll mini(ll a, ll b)
 {
-    string str;
-    while (n)
-    {
-        str.push_back('0' + n % 2);
-        n >>= 1;
-    }
-    reverse(all(str)); 
-    return str; 
+    return min(a, b);
 }
-ll rev(ll n)
-{
-    ll ans = 0;
-    while (n)
-    {
-        ans <<= 1;
-        ans |= (n & 1);
-        n >>= 1;
-    }
-    return ans;
-}
-
-ll code(ll n)
-{
-    if (n == 0)
-        return 0;
-    else
-        return code(n ^ rev(n)) + 1;
-}
-
 void func()
 {
-    ll n = 2;
-    ll ans = 0;
-    range(i, 1, power(2, n))
+    newint(n, m, k, q);
+    V<pii> vec;
+    range(i, q)
     {
-        string str = to_bin(i); 
-        string str1 = str; reverse(all(str1));
-        if(str != str1) print(str); 
+        newint(a, b);
+        vec.push_back({a, b});
     }
-    // print(ans);
+    map<ll, ll> row, column;
+    ll counter = 0;
+    range(i, vec.size() - 1, -1, -1)
+    {
+        auto x = vec[i];
+        if (!row.count(x.first))
+            row[x.first] = counter;
+        if (!column.count(x.second))
+            column[x.second] = counter;
+        counter++;
+    }
+    si mq;
+    foreach (i, row)
+        mq.insert(i.second);
+    foreach (i, column)
+        mq.insert(i.second);
+
+    ll ans = power(k, mq.size());
+    print(ans);
 }
 int main()
 {
+    // Uncomment for faster I/O
+    // FAST;
     newint(t);
     range(t)
     {

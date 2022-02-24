@@ -40,7 +40,8 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
-const ll mod = 998244353;
+const ll mod = 1000000007;
+// const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
@@ -95,64 +96,41 @@ inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-ll power(ll x, ll y)
-{
-    ll res = 1;
-    while (y)
-    {
-        if (y % 2 == 1)
-            res = (res * x) % mod;
-
-        y = y >> 1;
-        x = (x * x) % mod;
-    }
-    return res % mod;
-}
-string to_bin(ll n)
-{
-    string str;
-    while (n)
-    {
-        str.push_back('0' + n % 2);
-        n >>= 1;
-    }
-    reverse(all(str)); 
-    return str; 
-}
-ll rev(ll n)
-{
-    ll ans = 0;
-    while (n)
-    {
-        ans <<= 1;
-        ans |= (n & 1);
-        n >>= 1;
-    }
-    return ans;
-}
-
-ll code(ll n)
-{
-    if (n == 0)
-        return 0;
-    else
-        return code(n ^ rev(n)) + 1;
-}
-
 void func()
 {
-    ll n = 2;
-    ll ans = 0;
-    range(i, 1, power(2, n))
+    newint(n);
+    V<vi> vec(n);
+    range(i, n)
     {
-        string str = to_bin(i); 
-        string str1 = str; reverse(all(str1));
-        if(str != str1) print(str); 
+        newint(k);
+        vec[i] = inputvec(k);
+        range(j, k)
+        {
+            vec[i][j] -= j;
+        }
     }
-    // print(ans);
+    V<pii> smvec; 
+    range(i, n)
+    {
+        smvec.push_back({*max_element(all(vec[i])), i}); 
+    }
+    sort(all(smvec)); reverse(all(smvec)); 
+    ll ans = 0, ele = 0;
+    while(smvec.size())
+    {
+        auto work = *prev(smvec.end()); 
+        ans = max(ans, work.first - ele); 
+        smvec.pop_back(); 
+        ele += size(vec[work.second]);
+    }
+    print(ans+1);
+
+    
 }
 int main()
 {
+    // Uncomment for faster I/O
+    // FAST;
     newint(t);
     range(t)
     {

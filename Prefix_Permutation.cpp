@@ -57,7 +57,20 @@ inline ll rs(ll n){return n%mod;}
 
 void func()
 {
-        
+    newint(n, k); 
+    vi vec = inputvec(k); 
+    vi ans; 
+    ll counter = 1; 
+    foreach(i, vec)
+    {
+        ans.push_back(i); 
+        while(counter != i)
+        {
+            ans.push_back(counter++); 
+        }
+        counter++; 
+    }
+    print(ans); 
     
 }
 int main()

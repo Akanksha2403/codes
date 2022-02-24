@@ -1,181 +1,126 @@
 #include <bits/stdc++.h>
+// Uncomment them for optimisations
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
 using namespace std;
+#define popcount(x) __builtin_popcount(x)
+#define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
+#define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
+#define r3(var, start, stop) for (ll var = start; var < stop; var++)
+#define r2(var, stop) for (ll var = 0; var < stop; var++)
+#define r1(stop) for (ll start_from_0 = 0; start_from_0 < stop; start_from_0++)
+#define newint(...) \
+    ll __VA_ARGS__; \
+    take_input(__VA_ARGS__)
+#define min(...) min({__VA_ARGS__})
+#define max(...) max({__VA_ARGS__})
+#define give(...)           \
+    {                       \
+        print(__VA_ARGS__); \
+        return;             \
+    }
 #define endl "\n"
-#define ll long long int
+#define FULL_INF numeric_limits<double>::infinity()
+#define INF LONG_LONG_MAX
+#define INT_INF INT_MAX
+#define ll long long
 #define ld long double
-#define print(x)                \
-    for (auto element : x)      \
-        cout << element << " "; \
-    cout << endl
-#define db(x) cout << #x << " = " << x << "\n"
-#define range(i, n) for (ll i = 0; i < n; i++)
-#define loop(i, a, b) for (ll i = a; i < b; i++)
-#define loopr(i, a, b) for (ll i = a; i >= b; i--)
-#define loops(i, a, b, step) for (ll i = a; i < b; i += step)
-#define looprs(i, a, b, step) for (ll i = a; i >= b; i -= step)
-#define pb push_back
-#define mp make_pair
-#define all(a) a.begin(), a.end()
-#define new_string(str) \
-    string str;         \
-    cin >> str;
-#define new_int_1(t) \
-    ll t;            \
-    cin >> t;
-#define new_int_2(a, b) \
-    ll a, b;            \
-    cin >> a >> b;
-#define new_int_3(a, b, c) \
-    ll a, b, c;            \
-    cin >> a >> b >> c;
-#define new_int_4(a, b, c, d) \
-    ll a, b, c, d;            \
-    cin >> a >> b >> c >> d;
 #define V vector
 #define P pair
+#define S set
 #define MS multiset
+#define M map
 #define UM unordered_map
 #define US unordered_set
 #define MM multimap
+#define mt make_tuple
 #define mp make_pair
 #define pb push_back
 #define pf push_front
-#define F first
-#define S second
-#define FAST ios_base::sync_with_stdio(false);
-#define all(a) a.begin(), a.end()
 const ll mod = 1000000007;
-const ll mod2 = 998244353;
-const double pi = acos(-1);
+// const ll mod = 998244353;
+#define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
+#define all(a) a.begin(), a.end()
+#define db(x) cout << #x << " = " << x << "\n"
+#define newstring(str) \
+    string str;        \
+    cin >> str;
+#define foreach(a, x) for (auto &a : x)
+const ld pi = acos(-1);
 typedef vector<string> vs;
-typedef vector<vector<ll>> vvi;
-typedef vector<ll> vi;
 typedef pair<ll, ll> pii;
-typedef pair<ll, string> pis;
-typedef pair<string, string> pss;
-typedef pair<string, ll> psi;
+typedef vector<ll> vi;
 typedef map<ll, ll> mii;
-typedef map<string, ll> msi;
-typedef map<char, ll> mci;
-typedef map<string, string> mss;
 typedef set<ll> si;
+typedef vector<vector<ll>> vvi;
+template <typename... T>
+void take_input(T &&...args) { ((cin >> args), ...); }
+vi inputvec(ll n, ll start = 0)
+{
+    vi vec(n);
+    range(i, start, n) cin >> vec[i];
+    return vec;
+}
+template <typename T>
+bool btn(T a, T b, T c)
+{
+    if ((a <= b && b <= c) || (a >= b && b >= c))
+        return true;
+    return false;
+}
+template <typename T>
+ostream &operator<<(ostream &os, const V<T> &v)
+{
+    for (int i = 0; i < v.size(); ++i)
+    {
+        os << v[i];
+        if (i != v.size() - 1)
+            os << " ";
+    }
+    return os;
+}
+template <typename... T>
+void print(T &&...args)
+{
+    ((cout << args << " "), ...);
+    cout << endl;
+}
+template <typename... T>
+void printl(T &&...args) { ((cout << args << " "), ...); }
+inline ld TLD(ll n) { return n; }
+inline ll gcd(ll m, ll n) { return __gcd(m, n); }
+inline ll rs(ll n) { return n % mod; }
 
-// ll input()
-// {
-//     new_int_1(n);
-//     return n;
-// }
-// vi inputvec(ll n, ll start = 0)
-// {
-//     vi vec(n);
-//     for (ll i = start; i < n; i++)
-//     {
-//         vec[i] = input();
-//     }
-//     return vec;
-// }
-// ll func()
-// {
-//     new_int_1(n);
-//     vi vec = inputvec(n);
-//     V<pair<ld, ll>> process(n);
-//     for (ll i = 0; i < n; i++)
-//     {
-//         process[i].first = (((ld)vec[i]) / ((ld)(i + 1)));
-//         process[i].second = (i + 1);
-//     }
+/* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-//     V<pii> newvec(n);
-//     for (ll i = 0; i < n; i++)
-//     {
-//         ll index = process[i].second;
-//         newvec[i].first = vec[index - 1];
-//         newvec[i].second = index;
-//     }
-//     ll ans = 0;
-//     loop(i, 0, n)
-//     {
-//         ll l = i+1, r = n, mid;
-//         while (l <= r)
-//         {
-//             mid = (l + r) / 2;
-
-//             if (newvec[i].first * newvec[mid].first == newvec[i].second + newvec[mid].second)
-//             {
-//                 ans++;
-//                 break;
-//             }
-//             else if (vec[i] * vec[mid] > i + mid)
-//             {
-//                 r = mid - 1;
-//             }
-//             else
-//             {
-//                 l = mid + 1;
-//             }
-//         }
-//     }
-//     cout << ans << endl;
-
-//     return 0;
-// }
-// int main()
-// {
-//     FAST;
-//     new_int_1(t);
-//     while (t--)
-//     {
-//         func();
-//     }
-// }
-#define ll long long
+void func()
+{
+    newint(n);
+    vi vec = inputvec(n + 1, 1);
+    ll ans = 0;
+    range(i, 1, n + 1)
+    {
+        ll x = vec[i];
+        ll u = - i % x; 
+        range(j, u, n + 1, x)
+        {
+            if(j <= i) continue; 
+            if (vec[j] == (i + j) / x)
+                ans++;
+        }
+    }
+    print(ans); 
+}
 int main()
 {
-    // your code goes here
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    ll t, ic;
-    cin >> t;
-    loop(ic, 1, t)
+    // Uncomment for faster I/O
+    // FAST;
+    newint(t);
+    range(t)
     {
-        ll num;
-        cin >> num;
-        ll arr[num];
-        loop(i, 0, num)
-        {
-            cin >> arr[i];
-        }
-        ll ans = 0;
-        loop(i, 1, num)
-        {
-            ll mx = (2 * (i + 1)) - 1;
-            ll val1 = arr[i];
-            ll val2 = i + 1;
-            ll m = 1;
-
-            while (1)
-            {
-                ll t1 = val1 * m;
-                if (t1 > mx)
-                {
-                    break;
-                }
-                ll t2 = t1 - val2;
-
-                if (t2 >= 1)
-                {
-                    if (arr[t2 - 1] == m)
-                    {
-                        ans++;
-                    }
-                }
-
-                m++;
-            }
-        }
-
-        cout << ans << endl;
+        func();
     }
-    return 0;
 }

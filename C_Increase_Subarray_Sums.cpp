@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 // Uncomment them for optimisations
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("avx,avx2,fma")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
@@ -15,8 +15,6 @@ using namespace std;
 #define newint(...) \
     ll __VA_ARGS__; \
     take_input(__VA_ARGS__)
-#define min(...) min({__VA_ARGS__})
-#define max(...) max({__VA_ARGS__})
 #define give(...)           \
     {                       \
         print(__VA_ARGS__); \
@@ -26,7 +24,7 @@ using namespace std;
 #define FULL_INF numeric_limits<double>::infinity()
 #define INF LONG_LONG_MAX
 #define INT_INF INT_MAX
-#define ll long long
+#define ll int
 #define ld long double
 #define V vector
 #define P pair
@@ -40,7 +38,8 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
-const ll mod = 998244353;
+const ll mod = 1000000007;
+// const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
@@ -94,65 +93,66 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-ll power(ll x, ll y)
+int maxSubArraySum(vi &vec)
 {
-    ll res = 1;
-    while (y)
+    ll size = vec.size(); 
+    int max_so_far = 0, max_ending_here = 0;
+    
+    for (int i = 0; i < size; i++)
     {
-        if (y % 2 == 1)
-            res = (res * x) % mod;
-
-        y = y >> 1;
-        x = (x * x) % mod;
+        max_ending_here = max_ending_here + vec[i];
+        if (max_so_far < max_ending_here)
+            max_so_far = max_ending_here;
+  
+        if (max_ending_here < 0)
+            max_ending_here = 0;
     }
-    return res % mod;
+    return max_so_far;
 }
-string to_bin(ll n)
-{
-    string str;
-    while (n)
-    {
-        str.push_back('0' + n % 2);
-        n >>= 1;
-    }
-    reverse(all(str)); 
-    return str; 
-}
-ll rev(ll n)
-{
-    ll ans = 0;
-    while (n)
-    {
-        ans <<= 1;
-        ans |= (n & 1);
-        n >>= 1;
-    }
-    return ans;
-}
-
-ll code(ll n)
-{
-    if (n == 0)
-        return 0;
-    else
-        return code(n ^ rev(n)) + 1;
-}
-
 void func()
 {
-    ll n = 2;
-    ll ans = 0;
-    range(i, 1, power(2, n))
+    newint(n, k);
+    vi vec = inputvec(n);
+    vi prefix(n + 1);
+    prefix[0] = 0;
+    range(i, 1, n + 1)
     {
-        string str = to_bin(i); 
-        string str1 = str; reverse(all(str1));
-        if(str != str1) print(str); 
+        prefix[i] = prefix[i - 1] + vec[i - 1];
     }
-    // print(ans);
+    V<pii> ansvec;  
+    range(i, n)
+    {
+        range(j, i, n)
+        {
+            ll u = prefix[j + 1] - prefix[i];
+            ll v = j - i + 1;
+            ansvec.push_back({v, u});
+        }
+    }
+    sort(all(ansvec)); 
+    vi maxi (ansvec.size()); 
+    maxi[ansvec.size()-1] = prev(ansvec.end())->second; 
+    range(i, ansvec.size()-2, -1, -1)
+    {
+        maxi[i] = max(maxi[i+1], ansvec[i].second); 
+    }
+    vi ans = {maxSubArraySum(vec)}; 
+    ll counter = 1; 
+    range(i, maxi.size())
+    {
+        if(ansvec[i].first == counter)
+        {
+            ans.push_back(max(ans[ans.size()-1], maxi[i] + k*counter));
+            counter++; 
+        }
+    }
+    print(ans); 
+    
 }
 int main()
 {
+    // Uncomment for faster I/O
+    FAST;
     newint(t);
     range(t)
     {

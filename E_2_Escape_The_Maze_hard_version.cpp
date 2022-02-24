@@ -40,7 +40,8 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
-const ll mod = 998244353;
+const ll mod = 1000000007;
+// const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
@@ -95,64 +96,80 @@ inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-ll power(ll x, ll y)
-{
-    ll res = 1;
-    while (y)
-    {
-        if (y % 2 == 1)
-            res = (res * x) % mod;
-
-        y = y >> 1;
-        x = (x * x) % mod;
-    }
-    return res % mod;
-}
-string to_bin(ll n)
-{
-    string str;
-    while (n)
-    {
-        str.push_back('0' + n % 2);
-        n >>= 1;
-    }
-    reverse(all(str)); 
-    return str; 
-}
-ll rev(ll n)
-{
-    ll ans = 0;
-    while (n)
-    {
-        ans <<= 1;
-        ans |= (n & 1);
-        n >>= 1;
-    }
-    return ans;
-}
-
-ll code(ll n)
-{
-    if (n == 0)
-        return 0;
-    else
-        return code(n ^ rev(n)) + 1;
-}
-
 void func()
 {
-    ll n = 2;
-    ll ans = 0;
-    range(i, 1, power(2, n))
+    newint(n, k);
+    vi vec = inputvec(k);
+    vvi g(n + 1);
+    range(i, n - 1)
     {
-        string str = to_bin(i); 
-        string str1 = str; reverse(all(str1));
-        if(str != str1) print(str); 
+        newint(a, b);
+        g[a].push_back(b);
+        g[b].push_back(a);
     }
-    // print(ans);
+    // root at 1
+    vi parent(n + 1);
+    queue<ll> bfs;
+    vi visited(n + 1);
+    bfs.push(1);
+    US<ll> leafnodes;
+    while (bfs.size())
+    {
+        ll x = bfs.front();
+        bfs.pop();
+        visited[x] = true;
+        bool leaf = true;
+        foreach (i, g[x])
+        {
+            if (visited[i])
+                continue;
+            leaf = false;
+            parent[i] = x;
+            bfs.push(i);
+        }
+        if (leaf)
+            leafnodes.insert(x);
+    }
+    parent[1] = 0;
+
+    bfs.push(1);
+    visited.assign(n + 1, 0);
+    US<ll> infect(all(vec));
+    US<ll> oldvec(all(vec));
+    bool done = false;
+    ll mytotalans = 0;
+    while (bfs.size())
+    {
+        US<ll> nvec;
+        foreach (i, oldvec)
+        {
+            infect.insert(parent[i]);
+            nvec.insert(parent[i]);
+        }
+        oldvec = nvec;
+        ll x = bfs.front();
+        bfs.pop();
+        visited[x] = true;
+        if (leafnodes.count(x))
+            give(-1);
+        foreach (i, g[x])
+        {
+            if (!(visited[i] || infect.count(i)))
+            {
+                bfs.push(i);
+            }
+            if (!visited[i] && infect.count(i))
+            {
+                mytotalans++;
+            }
+        }
+    }
+    give(mytotalans);
 }
 int main()
 {
+    // Uncomment for faster I/O
+    // FAST;
     newint(t);
     range(t)
     {
