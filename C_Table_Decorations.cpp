@@ -3,9 +3,11 @@
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
+#define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-(__VA_ARGS__)
+#define range(...)                         \
+    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+    (__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -39,7 +41,7 @@ using namespace std;
 #define pb push_back
 #define pf push_front
 const ll mod = 1000000007;
-//const ll mod = 998244353;
+// const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
@@ -53,20 +55,13 @@ typedef pair<ll, ll> pii;
 typedef vector<ll> vi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
+typedef vector<vector<ll>> vvi;
 template <typename... T>
 void take_input(T &&...args) { ((cin >> args), ...); }
-ll input()
-{
-    newint(n);
-    return n;
-}
 vi inputvec(ll n, ll start = 0)
 {
     vi vec(n);
-    for (ll i = start; i < n; i++)
-    {
-        vec[i] = input();
-    }
+    range(i, start, n) cin >> vec[i];
     return vec;
 }
 template <typename T>
@@ -101,32 +96,68 @@ inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-ll func(vi ele)
+ll func(vi vec)
 {
-    sort(all(ele));
-    if(ele[0] == ele[1] && ele[1] == ele[2])
-        return ele[0];
-    if(ele[1] == ele[0])
+    ll absorb = *min_element(all(vec));
+    foreach (i, vec)
+        i -= absorb;
+    sort(all(vec));
+    ll ans = 0;
+    if (vec[2] > vec[1] * 2)
     {
-        if(ele[2]+1 == ele[1]) return ele[1]; 
-        if(ele[2]+2 == ele[1]) return ele[1]; 
-        ll u = (ele[2] - ele[1])/3;
-        return u + func({ele[0] - u, ele[1] - u, ele[2] - 2*u});
+        ans += vec[1];
+        vec[2] -= 2 * vec[1];
+        vec[1] = 0;
     }
-    else if(ele[2] == ele[1]){
-        return ele[0]; 
+    else
+    {
+        ans += vec[2] - vec[1];
+        vec[1] = vec[1] - (vec[2] - vec[1]);
+        vec[2] = vec[1];
+        ans += vec[1] / 3 * 2;
+        vec[1] = vec[1] % 3;
+        vec[2] = vec[2] % 3;
+        if (vec[1] == 2)
+        {
+            vec[1] = 0;
+            vec[2] = 1;
+            ans++;
+        }
     }
-    else{
-        
+    sort(all(vec));
+    if (vec[1] == 1 && vec[2] == 1)
+    {
+        return (ans + absorb);
     }
+    ll u = min(absorb, vec[2] / 3);
+    absorb = absorb - u;
+    vec[2] = vec[2] - 3 * u;
+    ans += 2 * u;
+    while (absorb && vec[2] >= 1)
+    {
+        absorb--;
+        vec[2] += 1;
+        if (vec[2] >= 2)
+        {
+            vec[2] -= 2;
+            ans += 1;
+        }
+        if (vec[2] >= 2)
+        {
+            vec[2] -= 2;
+            ans += 1;
+        }
+    }
+    ans += absorb;
+    return (ans);
 }
+
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
-    newint(t);
-    range(t)
     {
-        func();
+        vi v = inputvec(3);
+        print(func(v));
     }
 }
