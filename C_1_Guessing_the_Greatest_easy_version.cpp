@@ -14,7 +14,6 @@ using namespace std;
 #define min(...) min({__VA_ARGS__})
 #define max(...) max({__VA_ARGS__})
 #define give(...) {print(__VA_ARGS__); return ;}
-#define endl "\n"
 #define FULL_INF numeric_limits<double>::infinity()
 #define INF LONG_LONG_MAX
 #define INT_INF INT_MAX
@@ -34,7 +33,6 @@ using namespace std;
 #define pf push_front
 const ll mod = 1000000007; 
 //const ll mod = 998244353; 
-#define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
 #define newstring(str) string str; cin >> str;
@@ -58,15 +56,23 @@ inline ll rs(ll n){return n%mod;}
 void func()
 {
     newint(n); 
+    ll l = 1, r = n; 
+    print('?', l, r); 
+    newint(spos); 
+    print('?', l, spos); 
+    newint(dspos); 
+    if(spos == dspos) l = 1, r = spos; 
+    else l = spos, r = dspos; 
+    while(l <= r)
+    {
         
-    
+    }
+    print('!',l); 
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
-    newint(t);
-    range(t)
     {
         func();
     }

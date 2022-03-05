@@ -40,8 +40,8 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
-// const ll mod = 1000000007;
-const ll mod = 998244353;
+const ll mod = 1000000007;
+// const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
@@ -96,86 +96,26 @@ inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-//      ncr of a number
-ll NCR(ll n, ll r)
-{
-    if (r > n)
-        return 0;
-    ll inv[r + 1] = {0};
-    inv[0] = 1;
-    if (r + 1 >= 2)
-        inv[1] = 1;
-
-    // Getting the modular inversion
-    // for all the numbers
-    // from 2 to r with respect to m
-    // here m = 1000000007
-    for (ll i = 2; i <= r; i++)
-    {
-        inv[i] = mod - (mod / i) * inv[mod % i] % mod;
-    }
-
-    ll ans = 1;
-
-    // for 1/(r!) part
-    for (ll i = 2; i <= r; i++)
-    {
-        ans = ((ans % mod) * (inv[i] % mod)) % mod;
-    }
-
-    // for (n)*(n-1)*(n-2)*...*(n-r+1) part
-    for (ll i = n; i >= (n - r + 1); i--)
-    {
-        ans = ((ans % mod) * (i % mod)) % mod;
-    }
-    return ans;
-}
-
-ll power(ll x, ll y)
-{
-    ll res = 1;
-    while (y)
-    {
-        if (y % 2 == 1)
-            res = (res * x) % mod;
-
-        y = y >> 1;
-        x = (x * x) % mod;
-    }
-    return res % mod;
-}
-ll mini(ll a, ll b)
-{
-    return min(a, b);
-}
 void func()
 {
-    newint(n, m, k, q);
-    V<pii> vec;
-    range(i, q)
+    newint(n);
+    vi vec = inputvec(n);
+    vi xx(31);
+    range(i, 0, xx.size(), 7)
     {
-        newint(a, b);
-        vec.push_back({a, b});
+        xx[i] = 1;
     }
-    map<ll, ll> row, column;
-    ll counter = 0;
-    range(i, vec.size() - 1, -1, -1)
+    range(i, 0+7-1, xx.size(), 7)
     {
-        auto x = vec[i];
-        if (!row.count(x.first) && column.size() != m)
-            row[x.first] = counter;
-        if (!column.count(x.second) && row.size() != n)
-            column[x.second] = counter;
-        counter++;
+        if (i >= 0)
+            xx[i] = 1;
     }
-    si mq;
-    foreach (i, row)
-        mq.insert(i.second);
-    foreach (i, column)
-        mq.insert(i.second);
 
-    ll ans = power(k, mq.size());
-    print(ans);
+    foreach (i, vec)
+    {
+        xx[i] = 1;
+    }
+    print(accumulate(xx.begin() + 1, xx.end(), 0LL));
 }
 int main()
 {

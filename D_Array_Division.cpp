@@ -1,13 +1,12 @@
 #include <bits/stdc++.h>
 // Uncomment them for optimisations
 //#pragma GCC optimize("Ofast")
-//#pragma GCC optimization ("unroll-loops")
+//#pragma GCC target("avx,avx2,fma")
 using namespace std;
 #define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...)                         \
-    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-    (__VA_ARGS__)
+#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+(__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -96,110 +95,111 @@ inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-void func()
+class SegmentTree
 {
-    newint(n, k);
-    vi vec = inputvec(n);
-    ll b = 0;
-    map<ll, vi> ind;
-    range(i, vec.size())
+private:
+    vi tree;
+    vi vec;
+    ll n, _n;
+    inline ll mid(ll a, ll b) { return (a + b) >> 1; }
+    // change operation here
+    inline ll opr(ll a, ll b)
     {
-        ind[vec[i]].push_back(i);
+        return (a + b);
     }
-    vi nvec(n + 1);
-    range(i, 1, n + 1)
+    ll constructTree(ll start, ll end, ll ind)
     {
-        nvec[i] = ind[i].size() + nvec[i - 1];
-    }
-    ll L = 1, R = n;
-    for (ll l = 1; l <= n; l++)
-    {
-        ll left = l, right = n, mid;
-        while (left <= right)
-        {
-            mid = (left + right) / 2;
-            ll u = nvec[n] - (nvec[mid] - nvec[l - 1]);
-            ll v = nvec[n] - (nvec[mid - 1] - nvec[l - 1]);
-            if ((u * 2 == n - k && v * 2 != n - k) || (u * 2 < n - k && v * 2 > n - k))
-            {
-                break;
-            }
-            else if (u * 2 <= n - k)
-            {
-                right = mid - 1;
-            }
-            else
-            {
-                left = mid + 1;
-            }
-        }
-        // ll tu = nvec[n] - (nvec[mid] - nvec[l - 1]);
-        if (left <= right)
-        {
-            if (R - L > mid - l)
-            {
-                L = l, R = mid;
-            }
-        }
+        if (start == end)
+            return tree[ind] = vec[start];
+        // change operator here
+        return tree[ind] = opr(constructTree(start, mid(start, end), (ind << 1) + 1),
+                               constructTree(1 + mid(start, end), end, (ind << 1) + 2));
     }
 
-    vi color(n, 1);
-    range(i, L)
+public:
+    SegmentTree(vi &vec)
     {
-        ll u = ind[i].size();
-        foreach (j, ind[i])
-            color[j] = -1;
-    }
-    range(i, n, R, -1)
-    {
-        ll u = ind[i].size();
-        foreach (j, ind[i])
-            color[j] = -1;
+        n = vec.size();
+        _n = 1;
+        while (_n < n)
+            _n <<= 1;
+        tree = vi((_n << 1) - 1);
+        this->vec = vec;
+        constructTree(0, vec.size() - 1, 0);
     }
 
-    V<vi> limits;
-    range(i, n)
+    ll rangeFind(ll start, ll end, ll index = 0, ll fullstart = -1, ll fullend = -1)
     {
-        if (color[i] == -1)
+        if (fullstart == -1)
+            fullstart = 0, fullend = vec.size() - 1;
+        if (start == fullstart && end == fullend)
+            return tree[index];
+        ll mid = ((fullstart + fullend) >> 1);
+        if (btn(fullstart, end, mid))
         {
-            limits.push_back({i, i, -1});
-            while (limits[limits.size() - 1][2] <= 0 && limits.size() > 1)
-            {
-                limits[limits.size() - 2][2] += limits[limits.size() - 1][2];
-                limits[limits.size() - 2][1] = limits[limits.size() - 1][1];
-                limits.pop_back();
-            }
+            return rangeFind(start, end, (index << 1) + 1, fullstart, mid);
+        }
+        if (btn(mid + 1, start, fullend))
+        {
+            return rangeFind(start, end, (index << 1) + 2, mid + 1, fullend);
         }
         else
         {
-            if (limits.size() && limits[limits.size() - 1][2] <= 0)
+
+            return opr(rangeFind(start, mid, (index << 1) + 1, fullstart, mid),
+                       rangeFind(mid + 1, end, (index << 1) + 2, mid + 1, fullend));
+        }
+    }
+    void changeElement(ll index, ll newelement)
+    {
+        ll fullstart = 0, fullend = vec.size() - 1;
+        ll treeindex = 0;
+        vec[index] = newelement;
+
+        // going to all the indexes
+        while (true)
+        {
+            if (btn(fullstart, index, mid(fullstart, fullend)))
             {
-                limits[limits.size() - 1][1] = i;
-                limits[limits.size() - 1][2]++;
+                fullend = mid(fullstart, fullend);
+                treeindex = (treeindex << 1) + 1;
             }
             else
             {
-                limits.push_back({i, i, 1});
+                fullstart = 1 + mid(fullstart, fullend);
+                treeindex = (treeindex << 1) + 2;
             }
+            if (fullstart == fullend)
+                break;
+        }
+        tree[treeindex] = newelement;
+        // update all parents
+        while (true)
+        {
+            treeindex = treeindex & 1 ? (treeindex >> 1) : (treeindex >> 1) - 1;
+            if (treeindex < 0)
+                break;
+            tree[treeindex] = opr(tree[(treeindex << 1) + 1], tree[(treeindex << 1) + 2]);
         }
     }
-    print(L, R);
-    while (limits.size() != k)
+};
+
+void func()
+{
+    newint(n);
+    vi vec = inputvec(n+1, 1);
+    ll sum = accumulate(all(vec), 0LL); 
+    vi prefix(n+1); 
+    range(i, 1, prefix.size())
     {
-        limits[limits.size() - 2][1] = limits[limits.size() - 1][1];
-        limits.pop_back();
+        prefix[i] = prefix[i-1] + vec[i-1]; 
     }
-    foreach (i, limits)
-    {
-        print(i[0] + 1, i[1] + 1);
-    }
+    
+    give("NO");
 }
 int main()
 {
     // Uncomment for faster I/O
-    // FAST;
-    newint(t);
-    range(t)
     {
         func();
     }

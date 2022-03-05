@@ -58,7 +58,29 @@ inline ll rs(ll n){return n%mod;}
 void func()
 {
     newint(n); 
-        
+    if(n == 1) {
+        give(-1); 
+    }
+    if(n % 2 != 0)    
+    {
+        vi vec; range(i, n) vec.push_back(i+1);         
+        reverse(all(vec)); 
+        print(vec); 
+    }
+    else{
+        if(n < 4) {
+            give(-1); 
+        }
+        else {
+            vi vec = {n-1, n-2, n, n-3};
+            range(i, n-4)
+            {
+                vec.push_back(n-4-i); 
+            }
+            print(vec); 
+        }
+    }
+    
     
 }
 int main()

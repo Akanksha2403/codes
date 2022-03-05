@@ -58,15 +58,22 @@ inline ll rs(ll n){return n%mod;}
 void func()
 {
     newint(n); 
-        
+    if(n % 2 == 1)    
+    {
+        give(-1); 
+    }
+    else {
+        print(0, 0); 
+        print(n, 0); 
+        print(n/2, n/2); 
+        print(n/2, -n/2); 
+    }
     
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
-    newint(t);
-    range(t)
     {
         func();
     }

@@ -1,7 +1,11 @@
 #include <bits/stdc++.h>
 // Uncomment them for optimisations
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("avx,avx2,fma")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
+#pragma GCC target("avx2")
+#pragma GCC optimization("O3")
+#pragma GCC optimization("unroll-loops")
+
 using namespace std;
 #define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
@@ -40,8 +44,8 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
-// const ll mod = 1000000007;
-const ll mod = 998244353;
+const ll mod = 1000000007;
+// const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
@@ -65,7 +69,7 @@ vi inputvec(ll n, ll start = 0)
     return vec;
 }
 template <typename T>
-bool btn(T a, T b, T c)
+inline bool btn(T a, T b, T c)
 {
     if ((a <= b && b <= c) || (a >= b && b >= c))
         return true;
@@ -96,91 +100,96 @@ inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-//      ncr of a number
-ll NCR(ll n, ll r)
-{
-    if (r > n)
-        return 0;
-    ll inv[r + 1] = {0};
-    inv[0] = 1;
-    if (r + 1 >= 2)
-        inv[1] = 1;
-
-    // Getting the modular inversion
-    // for all the numbers
-    // from 2 to r with respect to m
-    // here m = 1000000007
-    for (ll i = 2; i <= r; i++)
-    {
-        inv[i] = mod - (mod / i) * inv[mod % i] % mod;
-    }
-
-    ll ans = 1;
-
-    // for 1/(r!) part
-    for (ll i = 2; i <= r; i++)
-    {
-        ans = ((ans % mod) * (inv[i] % mod)) % mod;
-    }
-
-    // for (n)*(n-1)*(n-2)*...*(n-r+1) part
-    for (ll i = n; i >= (n - r + 1); i--)
-    {
-        ans = ((ans % mod) * (i % mod)) % mod;
-    }
-    return ans;
-}
-
-ll power(ll x, ll y)
-{
-    ll res = 1;
-    while (y)
-    {
-        if (y % 2 == 1)
-            res = (res * x) % mod;
-
-        y = y >> 1;
-        x = (x * x) % mod;
-    }
-    return res % mod;
-}
-ll mini(ll a, ll b)
-{
-    return min(a, b);
-}
 void func()
 {
-    newint(n, m, k, q);
-    V<pii> vec;
-    range(i, q)
+    newint(n);
+    vi vec(n + 1);
+    range(i, 1, n + 1)
     {
-        newint(a, b);
-        vec.push_back({a, b});
+        cin >> vec[i];
     }
-    map<ll, ll> row, column;
-    ll counter = 0;
-    range(i, vec.size() - 1, -1, -1)
+    sort(vec.begin() + 1, vec.end());
+    vi nvec(n + 1);
+    if (si(vec.begin() + 1, vec.end()).size() != n)
     {
-        auto x = vec[i];
-        if (!row.count(x.first) && column.size() != m)
-            row[x.first] = counter;
-        if (!column.count(x.second) && row.size() != n)
-            column[x.second] = counter;
-        counter++;
+        give("NO");
     }
-    si mq;
-    foreach (i, row)
-        mq.insert(i.second);
-    foreach (i, column)
-        mq.insert(i.second);
 
-    ll ans = power(k, mq.size());
-    print(ans);
+    range(i, vec.size())
+    {
+        if (vec[i] <= n)
+        {
+            nvec[vec[i]] = 1;
+        }
+    }
+    ll con = -1;
+    range(i, n, 0, -1)
+    {
+        if (nvec[i] == 0)
+        {
+            con = i;
+            break;
+        }
+    }
+    if (con == -1)
+    {
+        give("YES", n + 1);
+    }
+
+    nvec[0] = 1;
+    vi mvec = nvec;
+    ll id = lower_bound(vec.begin() + 1, vec.end(), n + 1) - vec.begin();
+    vi conten(vec[id] - (n + 1) + 1);
+
+    range(i, id, n + 1)
+    {
+        for (ll j = 1; j * j <= vec[i] - con; j++)
+        {
+            if ((vec[i] - con) % j == 0)
+            {
+                if (btn(n + 1, j, vec[id]))
+                    conten[j - (n + 1)] = 1;
+                if (btn(n + 1, (vec[i] - con) / j, vec[id]))
+                    conten[(vec[i] - con) / j - (n + 1)] = 1;
+            }
+        }
+    }
+
+    range(i, n + 1, vec[id])
+    {
+        if (!conten[i - (n + 1)])
+            continue;
+        bool flag = true;
+        range(j, id, n + 1)
+        {
+            if (vec[j] % i >= mvec.size())
+            {
+                flag = false;
+                break;
+            }
+            mvec[vec[j] % i]++;
+            if (mvec[vec[j] % i] != 1)
+            {
+                flag = false;
+                break;
+            }
+        }
+        if (flag)
+        {
+            print("YES", i);
+            return;
+        }
+        range(i, 1, nvec.size())
+        {
+            mvec[i] = nvec[i];
+        }
+    }
+    print("NO");
 }
 int main()
 {
     // Uncomment for faster I/O
-    // FAST;
+    FAST;
     newint(t);
     range(t)
     {

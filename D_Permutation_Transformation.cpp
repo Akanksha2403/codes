@@ -52,14 +52,26 @@ inline ll gcd(ll m, ll n){return __gcd(m, n);}
 inline ll rs(ll n){return n%mod;}
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
+vi ansvec(100); 
 
-
-
+void code(vi &vec, ll start, ll stop, ll fac = 0)
+{
+    if(start == stop) return ; 
+    ll id = max_element(vec.begin() + start, vec.begin() + stop) - vec.begin(); 
+    ansvec[id] = fac; 
+    code(vec, start, id, fac+1); 
+    code(vec, id+1, stop, fac+1); 
+}
 void func()
 {
     newint(n); 
-        
-    
+    vi vec = inputvec(n);     
+    code(vec, 0, n); 
+    range(i, n)
+    {
+        printl(ansvec[i]); 
+    }
+    print(); 
 }
 int main()
 {

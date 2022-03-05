@@ -1,8 +1,15 @@
 #include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>  
+#include <ext/pb_ds/tree_policy.hpp> 
+using namespace std;
+using namespace __gnu_pbds; 
+#define ll long long
+typedef tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+#define os_at(k) find_by_order(k)
+#define os_lb(k) order_of_key(k) // lower_bound key
 // Uncomment them for optimisations
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
-using namespace std;
 #define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1,_2,_3,_4,NAME,...) NAME
 #define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1)(__VA_ARGS__)
@@ -18,7 +25,6 @@ using namespace std;
 #define FULL_INF numeric_limits<double>::infinity()
 #define INF LONG_LONG_MAX
 #define INT_INF INT_MAX
-#define ll long long
 #define ld long double
 #define V vector
 #define P pair
@@ -54,12 +60,10 @@ inline ll rs(ll n){return n%mod;}
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 
-
 void func()
 {
-    newint(n); 
-        
-    
+    newint(n, s); 
+    print(s/(n*n)); 
 }
 int main()
 {

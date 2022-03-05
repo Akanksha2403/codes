@@ -1,9 +1,16 @@
 #include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>  
+#include <ext/pb_ds/tree_policy.hpp> 
+using namespace std;
+using namespace __gnu_pbds; 
+#define ll long long
+typedef tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+#define os_at(k) find_by_order(k)
+#define os_lb(k) order_of_key(k) // lower_bound key
 // Uncomment them for optimisations
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
-using namespace std;
-#define cntpop(x) __builtin__popcount(x)
+#define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1,_2,_3,_4,NAME,...) NAME
 #define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1)(__VA_ARGS__)
 #define r4(var, start, stop, step) for(ll var=start;step>=0?var<stop:var>stop;var=var+step)
@@ -18,7 +25,6 @@ using namespace std;
 #define FULL_INF numeric_limits<double>::infinity()
 #define INF LONG_LONG_MAX
 #define INT_INF INT_MAX
-#define ll long long
 #define ld long double
 #define V vector
 #define P pair
@@ -40,9 +46,9 @@ const ll mod = 1000000007;
 #define newstring(str) string str; cin >> str;
 #define foreach(a, x) for (auto &a : x)
 const ld pi = acos(-1);
-typedef vector<string> vs; typedef pair<ll, ll> pii;typedef vector<ll> vi;typedef map<ll, ll> mii; typedef set<ll> si;
+typedef vector<string> vs; typedef pair<ll, ll> pii;typedef vector<ll> vi;typedef map<ll, ll> mii; typedef set<ll> si; typedef vector<vector<ll>> vvi; 
 template<typename ...T>void take_input(T&&...args){((cin >> args), ...);}
-ll input(){ newint(n); return n; }vi inputvec(ll n, ll start = 0){ vi vec(n); for (ll i = start; i < n; i++){ vec[i] = input(); } return vec; }
+vi inputvec(ll n, ll start = 0){vi vec(n);range(i, start, n)cin >> vec[i];return vec;}
 template<typename T>bool btn(T a, T b, T c){if((a <= b && b <= c) || (a >= b && b >= c)) return true; return false;}
 template<typename T>ostream& operator<<(ostream& os,const V<T>& v){for(int i=0;i<v.size();++i){os << v[i];if(i!=v.size()-1)os<< " ";}return os;}
 template<typename... T>void print(T &&...args){ ((cout << args << " "), ...); cout << endl;}
@@ -52,6 +58,8 @@ inline ll gcd(ll m, ll n){return __gcd(m, n);}
 inline ll rs(ll n){return n%mod;}
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+
 
 // lis -- longest increasing subsequence
 ll lis(vi &height)
@@ -172,13 +180,6 @@ int binaryToInt(vi &num)
     return dec_value;
 }
 
-//      hcf finder
-ll gcd(ll a, ll b)
-{
-    if(b == 0) return a;
-    return gcd(b, a%b);
-}
-
 //      TO FIND NO OF PRIME FACTORS OF A NUMBER
 ll noOfFactors(ll n)
 {
@@ -211,7 +212,7 @@ ll noOfFactors(ll n)
 //      sieve starts here |sieve modified to provide smallest factors of a number|
 const ll range = 1000006;
 vi prime(range + 1, 0);
-void sieveOfEratosthenes()
+void sieve()
 {
     for (int p = 2; p * p <= range; p++)
     {
@@ -315,3 +316,44 @@ public:
     }
 };
 
+
+class ordered_multiset
+{
+public:
+    typedef tree<pii, null_type, less<pii>, rb_tree_tag, tree_order_statistics_node_update> MOS;
+    MOS orc;
+    ordered_multiset()
+    {
+        auto _y = orc.lower_bound({INF, INF});
+    }
+    void insert(MOS &orc, ll ele)
+    {
+        auto _y = orc.lower_bound({ele, -INT_INF});
+        if (_y == orc.end() || _y->first != ele)
+        {
+            orc.insert(mp(ele, 0LL));
+        }
+        else
+        {
+            pii x = *_y;
+            x.second--;
+            orc.insert(x);
+        }
+    }
+    void erase(MOS &orc, ll ele)
+    {
+        orc.erase(orc.lower_bound({ele, -INT_INF * 1LL}));
+    }
+    pii at(ll n)
+    {
+        return *orc.os_at(n);
+    }
+    ll order(ll n)
+    {
+        auto x = orc.lower_bound({n, -INT_INF});
+        if (x->first == n)
+            return orc.os_lb(*x);
+        else
+            return -1;
+    }
+};

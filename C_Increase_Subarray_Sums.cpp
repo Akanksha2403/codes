@@ -93,61 +93,118 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-int maxSubArraySum(vi &vec)
+
+class SegmentTree
 {
-    ll size = vec.size(); 
-    int max_so_far = 0, max_ending_here = 0;
-    
-    for (int i = 0; i < size; i++)
+private:
+    vi tree;
+    vi vec;
+    ll n, _n;
+    inline ll mid(ll a, ll b) { return (a + b) >> 1; }
+    // change operation here
+    inline ll opr(ll a, ll b)
     {
-        max_ending_here = max_ending_here + vec[i];
-        if (max_so_far < max_ending_here)
-            max_so_far = max_ending_here;
-  
-        if (max_ending_here < 0)
-            max_ending_here = 0;
+        return (a + b);
     }
-    return max_so_far;
-}
+    ll constructTree(ll start, ll end, ll ind)
+    {
+        if (start == end)
+            return tree[ind] = vec[start];
+        // change operator here
+        return tree[ind] = opr(constructTree(start, mid(start, end), (ind << 1) + 1),
+                               constructTree(1 + mid(start, end), end, (ind << 1) + 2));
+    }
+
+public:
+    SegmentTree(vi &vec)
+    {
+        n = vec.size();
+        _n = 1;
+        while (_n < n)
+            _n <<= 1;
+        tree = vi((_n << 1) - 1);
+        this->vec = vec;
+        constructTree(0, vec.size() - 1, 0);
+    }
+
+    ll rangeFind(ll start, ll end, ll index = 0, ll fullstart = -1, ll fullend = -1)
+    {
+        if (fullstart == -1)
+            fullstart = 0, fullend = vec.size() - 1;
+        if (start == fullstart && end == fullend)
+            return tree[index];
+        ll mid = ((fullstart + fullend) >> 1);
+        if (btn(fullstart, end, mid))
+        {
+            return rangeFind(start, end, (index << 1) + 1, fullstart, mid);
+        }
+        if (btn(mid + 1, start, fullend))
+        {
+            return rangeFind(start, end, (index << 1) + 2, mid + 1, fullend);
+        }
+        else
+        {
+
+            return opr(rangeFind(start, mid, (index << 1) + 1, fullstart, mid),
+                       rangeFind(mid + 1, end, (index << 1) + 2, mid + 1, fullend));
+        }
+    }
+    void changeElement(ll index, ll newelement)
+    {
+        ll fullstart = 0, fullend = vec.size() - 1;
+        ll treeindex = 0;
+        vec[index] = newelement;
+
+        // going to all the indexes
+        while (true)
+        {
+            if (btn(fullstart, index, mid(fullstart, fullend)))
+            {
+                fullend = mid(fullstart, fullend);
+                treeindex = (treeindex << 1) + 1;
+            }
+            else
+            {
+                fullstart = 1 + mid(fullstart, fullend);
+                treeindex = (treeindex << 1) + 2;
+            }
+            if (fullstart == fullend)
+                break;
+        }
+        tree[treeindex] = newelement;
+        // update all parents
+        while (true)
+        {
+            treeindex = treeindex & 1 ? (treeindex >> 1) : (treeindex >> 1) - 1;
+            if (treeindex < 0)
+                break;
+            tree[treeindex] = opr(tree[(treeindex << 1) + 1], tree[(treeindex << 1) + 2]);
+        }
+    }
+};
+
 void func()
 {
     newint(n, k);
     vi vec = inputvec(n);
-    vi prefix(n + 1);
-    prefix[0] = 0;
-    range(i, 1, n + 1)
+    vi ans;
+    range(i, n+1)
     {
-        prefix[i] = prefix[i - 1] + vec[i - 1];
-    }
-    V<pii> ansvec;  
-    range(i, n)
-    {
-        range(j, i, n)
+        // kadanes here foreach subarray
+        ll max_sub = 0, temp_sub = 0, start = 0;
+        range(j, n)
         {
-            ll u = prefix[j + 1] - prefix[i];
-            ll v = j - i + 1;
-            ansvec.push_back({v, u});
+            temp_sub += vec[i];
+            if (temp_sub + min(j - start + 1, i) * k < 0)
+            {
+                temp_sub = 0, start = i + 1;
+                continue;
+            }
+            max_sub = max(max_sub, temp_sub + min(j - start + 1, i) * k);
         }
-    }
-    sort(all(ansvec)); 
-    vi maxi (ansvec.size()); 
-    maxi[ansvec.size()-1] = prev(ansvec.end())->second; 
-    range(i, ansvec.size()-2, -1, -1)
-    {
-        maxi[i] = max(maxi[i+1], ansvec[i].second); 
-    }
-    vi ans = {maxSubArraySum(vec)}; 
-    ll counter = 1; 
-    range(i, maxi.size())
-    {
-        if(ansvec[i].first == counter)
-        {
-            ans.push_back(max(ans[ans.size()-1], maxi[i] + k*counter));
-            counter++; 
-        }
+        ans.push_back(max_sub); 
     }
     print(ans); 
-    
 }
 int main()
 {

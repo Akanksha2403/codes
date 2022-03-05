@@ -1,5 +1,5 @@
-sum = 5*10**6
-ans = 0
-for i in range(2, 5*10**6):
-    ans += sum//i
-print(ans)
+def f(n):
+    if(n == 0): return 1
+    else: return n*f(n-1)
+
+print(f(int(input())))

@@ -1,8 +1,9 @@
 #include <bits/stdc++.h>
-// Uncomment them for optimisations
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("avx,avx2,fma")
 using namespace std;
+#define ll long long
+// Uncomment them for optimisations
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
 #define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
 #define range(...)                         \
@@ -26,7 +27,6 @@ using namespace std;
 #define FULL_INF numeric_limits<double>::infinity()
 #define INF LONG_LONG_MAX
 #define INT_INF INT_MAX
-#define ll long long
 #define ld long double
 #define V vector
 #define P pair
@@ -40,8 +40,8 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
-// const ll mod = 1000000007;
-const ll mod = 998244353;
+const ll mod = 1000000007;
+// const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
@@ -95,92 +95,64 @@ inline ll gcd(ll m, ll n) { return __gcd(m, n); }
 inline ll rs(ll n) { return n % mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-//      ncr of a number
-ll NCR(ll n, ll r)
+void distSumRec(vi &arr, ll n, pii sum, ll currindex, set<pair<ll, ll>> &s)
 {
-    if (r > n)
-        return 0;
-    ll inv[r + 1] = {0};
-    inv[0] = 1;
-    if (r + 1 >= 2)
-        inv[1] = 1;
+    if (currindex > n)
+        return;
 
-    // Getting the modular inversion
-    // for all the numbers
-    // from 2 to r with respect to m
-    // here m = 1000000007
-    for (ll i = 2; i <= r; i++)
+    if (currindex == n)
     {
-        inv[i] = mod - (mod / i) * inv[mod % i] % mod;
+        s.insert(sum);
+        return;
     }
-
-    ll ans = 1;
-
-    // for 1/(r!) part
-    for (ll i = 2; i <= r; i++)
-    {
-        ans = ((ans % mod) * (inv[i] % mod)) % mod;
-    }
-
-    // for (n)*(n-1)*(n-2)*...*(n-r+1) part
-    for (ll i = n; i >= (n - r + 1); i--)
-    {
-        ans = ((ans % mod) * (i % mod)) % mod;
-    }
-    return ans;
+    pii newsum = sum; 
+    sum.first += arr[currindex]; 
+    sum.second++; 
+    distSumRec(arr, n, newsum, currindex + 1, s);
+    distSumRec(arr, n, sum, currindex + 1, s);
 }
-
-ll power(ll x, ll y)
+V<pii> num1;
+void prep()
 {
-    ll res = 1;
-    while (y)
+    vi num;
+    ll u = 1;
+    for (ll i = 2; i < 100; i++)
     {
-        if (y % 2 == 1)
-            res = (res * x) % mod;
-
-        y = y >> 1;
-        x = (x * x) % mod;
+        u *= i;
+        if (u > 1e12)
+            break;
+        num.push_back(u);
     }
-    return res % mod;
-}
-ll mini(ll a, ll b)
-{
-    return min(a, b);
+    // vi num1;
+    set<pii> s;
+    distSumRec(num, num.size(), {0,0}, 0, s);
+    num1 = vector<pii>(all(s));
+    sort(all(num1));
 }
 void func()
 {
-    newint(n, m, k, q);
-    V<pii> vec;
-    range(i, q)
+    newint(n);
+    prep();
+    ll ans = LONG_LONG_MAX; 
+    foreach (i, num1)
     {
-        newint(a, b);
-        vec.push_back({a, b});
+        ll newn = n - i.first; 
+        ll newans = i.second;
+        if(newn < 0) break;
+        while(newn)
+        {
+            newans += (newn & 1);
+            newn >>= 1; 
+        }
+        ans = min(ans, newans); 
     }
-    map<ll, ll> row, column;
-    ll counter = 0;
-    range(i, vec.size() - 1, -1, -1)
-    {
-        auto x = vec[i];
-        if (!row.count(x.first) && column.size() != m)
-            row[x.first] = counter;
-        if (!column.count(x.second) && row.size() != n)
-            column[x.second] = counter;
-        counter++;
-    }
-    si mq;
-    foreach (i, row)
-        mq.insert(i.second);
-    foreach (i, column)
-        mq.insert(i.second);
-
-    ll ans = power(k, mq.size());
-    print(ans);
+    print(ans); 
 }
 int main()
 {
     // Uncomment for faster I/O
-    // FAST;
+    FAST;
+    prep();
     newint(t);
     range(t)
     {

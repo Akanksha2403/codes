@@ -3,6 +3,7 @@
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
 using namespace std;
+#define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
 #define range(...)                         \
     GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
@@ -39,6 +40,7 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 #define pf push_front
+const ll mod = 998244353;
 #define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
@@ -46,28 +48,19 @@ using namespace std;
     string str;        \
     cin >> str;
 #define foreach(a, x) for (auto &a : x)
-const ll mod = 1000000007;
-const ll mod2 = 998244353;
 const ld pi = acos(-1);
 typedef vector<string> vs;
 typedef pair<ll, ll> pii;
 typedef vector<ll> vi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
+typedef vector<vector<ll>> vvi;
 template <typename... T>
 void take_input(T &&...args) { ((cin >> args), ...); }
-ll input()
-{
-    newint(n);
-    return n;
-}
 vi inputvec(ll n, ll start = 0)
 {
     vi vec(n);
-    for (ll i = start; i < n; i++)
-    {
-        vec[i] = input();
-    }
+    range(i, start, n) cin >> vec[i];
     return vec;
 }
 template <typename T>
@@ -98,154 +91,104 @@ template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
 inline ld TLD(ll n) { return n; }
 inline ll gcd(ll m, ll n) { return __gcd(m, n); }
-inline ll rs(ll n) { return n % mod; }
+inline ll rs(ll n) { return (mod + n % mod) % mod; }
+ 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-//      ncr of a number
-ll NCR(ll n, ll r)
+ll power(ll x, ll y)
 {
-    if (r > n)
+    ll res = 1;
+    while (y)
+    {
+        if (y % 2 == 1)
+            res = (res * x) % mod;
+ 
+        y = y >> 1;
+        x = (x * x) % mod;
+    }
+    return res % mod;
+}
+vi f(6000);
+void facmaker()
+{
+    f[0] = 1;
+    range(i, 1, f.size())
+    {
+        f[i] = (f[i - 1] * i) % mod;
+    }
+}
+inline ll ncr(ll n, ll r)
+{
+    if (n == 0 || r > n || r <= -1)
         return 0;
-    ll m = mod2;
-    ll inv[r + 1] = {0};
-    inv[0] = 1;
-    if (r + 1 >= 2)
-        inv[1] = 1;
-
-    // Getting the modular inversion
-    // for all the numbers
-    // from 2 to r with respect to m
-    // here m = 1000000007
-    for (ll i = 2; i <= r; i++)
+    return rs(rs(f[n] * power(f[r], mod - 2)) * power(f[n - r], mod - 2));
+}
+void func()
+{
+    newint(n, k);
+    newstring(str);
+    if (k == 0)
     {
-        inv[i] = m - (m / i) * inv[m % i] % m;
+        give(1);
     }
-
+    if (k == 1)
+    {
+        if(string(n, '0') == str){
+            give(1); 
+        }
+        deque<char> str1(all(str));
+        ll ans = 0;
+        while (str1.size() != 0 && str1[0] == '0')
+            ans += 1, str1.pop_front();
+        while (str1.size() != 0 && *prev(str1.end()) == '0')
+            ans += 1, str1.pop_back();
+        ans += 2*count(str1.begin(), str1.end(), '0'); 
+        give(ans+1);
+    }
+    if(count(all(str), '1') < k){
+        give(1); 
+    }
+    ll l = 0, r = 0;
+    ll extrar = 0, extrasum = 0;
+    ll sum = 0;
+    ll ans = 0;
+    while (true)
+    {
+        if ((sum < k || (sum == k && !(str[r] - '0'))) && r != n)
+        {
+            sum += str[r] - '0';
+            extrasum += str[r] - '0';
+            extrar++;
+            r++;
+            continue;
+        }
+        if (r == n && sum != k)
+            break;
+        // successful condition
+        ans = rs(ans + (ncr(r - l, k) - ncr(r - l - extrar, k - extrasum)));
+        extrasum = 0, extrar = 0;
+        while (sum == k)
+        {
+            sum -= str[l] - '0';
+            l++;
+        }
+    }
+    print(ans);
+}
+ll fac(ll k)
+{
     ll ans = 1;
-
-    // for 1/(r!) part
-    for (ll i = 2; i <= r; i++)
+    range(i, 1, k + 1)
     {
-        ans = ((ans % m) * (inv[i] % m)) % m;
-    }
-
-    // for (n)*(n-1)*(n-2)*...*(n-r+1) part
-    for (ll i = n; i >= (n - r + 1); i--)
-    {
-        ans = ((ans % m) * (i % m)) % m;
+        ans = (ans * k) % mod;
     }
     return ans;
 }
-
-ll handleit(ll n, ll k, string &str)
-{
-    vi ans;
-    ll i = 0;
-    if (str[0] == '0')
-        ans.push_back(1);
-    else
-        ans.push_back(-1);
-    range(i, 1, n)
-    {
-        if (str[i] == '1' && str[i - 1] == '1')
-            continue;
-        else if (str[i] == '1')
-            ans.push_back(-1);
-        else if (str[i] == '0' && str[i - 1] == '1')
-            ans.push_back(1);
-        else
-            ans[ans.size() - 1]++;
-    }
-    ll myans = 0;
-    n = ans.size();
-    range(i, n)
-    {
-        if (ans[i] == -1)
-        {
-            ll a1 = 0, a2 = 0;
-            if (i - 1 >= 0)
-                a1 = ans[i - 1];
-            if (i + 1 < n)
-                a2 = ans[i + 1];
-            myans += a1 + a2;
-        }
-    }
-    return myans + 1;
-}
-
-ll func(ll n, ll k, string &str)
-{
-    if (k == 1)
-    {
-        return handleit(n, k, str);
-    }
-    map<ll, ll> prefix;
-    prefix[-1] = 0;
-    range(i, n)
-    {
-        ll old = prefix[i - 1];
-        if (str[i] == '1')
-            old++;
-        prefix[i] = old;
-    }
-    ll i = -1, j = -1;
-    range(u, n)
-    {
-        if (prefix[u] > k)
-        {
-            i = u - 1;
-            break;
-        }
-        if (u == n - 1 && prefix[u] == k)
-        {
-            i = n - 1;
-            break;
-        }
-    }
-
-    vi ans;
-    ans.push_back(NCR(i - j, k));
-    while (true)
-    {
-        i++;
-        while (str[i + 1] == '0' && i != str.size())
-        {
-            i++;
-        }
-        if (i == str.size())
-            break;
-
-        while (prefix[i] - prefix[j] > k)
-            j++;
-        ans.push_back(NCR(i - j, k));
-    }
-    ll u = accumulate(all(ans), 0LL);
-    return u;
-}
+ 
 int main()
 {
+    facmaker();
     // Uncomment for faster I/O
     // FAST;
-    newint(n, k);
-    newstring(str);
-    ll k1 = count(all(str), '1');
-    if (k1 < k || k == 0 || k1 == n)
-    {
-        print(1);
-        return 0;
-    }
-    else
-    {
-        bool a = true;
-        ll ans = 0;
-        for (ll u = k; u > 0; u--)
-        {
-            if (a)
-                ans += func(n, u, str);
-            else
-                ans -= func(n, u, str);
-            a = !a;
-        }
-        print(ans);
-    }
+    func();
+    // bruty();
 }
