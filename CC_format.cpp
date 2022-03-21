@@ -1,12 +1,6 @@
 #include<bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>  
-#include <ext/pb_ds/tree_policy.hpp> 
 using namespace std;
-using namespace __gnu_pbds; 
 #define ll long long
-typedef tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
-#define os_at(k) find_by_order(k)
-#define os_lb(k) order_of_key(k) // lower_bound key
 // Uncomment them for optimisations
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
@@ -63,7 +57,12 @@ inline ll rs(ll n){return n%mod;}
 
 void func()
 {
-    
+    newint(n); 
+    vi vec = inputvec(n); 
+    range(i, n)
+    {
+        
+    }
 }
 int main()
 {
