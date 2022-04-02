@@ -17,8 +17,8 @@ using namespace std;
 #define give(...) {print(__VA_ARGS__); return ;}
 #define endl "\n"
 #define FULL_INF numeric_limits<double>::infinity()
-#define INF LONG_LONG_MAX
-#define INT_INF INT_MAX
+#define INF INT64_MAX
+#define INT_INF INT32_MAX
 #define ld long double
 #define V vector
 #define P pair
@@ -34,7 +34,7 @@ using namespace std;
 #define pf push_front
 const ll mod = 1000000007; 
 //const ll mod = 998244353; 
-#define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
+#define FAST ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
 #define newstring(str) string str; cin >> str;
@@ -49,20 +49,15 @@ template <typename _A, typename _B>ostream &operator<<(ostream &os, const pair<_
 template<typename... T>void print(T &&...args){((cout<<args<< " "), ...);cout<<endl;}
 template<typename... T>void printl(T &&...args){ ((cout << args << " "), ...);}
 inline ld TLD(ll n) {return n;}
-inline ll gcd(ll m, ll n){return __gcd(m, n);}
-inline ll rs(ll n){return n%mod;}
+ll gcd(ll __m, ll __n) { return __n == 0 ? __m : gcd(__n, __m % __n);}
+inline ll rs(ll n){return n%mod >= 0 ? n % mod : (n%mod)+mod;}
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 
 void func()
 {
-    newint(n); 
-    vi vec = inputvec(n); 
-    range(i, n)
-    {
-        
-    }
+    
 }
 int main()
 {

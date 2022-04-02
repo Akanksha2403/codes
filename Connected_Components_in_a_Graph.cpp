@@ -113,6 +113,8 @@ int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
     newint(n, r);
     V<vi> g(n + 1);
     range(r)

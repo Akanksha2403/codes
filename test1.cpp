@@ -1,9 +1,10 @@
 #include <bits/stdc++.h>
+using namespace std;
+#define ll long long
 // Uncomment them for optimisations
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
-using namespace std;
-#define cntpop(x) __builtin__popcount(x)
+#define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
 #define range(...)                         \
     GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
@@ -24,9 +25,8 @@ using namespace std;
     }
 #define endl "\n"
 #define FULL_INF numeric_limits<double>::infinity()
-#define INF LONG_LONG_MAX
-#define INT_INF INT_MAX
-#define ll long long
+#define INF INT64_MAX
+#define INT_INF INT32_MAX
 #define ld long double
 #define V vector
 #define P pair
@@ -41,8 +41,8 @@ using namespace std;
 #define pb push_back
 #define pf push_front
 const ll mod = 1000000007;
-//const ll mod = 998244353;
-#define FAST ios_base::sync_with_stdio(NULL), cin.tie(NULL), cout.tie(NULL);
+// const ll mod = 998244353;
+#define FAST ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
 #define newstring(str) \
@@ -55,20 +55,13 @@ typedef pair<ll, ll> pii;
 typedef vector<ll> vi;
 typedef map<ll, ll> mii;
 typedef set<ll> si;
+typedef vector<vector<ll>> vvi;
 template <typename... T>
 void take_input(T &&...args) { ((cin >> args), ...); }
-ll input()
-{
-    newint(n);
-    return n;
-}
 vi inputvec(ll n, ll start = 0)
 {
     vi vec(n);
-    for (ll i = start; i < n; i++)
-    {
-        vec[i] = input();
-    }
+    range(i, start, n) cin >> vec[i];
     return vec;
 }
 template <typename T>
@@ -89,6 +82,12 @@ ostream &operator<<(ostream &os, const V<T> &v)
     }
     return os;
 }
+template <typename _A, typename _B>
+ostream &operator<<(ostream &os, const pair<_A, _B> &p)
+{
+    os << "[" << p.first << ", " << p.second << "]";
+    return os;
+}
 template <typename... T>
 void print(T &&...args)
 {
@@ -98,30 +97,47 @@ void print(T &&...args)
 template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
 inline ld TLD(ll n) { return n; }
-inline ll gcd(ll m, ll n) { return __gcd(m, n); }
-inline ll rs(ll n) { return n % mod; }
+ll gcd(ll __m, ll __n) { return __n == 0 ? __m : gcd(__n, __m % __n); }
+inline ll rs(ll n) { return n % mod >= 0 ? n % mod : (n % mod) + mod; }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-void func(string str)
+vi dp(100000, INT_INF);
+ll func()
 {
-    ll maxlength = 0;
-    ll i = str.find('1'), j = str.find('1');
-    bool a = false;
-    while (j != str.size())
+    dp[0] = 0;
+    range(k, dp.size())
     {
-        if (str[i] == '1')
-            i++, maxlength++;
+        dp[k] = min(dp[k], 1 + dp[k - 1]);
+        // range(i, 2, k)
+        for (ll i = 2; i * i <= k; i++)
+        {
+            for (ll j = i * i; j <= k; j *= i)
+            {
+                dp[k] = min(dp[k], 1 + dp[k - j]);
+            }
+        }
     }
+    print(dp[3000]);
+}
+ll func1()
+{
+    srand(time(0)); 
 }
 int main()
 {
-    // Uncomment for faster I/O
-    // FAST;
-    newint(t);
-    range(t)
+    vi dp1(100000, INT_INF);
+    dp1[0] = 0;
+    range(k, dp1.size())
     {
-        newstring(str);
-        func(str);
+        dp1[k] = min(dp1[k], 1 + dp1[k - 1]);
+        // range(i, 2, k)
+        for (ll i = 2; i * i <= k; i++)
+        {
+            for (ll j = i * i; j <= k; j *= i)
+            {
+                dp1[k] = min(dp1[k], 1 + dp1[k - j]);
+            }
+        }
     }
 }

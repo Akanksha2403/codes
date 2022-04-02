@@ -357,3 +357,19 @@ public:
             return -1;
     }
 };
+
+
+// find factors of given number (heavy preprocessing)
+const ll limit = 1e6; 
+V<vi> factors(limit+1); 
+void find_factors()
+{
+    // range(i, factors.size()) {factors[i].reserve(20);}
+    range(i, 2, limit)
+    {
+        for(ll j = i * i; j < limit; j += i)
+        {
+            factors[j].push_back(i); 
+        }
+    }
+}

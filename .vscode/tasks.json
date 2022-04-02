@@ -6,7 +6,7 @@
     {
       "type": "shell",
       "label": "clang++ build active file",
-      "command": "clang++",
+      "command": "/usr/bin/clang++",
       "args": [
           "-stdlib=libc++",
           "-gdwarf",
