@@ -1,12 +1,6 @@
 #include<bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>  
-#include <ext/pb_ds/tree_policy.hpp> 
 using namespace std;
-using namespace __gnu_pbds; 
 #define ll long long
-typedef tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
-#define os_at(k) find_by_order(k)
-#define os_lb(k) order_of_key(k) // lower_bound key
 // Uncomment them for optimisations
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
@@ -114,11 +108,10 @@ ll NCR(ll n, ll r)
 {
     if (r > n)
         return 0;
-    ll inv[r + 1] = {0};
+    vi inv(r+1, 0); 
     inv[0] = 1;
     if (r + 1 >= 2)
         inv[1] = 1;
-
     // Getting the modular inversion
     // for all the numbers
     // from 2 to r with respect to m
@@ -317,46 +310,6 @@ public:
 };
 
 
-class ordered_multiset
-{
-public:
-    typedef tree<pii, null_type, less<pii>, rb_tree_tag, tree_order_statistics_node_update> MOS;
-    MOS orc;
-    ordered_multiset()
-    {
-        auto _y = orc.lower_bound({INF, INF});
-    }
-    void insert(MOS &orc, ll ele)
-    {
-        auto _y = orc.lower_bound({ele, -INT_INF});
-        if (_y == orc.end() || _y->first != ele)
-        {
-            orc.insert(mp(ele, 0LL));
-        }
-        else
-        {
-            pii x = *_y;
-            x.second--;
-            orc.insert(x);
-        }
-    }
-    void erase(MOS &orc, ll ele)
-    {
-        orc.erase(orc.lower_bound({ele, -INT_INF * 1LL}));
-    }
-    pii at(ll n)
-    {
-        return *orc.os_at(n);
-    }
-    ll order(ll n)
-    {
-        auto x = orc.lower_bound({n, -INT_INF});
-        if (x->first == n)
-            return orc.os_lb(*x);
-        else
-            return -1;
-    }
-};
 
 
 // find factors of given number (heavy preprocessing)

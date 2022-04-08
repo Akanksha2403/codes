@@ -48,7 +48,7 @@ const ll mod = 1000000007;
 #define newstring(str) \
     string str;        \
     cin >> str;
-#define foreach(a, x) for (auto &a : x)
+#define foreach(a, x) for (auto &&a : x)
 const ld pi = acos(-1);
 typedef vector<string> vs;
 typedef pair<ll, ll> pii;
@@ -98,107 +98,85 @@ template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
 inline ld TLD(ll n) { return n; }
 ll gcd(ll __m, ll __n) { return __n == 0 ? __m : gcd(__n, __m % __n); }
-inline ll rs(ll n) { return n % mod >= 0 ? n % mod : (n % mod) + mod; }
+inline ll rs(ll n) { return (n = n % mod) >= 0 ? n : n + mod; }
+ll power(ll x, ll y)
+{
+    ll res = 1;
+    while (y)
+    {
+        if (y & 1LL)
+            res = (res * x) % mod;
+        y >>= 1;
+        x = (x * x) % mod;
+    }
+    return res % mod;
+}
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+ll check(string &str)
+{
+    ll c = 0; 
+    range(i, str.size())
+    {
+        if(str[i] == ')') c--; 
+        else c++; 
+        if(c < 0) return 0; 
+    }
+    return 1; 
+}
 void func()
 {
     newint(n);
-    vi vec = inputvec(n + 1, 1);
-    V<pair<ll, deque<ll>>> pvec;
-    ll ans = 0, lrem = n, rrem = 0;
-    range(i, vec.size())
+    newstring(str);
+    ll ci = count(all(str), '(');
+    if (ci < n - ci)
     {
-        if (vec[i] == 0)
+        string nstr; nstr.reserve(n); 
+        range(i, str.size() - 1, -1, -1)
         {
-            pvec.push_back({i + 1, deque<ll>(0)});
+            if (str[i] == ')')
+            {
+                nstr.push_back('(');
+            }
+            else
+                nstr.push_back(')');
+        }
+        str = move(nstr);
+    }
+    if(!check(str)) {give(0); }
+    vi dp(n + 1);
+    range(i, str.size())
+    {
+        if (str[i] == '(')
+        {
+            dp[i + 1] = dp[i] + 1;
         }
         else
         {
-            auto x = prev(pvec.end());
-            x->second.push_back(vec[i]);
+            dp[i + 1] = dp[i] - 1;
         }
     }
-    // handle -1 vale cases rn
-    foreach (pld, pvec)
+    if(dp[n] != 2) {give(0); }
+    ll lastpos = 1;
+    range(i, 1, dp.size())
     {
-        if (pld.second.size() == 0)
-            continue;
-        ll negative = 0;
-        ll mulc = 0;
-        range(i, pld.second.size())
-        {
-            if (pld.second[i] < 0)
-                negative++;
-            if (abs(pld.second[i]) == 2)
-                mulc++;
-        }
-        if (negative % 2 == 0)
-        {
-            // pura multiply kar do
-            // good case
-            if (ans < mulc)
-            {
-                ans = mulc;
-                lrem = pld.first - 1;
-                rrem = n - lrem - pld.second.size();
-            }
-        }
-        else
-        {
-            // first negative from left
-            ll fleft = 0;
-            range(i, pld.second.size())
-            {
-                if (pld.second[i] < 0)
-                {
-                    fleft = i;
-                    break;
-                }
-            }
-            // first negative from right
-            ll fright = pld.second.size() - 1;
-            range(i, pld.second.size() - 1, -1, -1)
-            {
-                if (pld.second[i] < 0)
-                {
-                    fright = i;
-                    break;
-                }
-            }
-            ll u = 0, v = 0;
-            range(i, fleft + 1, pld.second.size())
-            {
-                if (abs(pld.second[i]) == 2)
-                    u++;
-            }
-            range(i, 0, fright)
-            {
-                if (abs(pld.second[i]) == 2)
-                    v++;
-            }
-            if (v > ans)
-            {
-                ans = v;
-                lrem = pld.first - 1;
-                rrem = n - (pld.first + fright) + 1;
-            }
-            if (u > ans)
-            {
-                ans = u;
-                lrem = pld.first + fleft;
-                rrem = n - (pld.first + pld.second.size()-1); 
-            }
-        }
+        if (dp[i] == 1)
+            lastpos = i;
     }
-    print(lrem, rrem);
+    // print(dp); 
+    ll ans = 0;
+    range(i, lastpos, n)
+    {
+        if (str[i] == '(')
+            ans++;
+    }
+    print(ans);
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
-    newint(t);
-    range(t)
     {
         func();
     }
