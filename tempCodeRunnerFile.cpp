@@ -114,74 +114,42 @@ ll power(ll x, ll y)
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-ll check(string &str)
-{
-    ll c = 0;
-    range(i, str.size())
-    {
-        if (str[i] == '(')
-            c++;
-        else
-            c--;
-        if (c < 0)
-            return 0;
-    }
-    if (c > 0)
-        return 0;
-    return 1;
-}
 void func()
 {
     newint(n);
-    newstring(str);
-    ll ci = count(all(str), '(');
-    if (abs(ci * 2 - n) != 2)
+    vi vec = inputvec(n);
+    sort(all(vec));
+    ll maxi = vec[n - 1];
+    ll ans = INT_INF;
+
+    range(j, 0, 4)
     {
-        give(0);
-    }
-    if (ci < n - ci)
-    {
-        string nstr;
-        range(i, str.size() - 1, -1, -1)
+        ll two = 0, one = 0;
+        range(i, vec.size())
         {
-            if (str[i] == ')')
-            {
-                nstr.push_back('(');
-            }
+            if ((maxi - vec[i] + j) % 2 == 0)
+                two += (maxi - vec[i] + j) / 2;
             else
-                nstr.push_back(')');
+                two += (maxi - vec[i] + j) / 2, one++;
         }
-        str = move(nstr);
-    }
-    if (str[0] == ')')
-    {
-        give("0");
-    }
-    ll id = find(str.begin() + 1, str.end(), '(') - str.begin();
-    vi dp(n + 1);
-    range(i, str.size())
-    {
-        if (str[i] == '(')
+        if (two >= one)
         {
-            dp[i + 1] = dp[i] + 1;
+            ll buf = (two - one) / 3;
+            two -= buf;
+            one += 2 * buf;
+            if (two >= one)
+                ans = min(ans, two * 2);
+            else
+                ans = min(ans, one * 2 - 1);
+            two -= 1;
+            one += 2;
+            if (two >= one)
+                ans = min(ans, two * 2);
+            else
+                ans = min(ans, one * 2 - 1);
         }
         else
-        {
-            dp[i + 1] = dp[i] - 1;
-        }
-    }
-    ll lastpos = 1;
-    range(i, 1, dp.size())
-    {
-        if (dp[i] == 0)
-            lastpos = i;
-    }
-
-    ll ans = 0;
-    range(i, lastpos, n)
-    {
-        if (str[i] == '(')
-            ans++;
+            ans = min(ans, one * 2 - 1);
     }
     print(ans);
 }
@@ -189,6 +157,8 @@ int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    newint(t);
+    range(t)
     {
         func();
     }

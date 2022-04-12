@@ -230,7 +230,7 @@ private:
     // change operation here
     inline ll opr(ll a, ll b)
     {
-        return (a + b);
+        return min(a , b);
     }
     ll constructTree(ll start, ll end, ll ind)
     {
@@ -284,6 +284,8 @@ public:
         // going to all the indexes
         while (true)
         {
+            if (fullstart == fullend)
+                break;
             if (btn(fullstart, index, mid(fullstart, fullend)))
             {
                 fullend = mid(fullstart, fullend);
@@ -294,8 +296,7 @@ public:
                 fullstart = 1 + mid(fullstart, fullend);
                 treeindex = (treeindex << 1) + 2;
             }
-            if (fullstart == fullend)
-                break;
+            
         }
         tree[treeindex] = newelement;
         // update all parents

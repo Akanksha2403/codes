@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define ll int
+#define ll long long
 // Uncomment them for optimisations
-#pragma GCC optimize("Ofast")
-#pragma GCC target("avx,avx2,fma")
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
 #define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
 #define range(...)                         \
@@ -48,7 +48,7 @@ const ll mod = 1000000007;
 #define newstring(str) \
     string str;        \
     cin >> str;
-#define foreach(a, x) for (auto &a : x)
+#define foreach(a, x) for (auto &&a : x)
 const ld pi = acos(-1);
 typedef vector<string> vs;
 typedef pair<ll, ll> pii;
@@ -98,49 +98,66 @@ template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
 inline ld TLD(ll n) { return n; }
 ll gcd(ll __m, ll __n) { return __n == 0 ? __m : gcd(__n, __m % __n); }
-inline ll rs(ll n) { return n % mod >= 0 ? n % mod : (n % mod) + mod; }
+inline ll rs(ll n) { return (n = n % mod) >= 0 ? n : n + mod; }
+ll power(ll x, ll y)
+{
+    ll res = 1;
+    while (y)
+    {
+        if (y & 1LL)
+            res = (res * x) % mod;
+        y >>= 1;
+        x = (x * x) % mod;
+    }
+    return res % mod;
+}
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 void func()
 {
+    newint(n);
+    newstring(str);
+    map<ll, ll> jc;
+    map<ll, ll> mjc;
+    range(i, str.size())
+    {
+        jc[i] = jc[i - 1];
+        if (str[i] == '+')
+            jc[i]++;
+        mjc[i] = mjc[i - 1];
+        if (str[i] == '-')
+            mjc[i]++;
+    }
+    ll ans = 0;
+    range(i, n)
+    {
+        ll buf = 0, pmin = 0;
+        range(j, i, n)
+        {
+            if (j - 1 >= i && str[j] == '-' && str[j - 1] == '-')
+                buf++;
+            else
+            {
+                pmin += (buf + 1) / 2;
+                buf = 0;
+            }
+            ll plus = jc[j] - jc[i - 1];
+            ll minus = mjc[j] - mjc[i - 1];
+            if(plus > minus) continue; 
+            if (abs(plus - minus) % 3 == 0 && (minus - plus) / 3 <= (pmin + (1 + buf) / 2))
+                ans++;
+        }
+    }
+    print(ans);
 }
 int main()
 {
     // Uncomment for faster I/O
-    FAST;
+    // FAST;
     newint(t);
-    char str[3000]; 
     range(t)
     {
-        newint(n);
-        range(i, n)
-        {
-            cin >> str[i]; 
-        }
-        ll ans = 0;
-        range(i, n)
-        {
-            range(j, i + 1, n + 1)
-            {
-                ll dmin = 0;
-                ll plus = 0, mi = 0;
-                range(k, i, j) if (str[k] == '+') plus++;
-                else mi++;
-                range(k, i, j)
-                {
-                    if (k + 1 < j && str[k] == '-' && str[k + 1] == '-')
-                    {
-                        k++;
-                        dmin++;
-                    }
-                }
-                if (plus > mi)
-                    continue;
-                if ((mi - plus) % 3 == 0 && (mi - plus) / 3 <= dmin)
-                    ans++;
-            }
-        }
-        print(ans);
+        func();
     }
 }

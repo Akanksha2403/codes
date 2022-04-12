@@ -38,7 +38,7 @@ const ll mod = 1000000007;
 #define all(a) a.begin(), a.end()
 #define db(x) cout << #x << " = " << x << "\n"
 #define newstring(str) string str; cin >> str;
-#define foreach(a, x) for (auto &a : x)
+#define foreach(a, x) for (auto &&a : x)
 const ld pi = acos(-1);
 typedef vector<string> vs; typedef pair<ll, ll> pii;typedef vector<ll> vi;typedef map<ll, ll> mii; typedef set<ll> si; typedef vector<vector<ll>> vvi; 
 template<typename ...T>void take_input(T&&...args){((cin >> args), ...);}
@@ -50,22 +50,37 @@ template<typename... T>void print(T &&...args){((cout<<args<< " "), ...);cout<<e
 template<typename... T>void printl(T &&...args){ ((cout << args << " "), ...);}
 inline ld TLD(ll n) {return n;}
 ll gcd(ll __m, ll __n) { return __n == 0 ? __m : gcd(__n, __m % __n);}
-inline ll rs(ll n){return n%mod >= 0 ? n % mod : (n%mod)+mod;}
+inline ll rs(ll n){return (n=n%mod)>=0?n:n+mod;}
+ll power(ll x, ll y){ll res = 1;while (y){if(y&1LL)res=(res*x)%mod;y>>=1;x=(x*x)%mod;}return res % mod;}
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-
-void func()
+vi dp(2e5+1, -1); 
+void preprocess()
 {
-    
+    dp[0] = 0; 
+    range(i, 1, dp.size())
+    {
+        dp[i] = dp[i-1] + 1; 
+        for(ll j = 2; j * j <= i; j++)
+        {
+            for(ll k = j * j; k <= i; k = k * j)
+            {
+                dp[i] = min(dp[i], 1 + dp[i - k]); 
+            }
+        }
+    }
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
+    // freopen("input.txt", "r", stdin); 
+    // freopen("output.txt", "w", stdout); 
+    preprocess(); 
     newint(t);
     range(t)
     {
-        func();
+        newint(n); 
+        print(dp[n]); 
     }
 }

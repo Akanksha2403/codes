@@ -58,8 +58,7 @@ ll power(ll x, ll y){ll res = 1;while (y){if(y&1LL)res=(res*x)%mod;y>>=1;x=(x*x)
 
 void func()
 {
-    newint(n); 
-    vi vec =inputvec(n); 
+    newint(n);
     
 }
 int main()

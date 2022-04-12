@@ -6,9 +6,8 @@ using namespace std;
 //#pragma GCC target("avx,avx2,fma")
 #define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...)                         \
-    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-    (__VA_ARGS__)
+#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+(__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -48,7 +47,7 @@ const ll mod = 1000000007;
 #define newstring(str) \
     string str;        \
     cin >> str;
-#define foreach(a, x) for (auto &a : x)
+#define foreach(a, x) for (auto &&a : x)
 const ld pi = acos(-1);
 typedef vector<string> vs;
 typedef pair<ll, ll> pii;
@@ -98,46 +97,51 @@ template <typename... T>
 void printl(T &&...args) { ((cout << args << " "), ...); }
 inline ld TLD(ll n) { return n; }
 ll gcd(ll __m, ll __n) { return __n == 0 ? __m : gcd(__n, __m % __n); }
-inline ll rs(ll n) { return n % mod >= 0 ? n % mod : (n % mod) + mod; }
+inline ll rs(ll n) { return (n = n % mod) >= 0 ? n : n + mod; }
+ll power(ll x, ll y)
+{
+    ll res = 1;
+    while (y)
+    {
+        if (y & 1LL)
+            res = (res * x) % mod;
+        y >>= 1;
+        x = (x * x) % mod;
+    }
+    return res % mod;
+}
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-vi dp(100000, INT_INF);
-ll func()
+vi dp(1e5 + 1, -1);
+void preprocess()
 {
     dp[0] = 0;
-    range(k, dp.size())
+    range(i, 1, dp.size())
     {
-        dp[k] = min(dp[k], 1 + dp[k - 1]);
-        // range(i, 2, k)
-        for (ll i = 2; i * i <= k; i++)
+        dp[i] = dp[i - 1] + 1;
+        for (ll j = 2; j * j <= i; j++)
         {
-            for (ll j = i * i; j <= k; j *= i)
+            for (ll k = j * j; k <= i; k = k * j)
             {
-                dp[k] = min(dp[k], 1 + dp[k - j]);
+                dp[i] = min(dp[i], 1 + dp[i - k]);
             }
         }
     }
-    print(dp[3000]);
-}
-ll func1()
-{
-    srand(time(0)); 
 }
 int main()
 {
-    vi dp1(100000, INT_INF);
-    dp1[0] = 0;
-    range(k, dp1.size())
+    // Uncomment for faster I/O
+    // FAST;
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    preprocess();
+    // ll t = 100000; 
+    // print(t); 
+    newint(t);
+    range(i, t)
     {
-        dp1[k] = min(dp1[k], 1 + dp1[k - 1]);
-        // range(i, 2, k)
-        for (ll i = 2; i * i <= k; i++)
-        {
-            for (ll j = i * i; j <= k; j *= i)
-            {
-                dp1[k] = min(dp1[k], 1 + dp1[k - j]);
-            }
-        }
+        // print(i); 
+        newint(n);
+        print(dp[n]);
     }
 }
