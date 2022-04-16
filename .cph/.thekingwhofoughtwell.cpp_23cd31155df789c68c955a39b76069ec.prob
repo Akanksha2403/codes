@@ -1,0 +1,1 @@
+{"name":"Local: thekingwhofoughtwell","url":"/Users/prabhavagrawal7/Documents/codes/thekingwhofoughtwell.cpp","tests":[{"id":1649869739881,"input":"5  \n6 9\n5 1\n2 2\n15 2\n100 1","output":"10 \n3 \n3 \n7 \n14"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/prabhavagrawal7/Documents/codes/thekingwhofoughtwell.cpp","group":"local","local":true}

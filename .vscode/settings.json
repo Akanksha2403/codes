@@ -2,6 +2,31 @@
     "files.associations": {
         "iostream": "cpp",
         "cstdint": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "set": "cpp",
+        "vector": "cpp",
+        "stdio.h": "c",
+        "string.h": "c",
+        "__bit_reference": "cpp",
+        "__hash_table": "cpp",
+        "__split_buffer": "cpp",
+        "__tree": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "filesystem": "cpp",
+        "forward_list": "cpp",
+        "initializer_list": "cpp",
+        "ios": "cpp",
+        "list": "cpp",
+        "map": "cpp",
+        "regex": "cpp",
+        "span": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "valarray": "cpp",
+        "iterator": "cpp",
+        "type_traits": "cpp"
     }
 }

@@ -5,62 +5,71 @@
 \usepackage{multicol}
 \usepackage{blindtext}
 \usepackage{flafter}
-\raggedbottom
+\usepackage[T1]{fontenc}
+\usepackage{color,hyperref}
+\usepackage[document]{ragged2e}
 \thispagestyle{empty}
-\setlist[itemize]{leftmargin=*, nolistsep}
 \geometry{paperheight=11in, paperwidth=8.5in, margin=1cm}
-\newcommand{\resumename}[1]{\Huge\textbf{#1} \hfill \small}
-\titleformat{\section}{\normalfont\Large\bfseries}{}{1em}{}[{\titlerule[0.8pt]}]
-\titlespacing*{\section}{0pt}{0pt}{0.5em}
-\titleformat{\subsection}[runin]{\large\bfseries}{}{1em}{}[]
+\newcommand{\resumename}[1]{\LARGE\textbf{#1} \hfill \small}
+\titleformat{\section}{\normalfont\bfseries}{}{1em}{}[{\titlerule[0.8pt]}]
+\titlespacing*{\section}{0em}{1em}{0.5em}
+\titleformat{\subsection}[runin]{\normalfont\bfseries}{}{1em}{}[]
 \titlespacing*{\subsection}{0em}{0.5em}{0em}
-
 
 \begin{document}
 \noindent
 \resumename{Prabhav Agrawal} \raggedright Email: prabhavagrawal7@gmail.com \\
-\hfill Mobile: +91-9653051636 \\
-GitHub: github.com/prabhavagrawal7           \\ 
-LinkedIn: linkedin.com/in/prabhavagrawal7/    \\
-Codeforces: codeforces.com/profile/prabhavagrawal7 \\ 
-CodeChef: codechef.com/users/prabhav7 \\ 
-\section*{Profile}
-\begin{itemize}
-    
-    \item Sophomore at Indian Institute of Information Technology, Lucknow
-    \item `Expert' at Codeforces with Highest rating: 1610
-    \item 5 Star at CodeChef with Highest rating: 2086
-\end{itemize}
-
-\section*{Education}
+\hfill Mobile: +91 9653051636 \\
+\href{https://github.com/prabhavagrawal7}{GitHub} $\vert$
+\href{https://www.linkedin.com/in/prabhavagrawal7/}{Linkedin} $\vert$
+\href{https://www.codechef.com/users/prabhav7}{Codechef} $\vert$
+\href{https://codeforces.com/profile/prabhavagrawal7}{Codeforces} 
+\section*{EDUCATION}
 \subsection*{Indian Institute of Information Technology}      \hfill \textbf{Lucknow, Uttar Pradesh, India} \\
-Bachelor of Technology - Information Technology \hfill \textit{December 2020 - June 2024} \\
-\subsection*{Sunbeam English School}                         \hfill \textbf{Varanasi, Uttar Pradesh, India} \\
-High School and Intermediate                    \hfill \textit{December 2015 - June 2019} \\ 
-\section*{Work History}
-\subsection*{Member}                                          \hfill December 2021 - Current \\
-Competitive Programming Wing, Axios, Indian Institute of Information Technology, Lucknow, Uttar Pradesh, India
+Bachelor of Technology - Information Technology (CGPA: 8.515/10) \hfill \textit{December 2020 - June 2024} \\
+\subsection*{Sunbeam English School}                       \hfill \textbf{Varanasi, Uttar Pradesh, India} \\
+CBSE Class 10\textsuperscript{th} \& 12\textsuperscript{th} (10\textsuperscript{th} CGPA : 9.4, 12\textsuperscript{th} Percentage : 89.6) \hfill \textit{December 2015 - June 2019} \\ 
+\section*{TECHNICAL SKILLS}
+\subsection*{Languages}               \hspace*{4.4cm} C++, Python \\
+\subsection*{Frameworks \& Libraries} \hspace*{1.74cm} Django, NumPy, Pandas, Scikit-learn, Bootstrap, Matplotlib, Seaborn\\
+\subsection*{Dev Tools}               \hspace*{4.45cm} Git/GitHub, VS Code \\ 
+\subsection*{Academic Coursework}     \hspace*{2.10cm} Data Structures and Algorithms, OOPS, DBMS, Operating System \\
 
-\subsection*{Volunteer}                         \hfill January 2021 - April 2021 \\   
-Equinox, Indian Institute of Information Technology, Lucknow, Uttar Pradesh, India
-
-\section*{Projects}
-\subsection*{School-Management-System}: This Project is completely made using concepts of OOPS in C++ \\
-\subsection*{Bookshop}: This project is made by using Django framework as backend and HTML, CSS3, JavaScript,
-Bootstrap as frontend. The project consists of a complete shopping website and an integrated blog section. \\
-\subsection*{Datasets(ML)}: Datasets are cleaned \& parsed, and prediction models are made using the help of Python
-libraries such as NumPy, Pandas, scikit-learn.
-\section*{Accomplishments}
-\begin{itemize}
-    \item Highest rating 2086 in CodeChef
-\item CodeChef `Starters 32' Global rating in Division 2 is 34 rank
-\item CodeChef `November Lunchtime 2021' Global rating in Division 2 is 76 rank
-\item Codeforces `CodeTON Round 1 (Div. 1 + Div. 2)' Contest Global rank 1193 out of 22498
-\item ICPC Amritapuri 2020 Prelims rank 614 out of 4392 teams
+\section*{PROJECTS}
+\subsection*{BookShop}~ Django Framework $\vert$ HTML $\vert$ CSS3 $\vert$ JavaScript $\vert$ Bootstrap\\
+\begin{itemize}[topsep=0pt,itemsep=1pt,partopsep=1pt, parsep=1pt]
+    \item A full stop shop dummy website for buying books. 
+    \item Used Bootstrap Framework along with CSS3 and JavaScript for front-end, making website more interactive.
+    \item Used Django (Python) as back-end framework. 
+    \item Implemented Django-admin for storing ID and password for each user. 
 \end{itemize}
-\section*{Skills Summary}
-\subsection*{Languages}               \hspace*{4.4cm} C++, Python, HTML, CSS3, JavaScript \\
-\subsection*{Frameworks \& Libraries} \hspace*{1cm} Django, NumPy, Pandas, Scikit-learn, Bootstrap \\
-\subsection*{Dev Tools}               \hspace*{4.5cm} Git/GitHub, VS Code \\ 
-\subsection*{Platforms}               \hspace*{4.59cm} Linux, Windows \\
+
+\subsection*{School-Management-System}~ C++ $\vert$ OOPS
+\begin{itemize}[topsep=0pt,itemsep=1pt,partopsep=1pt, parsep=1pt]
+    \item The project consists of automation in schools which includes attendance systems, library management system and exam control systems. 
+\end{itemize} 
+\subsection*{Machine Learning Datasets}~ Python $\vert$ Pandas $\vert$ Scikit-Learn $\vert$ Matplotlib $\vert$ Seaborn \\
+\begin{itemize}[topsep=0pt,itemsep=1pt,partopsep=1pt, parsep=1pt]
+    \item Cleaned raw Datasets and stored in tabular form using \textbf{Numpy} and \textbf{Pandas} libraries.
+    \item Converted data to human-readable chart representation using libraries like \textbf{Matplotlib} and \textbf{Seaborn}.
+    \item Prediction models are trained and tested for accuracy using \textbf{Scikit-Learn}.
+\end{itemize}
+\section*{ACHIEVEMENTS}
+\begin{itemize}[leftmargin=*, topsep=0pt,itemsep=2pt,partopsep=2pt, parsep=2pt]
+\item \textbf{Expert} at \textbf{Codeforces} (Max rating: \textbf{1610})
+\item \textbf{5 star} at \textbf{CodeChef} (AIR 857 among 270,000 coders)
+\item Highest rating \textbf{2086} in \textbf{CodeChef}
+\item CodeChef \textbf{November Lunchtime 2021} Global rating in \textbf{Division 2} is \textbf{76} rank
+\item CodeChef \textbf{Starters 32} Global rating in \textbf{Division 2} is \textbf{34} rank
+\item CodeChef \textbf{Starters 31} Global rating in \textbf{Division 2} is \textbf{98} rank
+\item CodeChef \textbf{Starters 22} Global rating in \textbf{Division 2} is \textbf{94} rank
+\item CodeChef \textbf{Starters 19} Global rating in \textbf{Division 2} is \textbf{99} rank
+\item Codeforces \textbf{CodeTON Round 1 (Div. 1 + Div. 2)} Contest Global rank \textbf{1193} out of \textbf{22498}
+\item Codeforces \textbf{Codeforces Round 769 (Div. 2)} Contest Global rank \textbf{1277} out of \textbf{22498}
+\item \textbf{ICPC Amritapuri 2020 Prelims} rank \textbf{614} out of \textbf{4392} teams
+\end{itemize}
+
+\section*{EXPERIENCE}
+\textbf{Member Of Competitive Programming Wing, Axios (Tech Club of IIITL)} \hfill May 2021 - Present \\
+\textit{Indian Institute of Information Technology ,Lucknow Lucknow, India}
 \end{document}

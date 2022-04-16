@@ -52,36 +52,82 @@ inline ld TLD(ll n) {return n;}
 ll gcd(ll __m, ll __n) { return __n == 0 ? __m : gcd(__n, __m % __n);}
 inline ll rs(ll n){return (n=n%mod)>=0?n:n+mod;}
 ll power(ll x, ll y){ll res = 1;while (y){if(y&1LL)res=(res*x)%mod;y>>=1;x=(x*x)%mod;}return res % mod;}
+#define segtree
+#ifdef segtree
+#define mid (start+end)/2 
+#define lnode (node*2+1)
+#define rnode (node*2+2)
+#endif
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-class segmenttree {
+class segmenttree{
+    public: 
+    vi vec; 
     vi tree; 
-    void create_tree(vi &vec)
+    ll n;
+    segmenttree(vi v)
     {
-        
+        vec = move(v); 
+        tree.assign(vec.size()*4, 0);
+        n = vec.size(); 
+        buildtree(0, 0, n-1);
     }
-    segmenttree(vi &vec)
+    void buildtree(ll node, ll start, ll end)
     {
-        ll treesize; 
-        ll u = (ll)log2(vec.size()); 
-        if(vec.size() == (1 << u)) {
-            treesize = vec.size() * 2 - 1; 
+        if(start == end) {
+            tree[node] = vec[start]; 
+            return ;
+        }
+        buildtree(lnode, start, mid); 
+        buildtree(rnode, mid+1, end); 
+        tree[node] = min(tree[lnode],tree[rnode]); 
+    }
+    ll rangefind(ll l, ll r)
+    {
+       return rangefind(0, l, r, 0, n-1); 
+    }
+    ll rangefind(ll node, ll l, ll r, ll start, ll end)
+    {
+        if(r < start || l > end) return INT_INF; 
+        if(start >= l && end <= r) return tree[node]; 
+        else return min(rangefind(lnode, l, r, start, mid), rangefind(rnode, l, r, mid+1, end)); 
+    }
+    void updatetree(ll index, ll newelement)
+    {
+        updatetree(index, newelement, 0, n-1, 0); 
+    }
+    void updatetree(ll index, ll newelement, ll start, ll end, ll node)
+    {
+        if(start == end) {
+            tree[node] = newelement; 
+            vec[index] = newelement; 
+            return ; 
+        }
+        if(index <= mid) updatetree(index, newelement, start, mid, lnode); 
+        if(index >= mid+1) updatetree(index, newelement, mid+1, end, rnode); 
+        tree[node] = min(tree[lnode], tree[rnode]); 
+    }
+};
+void func()
+{
+    newint(n, m); 
+    vi vec = inputvec(n);
+    segmenttree seg(vec); 
+    range(m)
+    {
+        newint(a, b, c); 
+        if(a == 1) {
+            seg.updatetree(b, c);             
         }
         else {
-            treesize = (1 << (u+1)); 
+            print(seg.rangefind(b, c-1)); 
         }
-        tree.assign(treesize, -1); 
-        create_tree(vec); 
     }
-    
 }
 int main()
 {
     // Uncomment for faster I/O
     // FAST;
-    newint(t);
-    range(t)
     {
         func();
     }

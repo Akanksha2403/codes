@@ -4,11 +4,14 @@ using namespace std;
 // Uncomment them for optimisations
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
+// for segment tree
+// #define mid (start+end)/2
+// #define lnode (node*2+1)
+// #define rnode (node*2+2)
 #define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-#define range(...)                         \
-    GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
-    (__VA_ARGS__)
+#define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1) \
+(__VA_ARGS__)
 #define r4(var, start, stop, step) for (ll var = start; step >= 0 ? var < stop : var > stop; var = var + step)
 #define r3(var, start, stop) for (ll var = start; var < stop; var++)
 #define r2(var, stop) for (ll var = 0; var < stop; var++)
@@ -113,53 +116,35 @@ ll power(ll x, ll y)
 }
 
 /* -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
 void func()
 {
-    newint(n);
-    vi vec = inputvec(n);
-    sort(all(vec));
-    ll maxi = vec[n - 1];
-    ll ans = INT_INF;
-
-    range(j, 0, 4)
+    int x, y;
+    map<int, int> cnt;
+    newint(n, m);
+    for (int i = 0; i < n; i++)
     {
-        ll two = 0, one = 0;
-        range(i, vec.size())
-        {
-            if ((maxi - vec[i] + j) % 2 == 0)
-                two += (maxi - vec[i] + j) / 2;
-            else
-                two += (maxi - vec[i] + j) / 2, one++;
-        }
-        if (two >= one)
-        {
-            ll buf = (two - one) / 3;
-            two -= buf;
-            one += 2 * buf;
-            if (two >= one)
-                ans = min(ans, two * 2);
-            else
-                ans = min(ans, one * 2 - 1);
-            two -= 1;
-            one += 2;
-            if (two >= one)
-                ans = min(ans, two * 2);
-            else
-                ans = min(ans, one * 2 - 1);
-        }
-        else
-            ans = min(ans, one * 2 - 1);
+        scanf("%d", &x);
+        cnt[x]++;
     }
-    print(ans);
+    for (auto c : cnt)
+    {
+        x = c.first;
+        if (m <= n * 1ll * c.second)
+            break;
+        m -= n * 1ll * c.second;
+    }
+    for (auto c : cnt)
+    {
+        y = c.first;
+        if (m <= cnt[x] * 1ll * c.second)
+            break;
+        m -= cnt[x] * 1ll * c.second;
+    }
+    print(x, y);
 }
 int main()
 {
-    // Uncomment for faster I/O
-    // FAST;
-    newint(t);
-    range(t)
-    {
-        func();
-    }
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    func();
 }

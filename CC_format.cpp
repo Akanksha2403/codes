@@ -4,6 +4,10 @@ using namespace std;
 // Uncomment them for optimisations
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("avx,avx2,fma")
+// for segment tree
+// #define mid (start+end)/2 
+// #define lnode (node*2+1)
+// #define rnode (node*2+2)
 #define popcount(x) __builtin_popcount(x)
 #define GET_MACRO(_1,_2,_3,_4,NAME,...) NAME
 #define range(...) GET_MACRO(__VA_ARGS__, r4, r3, r2, r1)(__VA_ARGS__)
@@ -58,7 +62,7 @@ ll power(ll x, ll y){ll res = 1;while (y){if(y&1LL)res=(res*x)%mod;y>>=1;x=(x*x)
 
 void func()
 {
-    print(10); 
+    
 }
 int main()
 {

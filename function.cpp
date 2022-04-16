@@ -270,7 +270,6 @@ public:
         }
         else
         {
- 
             return opr(rangeFind(start, mid, (index << 1) + 1, fullstart, mid),
                        rangeFind(mid + 1, end, (index << 1) + 2, mid + 1, fullend));
         }
