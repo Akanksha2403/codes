@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1649928039 "/Users/prabhavagrawal7/Documents/codes/resume.tex" "resume.pdf" "resume" 1649928040
-  "/Users/prabhavagrawal7/Documents/codes/resume.tex" 1649928039 4636 85e658e4b6059e4e1162e4eaff59e024 ""
+["pdflatex"] 1651051271 "/Users/prabhavagrawal7/Documents/codes/akanksharesume.tex" "akanksharesume.pdf" "akanksharesume" 1651051272
+  "/Users/prabhavagrawal7/Documents/codes/akanksharesume.tex" 1651051271 4289 2524f0e754850e6d93e495a807cba63d ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -80,11 +80,11 @@
   "/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1647878959 4410336 7d30a02e9fa9a16d7d1f8d037ba69641 ""
   "/usr/local/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1649151664 2826438 0dc5f8987bbf07f622b36b9cb3ceeeac ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
-  "resume.aux" 1649928040 686 e6bf9f11827e1eae1d85e75b99e0a183 "pdflatex"
-  "resume.out" 0 -1 0 "pdflatex"
-  "resume.tex" 1649928039 4636 85e658e4b6059e4e1162e4eaff59e024 ""
+  "akanksharesume.aux" 1651051272 686 e6bf9f11827e1eae1d85e75b99e0a183 "pdflatex"
+  "akanksharesume.out" 0 -1 0 "pdflatex"
+  "akanksharesume.tex" 1651051271 4289 2524f0e754850e6d93e495a807cba63d ""
   (generated)
-  "resume.aux"
-  "resume.log"
-  "resume.out"
-  "resume.pdf"
+  "akanksharesume.aux"
+  "akanksharesume.log"
+  "akanksharesume.out"
+  "akanksharesume.pdf"
